@@ -1,0 +1,6 @@
+<%= form_for @ingredient do |f| %>
+  <%= f.label(:name) %>
+  <%= f.text_field(:name) %>
+  <%= f.collection_select(:location_id, @locations, :id, :name) %>
+  <%= f.submit %>
+<% end %>

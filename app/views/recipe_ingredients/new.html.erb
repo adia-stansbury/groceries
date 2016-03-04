@@ -1,0 +1,7 @@
+<%= form_for @recipe_ingredient do |f| %>
+  <%= f.collection_select(:recipe_id, @recipes, :id, :name) %>
+  <%= f.collection_select(:ingredient_id, @ingredients, :id, :name) %>
+  <%= f.label(:amount) %>
+  <%= f.text_field(:amount) %>
+  <%= f.submit %>
+<% end %>
