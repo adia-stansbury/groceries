@@ -7,8 +7,10 @@ class ListsController < ApplicationController
     note_title = 'Grocery List'
     note_notebook = 'Cooking'
     db_name = 'recipes'
-    auth_token = ENV['SANDBOX_AUTH_TOKEN']
-    evernote_host = "sandbox.evernote.com"
+    #auth_token = ENV['SANDBOX_AUTH_TOKEN']
+    auth_token = ENV['PROD_AUTH_TOKEN']
+    #evernote_host = "sandbox.evernote.com"
+    evernote_host = "evernote.com"
 
     def create_note_store(auth_token, evernote_host)
       user_store_url = "https://#{evernote_host}/edam/user"
