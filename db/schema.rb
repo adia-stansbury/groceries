@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 20160212002643) do
   create_table "recipe_ingredients", force: :cascade do |t|
     t.integer "recipe_id"
     t.integer "ingredient_id"
-    t.string  "amount",        limit: 1000
+    t.string  "amount"
   end
 
   create_table "recipes", force: :cascade do |t|

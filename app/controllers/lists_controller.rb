@@ -72,10 +72,6 @@ class ListsController < ApplicationController
       note
     end
 
-    results = RecipeIngredient.where(recipe_id: recipe_ids).includes(
-      ingredient: :location
-    ).order("locations.ordering")
-
     note_store = create_note_store(auth_token, evernote_host)
     note_notebook_guid = create_note_notebook_guid(note_notebook, auth_token, note_store)
     note_body = make_note_body(results) 
