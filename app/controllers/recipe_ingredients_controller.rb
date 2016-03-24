@@ -20,7 +20,8 @@ class RecipeIngredientsController < ApplicationController
       params.require(:recipe_ingredient).permit(
         :recipe_id, 
         :ingredient_id, 
-        :amount
+        :quantity,
+        :unit
       )
     end 
 end 
