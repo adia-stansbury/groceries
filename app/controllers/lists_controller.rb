@@ -43,7 +43,7 @@ class ListsController < ApplicationController
       list = ''
 
       results.each do |row|
-        list += "<en-todo/>#{row.amount} #{row.ingredient.name}<br/>"
+        list += "<en-todo/>#{row.quantity} #{row.unit} #{row.ingredient.name}<br/>"
       end 
 
       list
@@ -71,6 +71,9 @@ class ListsController < ApplicationController
 
       note
     end
+
+    results = RecipeIngredient.where(recipe_id: recipe_ids).
+      includes(ingredient: :location).order("locations.ordering")
 
     note_store = create_note_store(auth_token, evernote_host)
     note_notebook_guid = create_note_notebook_guid(note_notebook, auth_token, note_store)

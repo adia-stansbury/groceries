@@ -5,7 +5,12 @@ class AddUnittoRecipeIng < ActiveRecord::Migration
 
     RecipeIngredient.all.each do |row|
       row.quantity = row.amount.split(' ').first.to_i
-      row.unit = row.amount.split(' ').last
+      unit = row.amount.split(' ')[1]
+      if unit.nil?
+        row.unit = ' '
+      else
+        row.unit = unit.to_s
+      end 
       row.save
     end
 
@@ -16,7 +21,7 @@ class AddUnittoRecipeIng < ActiveRecord::Migration
     add_column :recipe_ingredients, :amount, :string
 
     RecipeIngredient.all.each do |row|
-      row.amount = row.quantity.to_s + ' ' + row.unit
+      row.amount = row.quantity.to_s + ' ' + row.unit.to_s
       row.save
     end
 
