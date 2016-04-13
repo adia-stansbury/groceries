@@ -85,5 +85,8 @@ class ListsController < ApplicationController
     recipe_ids = params['recipe_ids']
     @ndbno_array = RecipeIngredient.where(recipe_id: recipe_ids).
         includes(:ingredient).pluck(:ndbno).compact   
+    @ndbno_array.each do |ndbno|
+      http://api.nal.usda.gov/ndb/reports/?ndbno=ndbno&type=b&format=json&api_key=ndb_usda_api_key
+    end 
   end 
 end
