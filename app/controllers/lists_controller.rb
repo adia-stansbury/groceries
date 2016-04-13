@@ -72,9 +72,6 @@ class ListsController < ApplicationController
       note
     end
 
-    ndbno_array = RecipeIngredient.where(recipe_id: recipe_ids).
-        includes(:ingredient).pluck(:ndbno).compact   
-
     results = RecipeIngredient.where(recipe_id: recipe_ids).
       includes(ingredient: :location).order("locations.ordering")
 
@@ -83,4 +80,10 @@ class ListsController < ApplicationController
     note_body = make_note_body(results) 
     note = make_note(note_store, note_title, note_body, auth_token, note_notebook_guid)
   end
+
+  def index
+    recipe_ids = params['recipe_ids']
+    @ndbno_array = RecipeIngredient.where(recipe_id: recipe_ids).
+        includes(:ingredient).pluck(:ndbno).compact   
+  end 
 end

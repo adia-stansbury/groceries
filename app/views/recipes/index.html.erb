@@ -1,6 +1,6 @@
 Select recipes to create grocery list
 
-<%= form_tag("/lists/new", method: "get") do %>
+<%= form_tag("/lists", method: "get") do %>
   <% @recipes.each do |recipe| %>
     <%= check_box_tag('recipe_ids[]', recipe.id) %>
     <%= label_tag('recipe_id[recipe.id]', recipe.name) %>
