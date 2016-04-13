@@ -23,8 +23,7 @@ default: &default
 
 development:
   <<: *default
-  # database: recipes
-  database: recipes_test
+  database: recipes
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.

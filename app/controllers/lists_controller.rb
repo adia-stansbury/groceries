@@ -72,6 +72,9 @@ class ListsController < ApplicationController
       note
     end
 
+    ndbno_array = RecipeIngredient.where(recipe_id: recipe_ids).
+        includes(:ingredient).pluck(:ndbno).compact   
+
     results = RecipeIngredient.where(recipe_id: recipe_ids).
       includes(ingredient: :location).order("locations.ordering")
 
