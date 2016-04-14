@@ -85,10 +85,17 @@ class ListsController < ApplicationController
     ndb_usda_api_key = ENV['NDB_USDA_API_KEY']
     recipe_ids = params['recipe_ids']
     ndbno_array = RecipeIngredient.where(recipe_id: recipe_ids).
-        includes(:ingredient).pluck(:ndbno).compact   
-    #ndbno_array.each do |ndbno|
-    ndbno = ndbno_array.first
-      @response = HTTParty.get("http://api.nal.usda.gov/ndb/reports/?ndbno=#{ndbno}&type=b&format=json&api_key=#{ndb_usda_api_key}")
-    #end 
+        includes(:ingredient).pluck(:ndbno, :quantity, :unit)
+    #ndbno_array.each do |ndbno, quantity, unit|
+      #if ndbno != nil
+        ndbno = ndbno_array.first
+          response = HTTParty.get("http://api.nal.usda.gov/ndb/reports/?ndbno=#{ndbno}&type=f&format=json&api_key=#{ndb_usda_api_key}")
+          response['report']['food']['nutrients'].each do |nutrient|
+            if nutrient['name'] == 'Energy'
+              @response = nutrient    
+            end 
+          end 
+        #end 
+      #end 
   end 
 end
