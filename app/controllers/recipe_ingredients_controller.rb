@@ -6,19 +6,14 @@ class RecipeIngredientsController < ApplicationController
   end 
 
   def create
-    @recipe_ingredient = RecipeIngredient.new(recipe_ingredient_params)
-
-    if @recipe_ingredient.save
-      redirect_to '/recipe_ingredients/new'
-    else
-      render 'new'
-    end 
+    @recipe = Recipe.find(params[:recipe_id])
+    @recipe_ingredient = @recipe.recipe_ingredients.create(recipe_ingredient_params)
+    redirect_to recipe_path(@recipe)
   end 
 
   private
     def recipe_ingredient_params
       params.require(:recipe_ingredient).permit(
-        :recipe_id, 
         :ingredient_id, 
         :quantity,
         :unit
