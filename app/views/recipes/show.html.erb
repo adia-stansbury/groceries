@@ -1,14 +1,8 @@
 <%= @recipe.name %>
+Recipe's Ingredients:
+<%= render 'recipe_ingredients/recipe_ingredient' %>
 
 Add ingredients
-<%= form_for([@recipe, @recipe.recipe_ingredients.build]) do |f| %>
-  <%= f.collection_select(:ingredient_id, @ingredients, :id, :name) %>
-  <%= f.label(:quantity) %>
-  <%= f.text_field(:quantity) %>
-  <%= f.label(:unit) %>
-  <%= f.text_field(:unit) %>
-  <%= f.submit %>
-<% end %>
-
+<%= render 'recipe_ingredients/form' %>
 
 
