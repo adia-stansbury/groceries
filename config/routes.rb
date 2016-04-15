@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   devise_for :users
   resources :lists
   resources :recipes do
-    resources :recipe_ingredients
+    resources :recipe_ingredients, only: :create
   end 
   resource :ingredients 
   resource :locations 
