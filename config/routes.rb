@@ -6,7 +6,6 @@ Rails.application.routes.draw do
     resources :recipe_ingredients
   end 
   resource :ingredients 
-  resource :recipe_ingredients
   resource :locations 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
