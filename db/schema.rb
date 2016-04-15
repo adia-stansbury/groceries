@@ -19,7 +19,6 @@ ActiveRecord::Schema.define(version: 20160411234614) do
   create_table "ingredients", force: :cascade do |t|
     t.string  "name",        limit: 1000, null: false
     t.integer "location_id"
-    t.string  "ndbno"
   end
 
   add_index "ingredients", ["name"], name: "ingredients_name_key", unique: true, using: :btree
