@@ -2,9 +2,16 @@ Rails.application.routes.draw do
   root 'recipes#index'
   devise_for :users
   resources :lists
-  resources :recipes
+  resources :recipes do
+    resources :recipe_ingredients
+  end 
+  resource :ingredients do
+    resource :recipe_ingredients
+  end 
   resource :recipe_ingredients
-  resource :ingredients
+  resource :locations do 
+    resource :ingredients
+  end 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
