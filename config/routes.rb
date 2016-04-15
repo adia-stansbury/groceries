@@ -3,15 +3,10 @@ Rails.application.routes.draw do
   devise_for :users
   resources :lists
   resources :recipes do
-    resources :recipe_ingredients
+    resources :recipe_ingredients, only: :create
   end 
-  resource :ingredients do
-    resource :recipe_ingredients
-  end 
-  resource :recipe_ingredients
-  resource :locations do 
-    resource :ingredients
-  end 
+  resource :ingredients 
+  resource :locations 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

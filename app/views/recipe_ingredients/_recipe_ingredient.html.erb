@@ -1,6 +1,6 @@
 <ul>
-  <% @recipe.recipe_ingredients.each do |ing| %>
-    <li><%= ing %></li>
+  <% @recipe.recipe_ingredients.each do |row| %>
+    <li><%= row.ingredient.name %> <%= row.quantity %> <%= row.unit %></li>
   <% end %>
 </ul>
   
