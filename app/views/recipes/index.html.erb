@@ -7,3 +7,7 @@ Select recipes to create grocery list
   <% end %>
   <%= submit_tag("Create List") %>
 <% end %>
+
+<% @recipes.each do |recipe| %>
+  <li><%= link_to recipe.name, recipe_path(recipe) %></li>
+<% end %>
