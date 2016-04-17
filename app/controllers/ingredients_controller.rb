@@ -5,6 +5,10 @@ class IngredientsController < ApplicationController
 
   def show
     @ingredient = Ingredient.find(params[:id])
+    ndb_usda_api_key = ENV['NDB_USDA_API_KEY']
+    @response = HTTParty.get(
+      "http://api.nal.usda.gov/ndb/list?format=json&lt=n&max=1500&api_key=#{ndb_usda_api_key}"
+    )['list']['item']
     if @ingredient.ndbno.present?
       ndb_usda_api_key = ENV['NDB_USDA_API_KEY']
       ndbno = @ingredient.ndbno
