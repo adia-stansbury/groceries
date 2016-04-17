@@ -1,0 +1,18 @@
+<%= @ingredient.name %> 
+<% if @ingredient.ndbno.present? %>
+  <table>
+    <tr>
+      <th>Nutrient Name</th>
+      <th>100g equivalent value of nutrient</th>
+    </tr>
+    <tr>
+      <td>Energy</td>
+      <td><%= @parsed_nutrient_data['Energy'] %></td> 
+      <td>Water</td>
+      <td><%= @parsed_nutrient_data['Water'] %></td> 
+    </tr>
+  </table>
+<% end %>
+<%= link_to 'Edit', edit_ingredient_path(@ingredient) %>
+<%= link_to 'Delete', ingredient_path(@ingredient) %>
+<%= @parsed_nutrient_data %>
