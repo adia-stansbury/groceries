@@ -10,14 +10,17 @@ namespace :nutrient_data do
   task import_ingredient_nutrient: :environment do
     Ingredient.where.not(ndbno: nil).each do |ingredient|
       ndbno = ingredient.ndbno
-      response = HTTParty.get("http://api.nal.usda.gov/ndb/reports/?ndbno=#{ndbno}&type=f&format=json&api_key=#{ndb_usda_api_key}")
-      response['report']['food']['nutrients'].each do |nutrient|
+      HTTParty.get(
+        "http://api.nal.usda.gov/ndb/reports/?ndbno=#{ndbno}&type=f&format=json&api_key=#{ndb_usda_api_key}"
+      )['report']['food']['nutrients'].each do |nutrient|
         ingredient_nutrition = IngredientNutrient.new
         ingredient_nutrition.ingredient_id = ingredient.id
-        nutrient_id = Nutrient.where(name: nutrient['name']).first.id
-        ingredient_nutrition.nutrient_id = nutrient_id
+        ingredient_nutrition.nutrient_id = Nutrient.where(
+          name: nutrient['name']
+        ).first.id
         ingredient_nutrition.value = nutrient['value']
         ingredient_nutrition.unit = nutrient['unit']
+        ingredient_nutrition.save
       end 
     end 
   end
