@@ -17,4 +17,9 @@
   </table>
 <% end %>
 <%= link_to 'Edit', edit_ingredient_path(@ingredient) %>
-<%= link_to 'Delete', ingredient_path(@ingredient) %>
+  <%= link_to(
+    'Delete', 
+    ingredient_path(@ingredient), 
+    method: :delete, 
+    data: { confirm: 'Are you sure?' } 
+  )%>
