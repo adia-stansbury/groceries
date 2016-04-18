@@ -4,9 +4,10 @@ Rails.application.routes.draw do
   resources :lists
   resources :recipes do
     resources :recipe_ingredients, only: :create
-  end 
-  resource :ingredients 
-  resource :locations 
+  end  
+  resources :recipe_ingredients, only: [:edit, :update]
+  resources :ingredients 
+  resources :locations 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
