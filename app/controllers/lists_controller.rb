@@ -4,7 +4,6 @@ require 'evernote-thrift'
 class ListsController < ApplicationController
   def new
     recipe_ids = params['recipe_ids']
-    binding.pry
     note_title = 'Grocery List'
     note_notebook = 'Cooking'
     db_name = 'recipes'
