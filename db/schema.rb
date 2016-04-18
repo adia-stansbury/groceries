@@ -11,14 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160305222350) do
+ActiveRecord::Schema.define(version: 20160417211538) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "ingredient_nutrients", force: :cascade do |t|
+    t.string  "value",         null: false
+    t.string  "unit",          null: false
+    t.integer "nutrient_id",   null: false
+    t.integer "ingredient_id", null: false
+  end
+
+  add_index "ingredient_nutrients", ["ingredient_id"], name: "index_ingredient_nutrients_on_ingredient_id", using: :btree
+  add_index "ingredient_nutrients", ["nutrient_id"], name: "index_ingredient_nutrients_on_nutrient_id", using: :btree
+
   create_table "ingredients", force: :cascade do |t|
     t.string  "name",        limit: 1000, null: false
     t.integer "location_id"
+    t.string  "ndbno"
   end
 
   add_index "ingredients", ["name"], name: "ingredients_name_key", unique: true, using: :btree
@@ -31,6 +42,10 @@ ActiveRecord::Schema.define(version: 20160305222350) do
 
   add_index "locations", ["name"], name: "locations_name_key", unique: true, using: :btree
   add_index "locations", ["ordering"], name: "locations_aisle_key", unique: true, using: :btree
+
+  create_table "nutrients", force: :cascade do |t|
+    t.string "name", null: false
+  end
 
   create_table "recipe_ingredients", force: :cascade do |t|
     t.integer "recipe_id"
@@ -63,6 +78,8 @@ ActiveRecord::Schema.define(version: 20160305222350) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "ingredient_nutrients", "ingredients"
+  add_foreign_key "ingredient_nutrients", "nutrients"
   add_foreign_key "ingredients", "locations", name: "ingredients_location_id_fkey"
   add_foreign_key "recipe_ingredients", "ingredients", name: "recipe_ingredients_ingredient_id_fkey"
   add_foreign_key "recipe_ingredients", "recipes", name: "recipe_ingredients_recipe_id_fkey"

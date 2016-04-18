@@ -1,0 +1,8 @@
+Edit Recipe
+<%= form_for @recipe_ingredient do |f| %>
+  <%= f.label(:quantity) %>
+  <%= f.text_field(:quantity) %>
+  <%= f.label(:unit) %>
+  <%= f.text_field(:unit) %>
+  <%= f.submit %>
+<% end %>
