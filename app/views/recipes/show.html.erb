@@ -1,5 +1,6 @@
-<h6><%= @recipe.name %></h6>
-Recipe's Ingredients:
+<h6><%= @recipe.name %> <%= link_to 'Edit', edit_recipe_path(@recipe) %>
+<%= link_to 'Delete', recipe_path(@recipe) %></h6> 
+<h6>Recipe's Ingredients:</h6>
 <%= render 'recipe_ingredients/recipe_ingredient' %>
 
 Add ingredients
