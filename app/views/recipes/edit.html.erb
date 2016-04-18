@@ -1,0 +1,6 @@
+<h2>Edit <%= @recipe.name %></h2>
+<%= form_for @recipe do |f| %>
+  <%= f.label(:name) %>
+  <%= f.text_field(:name) %>
+  <%= f.submit %>
+<% end %>
