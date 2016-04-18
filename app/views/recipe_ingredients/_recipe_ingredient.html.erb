@@ -1,10 +1,14 @@
 <ul>
   <% @recipe.recipe_ingredients.each do |row| %>
     <li>
-    <%= row.ingredient.name %> <%= row.quantity %> <%= row.unit %> 
-    <%= link_to 'Edit', edit_recipe_ingredient_path(row.id) %> 
+      <%= row.ingredient.name %> <%= row.quantity %> <%= row.unit %> 
+      <%= link_to 'Edit', edit_recipe_ingredient_path(row.id) %> 
+      <%= link_to(
+        'Delete', 
+        recipe_ingredient_path(row.id), 
+        method: :delete, 
+        data: { confirm: 'Are you sure?' } 
+      ) %>
     </li>
   <% end %>
 </ul>
-  
-

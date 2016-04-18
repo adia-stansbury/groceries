@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :recipes do
     resources :recipe_ingredients, only: :create
   end  
-  resources :recipe_ingredients, only: [:edit, :update]
+  resources :recipe_ingredients, only: [:edit, :update, :destroy]
   resources :ingredients 
   resources :locations 
   # The priority is based upon order of creation: first created -> highest priority.

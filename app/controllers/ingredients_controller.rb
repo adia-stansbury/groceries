@@ -37,6 +37,11 @@ class IngredientsController < ApplicationController
     end 
   end 
 
+  def edit
+    @ingredient = Ingredient.find(params[:id])
+    @locations = Location.all.order(:name)
+  end 
+
   def update
     @ingredient = Ingredient.find(params[:id])
 
