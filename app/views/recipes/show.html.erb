@@ -1,5 +1,6 @@
 <h6><%= @recipe.name %> <%= link_to 'Edit', edit_recipe_path(@recipe) %>
-<%= link_to 'Delete', recipe_path(@recipe) %></h6> 
+  <%= link_to 'Delete', recipe_path(@recipe), method: :delete, 
+    data: { confirm: 'Are you sure?' } %></h6> 
 <h6>Recipe's Ingredients:</h6>
 <%= render 'recipe_ingredients/recipe_ingredient' %>
 
