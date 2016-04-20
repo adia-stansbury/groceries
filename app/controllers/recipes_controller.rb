@@ -6,6 +6,8 @@ class RecipesController < ApplicationController
   def show
     @recipe = Recipe.find(params[:id])
     @ingredients = Ingredient.all.order(:name)
+    @recipe_ingredients = @recipe.recipe_ingredients.includes(
+      :ingredient).order("ingredients.name")
   end 
 
   def new
