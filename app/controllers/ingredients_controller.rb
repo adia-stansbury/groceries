@@ -5,21 +5,41 @@ class IngredientsController < ApplicationController
 
   def show
     @ingredient = Ingredient.find(params[:id])
-    ndb_usda_api_key = ENV['NDB_USDA_API_KEY']
-    @response = HTTParty.get(
-      "http://api.nal.usda.gov/ndb/list?format=json&lt=n&max=1500&api_key=#{ndb_usda_api_key}"
-    )['list']['item']
-    if @ingredient.ndbno.present?
-      ndb_usda_api_key = ENV['NDB_USDA_API_KEY']
-      ndbno = @ingredient.ndbno
-      response = HTTParty.get("http://api.nal.usda.gov/ndb/reports/?ndbno=#{ndbno}&type=f&format=json&api_key=#{ndb_usda_api_key}")
-      nutrient_results = response['report']['food']['nutrients']
-      @parsed_nutrient_data = {}
-      nutrient_results.each do |nutrient|
-        @parsed_nutrient_data[nutrient['name']] = "#{nutrient['value']} #{nutrient['unit']}"
-      end 
-      @parsed_nutrient_data
-    end 
+    nutrient_names = [
+      'Calcium, Ca',
+      'Cholesterol',
+      'Energy',
+      'Fiber, total dietary',
+      'Iron, Fe',
+      'Lactose',
+      'Magnesium, Mg',
+      'Manganese, Mn',
+      'Niacin',
+      'Potassium, K',
+      'Protein',
+      'Selenium, Se',
+      'Sodium, Na',
+      'Sugars, total',
+      'Thiamin',
+      'Total lipid (fat)',
+      'Tryptophan',
+      'Tyrosine',
+      'Valine',
+      'Vitamin A, IU',
+      'Vitamin B-12',
+      'Vitamin B-6',
+      'Vitamin C',
+      'Vitamin D',
+      'Vitamin E, added',
+      'Vitamin K (phylloquinone)',
+      'Water',
+      'Zinc, Zn'
+    ]
+    nutrient_ids = Nutrient.where(name: nutrient_names).pluck(:id)
+    @nutrition = IngredientNutrient.includes(:nutrient).where(
+      ingredient_id: @ingredient.id, 
+      nutrient_id: nutrient_ids
+    ).order('nutrients.name')
   end 
 
   def new
