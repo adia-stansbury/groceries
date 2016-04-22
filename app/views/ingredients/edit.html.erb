@@ -1,10 +1,2 @@
 <h2>Edit Ingredient <%= @ingredient.name %></h2>
-<%= form_for @ingredient do |f| %>
-  <%= f.label(:name) %>
-  <%= f.text_field(:name) %>
-  <%= f.label(:ndbno) %>
-  <%= f.text_field(:ndbno) %>
-  <%= f.label(:location_id) %>
-  <%= f.collection_select(:location_id, @locations, :id, :name) %>
-  <%= f.submit %>
-<% end %>
+<%= render partial: 'form' %>
