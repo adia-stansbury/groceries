@@ -3,7 +3,7 @@ namespace :nutrient_data do
   desc "import nutrient names to nutrient table from nutrient api"
   task import_nutrient_names: :environment do
     HTTParty.get(
-      "http://api.nal.usda.gov/ndb/list?format=json&lt=n&api_key=#{ndb_usda_api_key}"
+      "http://api.nal.usda.gov/ndb/list?format=json&lt=n&max=1500&api_key=#{ndb_usda_api_key}"
     )['list']['item'].each { |nutrient| Nutrient.create(name: nutrient['name']) }
   end 
   desc "import api response data to IngredientNutrient"
