@@ -1,25 +1,15 @@
-<%= @ingredient.name %> 
-<ul>
-  <% @response.each do |nutrient| %>
-    <li><%= nutrient['name'] %></li>
-  <% end %>
-</ul>
+<h2><%= @ingredient.name %></h2> 
 <% if @ingredient.ndbno.present? %>
-  <table>
-    <tr>
-      <th>Nutrient Name</th>
-      <th>100g equivalent value of nutrient</th>
-    </tr>
-    <tr>
-      <td>Protein</td>
-      <td><%= @parsed_nutrient_data['Water'] %></td> 
-    </tr>
-  </table>
+  <% @nutrition.each do |row| %>
+    <li>
+      <%= row.nutrient.name %> <%= row.value %><%= row.unit %>
+    </li> 
+  <% end %>
 <% end %>
 <%= link_to 'Edit', edit_ingredient_path(@ingredient) %>
-  <%= link_to(
-    'Delete', 
-    ingredient_path(@ingredient), 
-    method: :delete, 
-    data: { confirm: 'Are you sure?' } 
-  )%>
+<%= link_to(
+  'Delete', 
+  ingredient_path(@ingredient), 
+  method: :delete, 
+  data: { confirm: 'Are you sure?' } 
+)%>
