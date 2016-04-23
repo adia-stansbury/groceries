@@ -1,6 +1,6 @@
 namespace :nutrient_data do
   ndb_usda_api_key = ENV['NDB_USDA_API_KEY']
-  desc "import nutrient names to nutrient table from nutrient api"
+  desc "import nutrients" 
   task import_nutrient_names: :environment do
     HTTParty.get(
       "http://api.nal.usda.gov/ndb/list?format=json&lt=n&max=1500&api_key=#{ndb_usda_api_key}"
@@ -22,6 +22,15 @@ namespace :nutrient_data do
         ingredient_nutrition.unit = nutrient['unit']
         ingredient_nutrition.save
       end 
+    end 
+  end
+  desc "import nutrient groups" 
+  task import_nutrient_groups: :environment do
+  end 
+  desc "link group to nutrient" 
+  task match_group_to_nutrient: :environment do
+    Nutrient.all.each do |nutrient|
+      nutrient.group_id = 1 
     end 
   end
 end
