@@ -1,7 +1,7 @@
 <h2><%= @ingredient.name %></h2> 
 <% if @ingredient.ndbno.present? %>
   <% @groups.each do |group| %>
-    <strong><%= image_tag "plus_sign.png" %> <%= group.name %></strong>
+    <strong><%= image_tag "plus_sign.png" %> <%= image_tag "minus_sign.png" %> <%= group.name %></strong>
     <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
     <% IngredientNutrient.includes(:nutrient).where(
       ingredient_id: @ingredient.id, 
