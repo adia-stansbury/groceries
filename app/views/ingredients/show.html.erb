@@ -1,6 +1,6 @@
 <h2><%= @ingredient.name %></h2> 
 <% if @ingredient.ndbno.present? %>
-  <ul>
+  <ul style="list-style-type:none">
   <% @groups.each do |group| %>
     <li><strong>
       <% group_name = group.name.parameterize %>
