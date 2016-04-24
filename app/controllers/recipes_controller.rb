@@ -7,7 +7,7 @@ class RecipesController < ApplicationController
     @recipe = Recipe.find(params[:id])
     @ingredients = Ingredient.all.order(:name)
     @recipe_ingredients = @recipe.recipe_ingredients.includes(
-      :ingredient).order("ingredients.name")
+      :ingredient).order('ingredients.name')
   end 
 
   def new
@@ -22,7 +22,7 @@ class RecipesController < ApplicationController
     @recipe = Recipe.new(recipe_params)
 
     if @recipe.save
-      redirect_to '/recipe_ingredients/new'
+      redirect_to '/recipes'
     else
       render 'new'
     end 

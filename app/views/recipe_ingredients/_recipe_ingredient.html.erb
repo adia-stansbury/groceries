@@ -1,7 +1,8 @@
 <ul>
   <% @recipe_ingredients.each do |row| %>
     <li>
-      <%= row.ingredient.name %> <%= row.quantity %> <%= row.unit %> 
+    <%= row.quantity %> <%= row.unit %> 
+    <%= link_to row.ingredient.name, ingredient_path(row.ingredient.id) %> 
       <%= link_to 'Edit', edit_recipe_ingredient_path(row.id) %> 
       <%= link_to(
         'Delete', 

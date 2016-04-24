@@ -7,4 +7,5 @@ FactoryGirl.define do
     password_confirmation 'password'
   end
 
+  factory :recipe
 end
