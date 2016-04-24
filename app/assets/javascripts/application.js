@@ -13,6 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require('bootstrap')
+//= require nutrient-display
 //= require_tree .
 
-$(function(){ $(document).foundation(); });
