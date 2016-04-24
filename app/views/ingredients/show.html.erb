@@ -1,13 +1,18 @@
 <h2><%= @ingredient.name %></h2> 
 <% if @ingredient.ndbno.present? %>
+  <ul>
   <% @groups.each do |group| %>
-    <strong><%= image_tag "plus_sign.png" %> <%= image_tag "minus_sign.png" %> <%= group.name %></strong>
+    <li><strong>
+      <%= image_tag("plus_sign.png", class: "plus-sign") %> 
+      <%= image_tag("minus_sign.png", class: "minus-sign", style: "display:none") %> 
+      <%= group.name %>
+    </strong></li>
     <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
     <% IngredientNutrient.includes(:nutrient).where(
       ingredient_id: @ingredient.id, 
       nutrient_id: nutrient_ids
     ).order('nutrients.name').each do |row| %>
-      <li>
+      <li class="nutrient-info" style="display:none">
         <%= row.nutrient.name %> <%= row.value %><%= row.unit %>
       </li> 
     <% end %>
