@@ -1,31 +1,34 @@
 <h2><%= @ingredient.name %></h2> 
 <% if @ingredient.ndbno.present? %>
-  <ul style="list-style-type:none">
   <% @groups.each do |group| %>
-    <li><strong>
-      <% group_name = group.name.parameterize %>
-      <%= image_tag(
-        "plus_sign.png", 
-        class: "plus-sign", 
-        class: "plus-sign-#{group_name}"
-      ) %> 
-      <%= image_tag(
-        "minus_sign.png", 
-        class: "minus-sign",
-        class: "minus-sign-#{group_name}", 
-        style: "display:none"
-      ) %> 
-      <%= group.name %>
-    </strong></li>
-    <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
-    <% IngredientNutrient.includes(:nutrient).where(
-      ingredient_id: @ingredient.id, 
-      nutrient_id: nutrient_ids
-    ).order('nutrients.name').each do |row| %>
-      <li class="nutrient-info-<%= group_name %>" style="display:none">
-        <%= row.nutrient.name %> <%= row.value %><%= row.unit %>
-      </li> 
-    <% end %>
+    <ul style="list-style-type:none">
+      <li><strong>
+        <% group_name = group.name.parameterize %>
+        <%= image_tag(
+          "plus_sign.png", 
+          class: "plus-sign", 
+          class: "plus-sign-#{group_name}"
+        ) %> 
+        <%= image_tag(
+          "minus_sign.png", 
+          class: "minus-sign",
+          class: "minus-sign-#{group_name}", 
+          style: "display:none"
+        ) %> 
+        <%= group.name %>
+      </strong></li>
+    </ul>
+    <ul>
+      <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
+      <% IngredientNutrient.includes(:nutrient).where(
+        ingredient_id: @ingredient.id, 
+        nutrient_id: nutrient_ids
+      ).order('nutrients.name').each do |row| %>
+        <li class="nutrient-info-<%= group_name %>" style="display:none">
+          <%= row.nutrient.name %> <%= row.value %><%= row.unit %>
+        </li> 
+      <% end %>
+    </ul>
   <% end %>
 <% end %>
 <%= link_to 'Edit', edit_ingredient_path(@ingredient) %>
