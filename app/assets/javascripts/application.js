@@ -16,4 +16,3 @@
 //= require nutrient-display
 //= require_tree .
 
-$(function(){ $(document).foundation(); });
