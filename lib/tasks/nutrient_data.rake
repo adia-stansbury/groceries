@@ -26,11 +26,27 @@ namespace :nutrient_data do
   end
   desc "import nutrient groups" 
   task import_nutrient_groups: :environment do
+    ndbno = '09038'
+    HTTParty.get(
+      "http://api.nal.usda.gov/ndb/reports/?ndbno=#{ndbno}&type=f&format=json&api_key=#{ndb_usda_api_key}"
+    )['report']['food']['nutrients'].each do |nutrient| 
+      NutrientGroup.create(name: nutrient['group']) 
+    end 
   end 
   desc "link group to nutrient" 
   task match_group_to_nutrient: :environment do
+    ndbno = '09038'
+    response = HTTParty.get(
+      "http://api.nal.usda.gov/ndb/reports/?ndbno=#{ndbno}&type=f&format=json&api_key=#{ndb_usda_api_key}"
+    )['report']['food']['nutrients']
     Nutrient.all.each do |nutrient|
-      nutrient.group_id = 1 
+      response.each do |info| 
+        if info['name'] == nutrient.name 
+          group_id = NutrientGroup.where(name: info['group']).first.id
+          nutrient.group_id = group_id
+          nutrient.save
+        end 
+      end 
     end 
   end
 end
