@@ -3,8 +3,18 @@
   <ul>
   <% @groups.each do |group| %>
     <li><strong>
-      <%= image_tag("plus_sign.png", id: "plus-sign") %> 
-      <%= image_tag("minus_sign.png", id: "minus-sign", style: "display:none") %> 
+      <% group_name = group.name.parameterize %>
+      <%= image_tag(
+        "plus_sign.png", 
+        class: "plus-sign", 
+        class: "plus-sign-#{group_name}"
+      ) %> 
+      <%= image_tag(
+        "minus_sign.png", 
+        class: "minus-sign",
+        class: "minus-sign-#{group_name}", 
+        style: "display:none"
+      ) %> 
       <%= group.name %>
     </strong></li>
     <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
@@ -12,7 +22,7 @@
       ingredient_id: @ingredient.id, 
       nutrient_id: nutrient_ids
     ).order('nutrients.name').each do |row| %>
-      <li id="nutrient-info" style="display:none">
+      <li class="nutrient-info-<%= group_name %>" style="display:none">
         <%= row.nutrient.name %> <%= row.value %><%= row.unit %>
       </li> 
     <% end %>
