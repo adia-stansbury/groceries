@@ -4,4 +4,8 @@ class IngredientNutrient < ActiveRecord::Base
 
   validates :value, presence: true
   validates :unit, presence: true
+  validates :nutrient_id, uniqueness: { scope: :ingredient_id, 
+    message: 'nutrient and ing combo shoud be unique'
+  }, presence: true
+  validates :ingredient_id, presence: true
 end 

@@ -23,12 +23,10 @@
       <% IngredientNutrient.includes(:nutrient).where(
         ingredient_id: @ingredient.id, 
         nutrient_id: nutrient_ids
-      ).order('nutrients.name').each_with_index do |row, index| %>
-        <% if index % 3 == 0 %>
-          <li class="nutrient-info-<%= group_name %>" style="display:none">
-            <%= row.nutrient.name %> <%= row.value %><%= row.unit %>
-          </li> 
-        <% end %>
+      ).order('nutrients.name').each do |row| %>
+        <li class="nutrient-info-<%= group_name %>" style="display:none">
+          <%= row.nutrient.name %> <%= row.value %> <%= row.unit %>
+        </li> 
       <% end %>
     </ul>
   <% end %>

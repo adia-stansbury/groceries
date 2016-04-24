@@ -3,5 +3,5 @@ class Ingredient < ActiveRecord::Base
   has_many :recipes, through: :recipe_ingredients
   belongs_to :location
 
-  validates :name, uniqueness: true
+  validates :name, uniqueness: true, presence: true
 end 
