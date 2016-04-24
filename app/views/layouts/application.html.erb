@@ -42,11 +42,11 @@
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="/recipes"><%= image_tag "food.png" %></a>
+        <a class="navbar-brand" href="/recipes"><%= image_tag "cookbook.png" %></a>
       </div>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="/recipes/new">Add Recipe</a></li>
+          <li><a href="/recipes/new"><%= image_tag "book.png" %></a></li>
           <li class="dropdown">
           <a href="#" 
             class="dropdown-toggle" 
@@ -54,7 +54,7 @@
             role="button" 
             aria-haspopup="true" 
             aria-expanded="false"
-            >Ingredients<span class="caret"></span>
+            ><%= image_tag "fruit.png" %><span class="caret"></span>
           </a>
             <ul class="dropdown-menu">
               <li><a href="/ingredients">Ingredient List</a></li>
@@ -73,7 +73,7 @@
   <% require 'pry' %>
   <%= yield :extra_footer %>
   <div>
-    Menu icon made by 
+    Icons made by 
     <a href="http://www.freepik.com" title="Freepik" target="_blank">Freepik</a> from 
     <a href="http://www.flaticon.com" title="Flaticon" target="_blank">www.flaticon.com</a> 
     is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 
