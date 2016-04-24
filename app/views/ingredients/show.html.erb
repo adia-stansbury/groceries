@@ -1,9 +1,16 @@
 <h2><%= @ingredient.name %></h2> 
 <% if @ingredient.ndbno.present? %>
-  <% @nutrition.each do |row| %>
-    <li>
-      <%= row.nutrient.name %> <%= row.value %><%= row.unit %>
-    </li> 
+  <% @groups.each do |group| %>
+    <strong><%= group.name %></strong>
+    <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
+    <% IngredientNutrient.includes(:nutrient).where(
+      ingredient_id: @ingredient.id, 
+      nutrient_id: nutrient_ids
+    ).order('nutrients.name').each do |row| %>
+      <li>
+        <%= row.nutrient.name %> <%= row.value %><%= row.unit %>
+      </li> 
+    <% end %>
   <% end %>
 <% end %>
 <%= link_to 'Edit', edit_ingredient_path(@ingredient) %>
