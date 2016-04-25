@@ -1,15 +1,20 @@
-<h4>
-  <%= @recipe.name %> <%= link_to 'Edit', edit_recipe_path(@recipe) %>
-  <%= link_to(
-    'Delete', 
-    recipe_path(@recipe), 
-    method: :delete, 
-    data: { confirm: 'Are you sure?' } 
-  )%>
-</h4> 
-<h6>Recipe's Ingredients:</h6>
+<div class="page-header">
+  <h1>
+    <%= @recipe.name %> 
+    <small> 
+      <%= link_to 'Edit', edit_recipe_path(@recipe) %>
+      <%= link_to(
+        'Delete', 
+        recipe_path(@recipe), 
+        method: :delete, 
+        data: { confirm: 'Are you sure?' } 
+      )%>
+    </small>
+  </h1>
+</div> 
+<h3>Recipe's Ingredients:</h3>
 <%= render 'recipe_ingredients/recipe_ingredient' %>
-Add ingredients
+<h3>Add ingredients</h3>
 <%= render 'recipe_ingredients/form' %>
 
 
