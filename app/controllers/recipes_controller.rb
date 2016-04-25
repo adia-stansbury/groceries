@@ -20,9 +20,12 @@ class RecipesController < ApplicationController
 
   def create
     @recipe = Recipe.new(recipe_params)
+    @ingredients = Ingredient.all.order(:name)
+    @recipe_ingredients = @recipe.recipe_ingredients.includes(
+      :ingredient).order('ingredients.name')
 
     if @recipe.save
-      redirect_to '/recipes'
+      render 'show'
     else
       render 'new'
     end 

@@ -1,11 +1,15 @@
 <%= form_for @ingredient do |f| %>
   <%= f.label(:name) %>
-  <%= f.text_field(:name) %>
+  <div class="input-group"><%= f.text_field(:name) %></div>
   <%= f.label(:ndbno) %>
-  <%= f.text_field(:ndbno) %>
+  <div class="input-group"><%= f.text_field(:ndbno) %></div>
   <%= f.label(:location_id) %>
-  <%= f.collection_select(:location_id, @locations, :id, :name) %>
-  <%= f.submit %>
+  <div class="input-group">
+    <%= f.collection_select(:location_id, @locations, :id, :name) %>
+  </div>
+  <%= f.submit(class:"btn btn-default") %>
 <% end %>
 
-<a href="https://ndb.nal.usda.gov/ndb/foods" target="_blank">Look up Ndbno</a>
+<h3>
+  <a href="https://ndb.nal.usda.gov/ndb/foods" target="_blank">Look up Ndbno</a>
+</h3>

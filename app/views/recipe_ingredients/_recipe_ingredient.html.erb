@@ -1,6 +1,6 @@
-<ul>
+<ul class="list-group">
   <% @recipe_ingredients.each do |row| %>
-    <li>
+    <li class="list-group-item">
     <%= row.quantity %> <%= row.unit %> 
     <%= link_to row.ingredient.name, ingredient_path(row.ingredient.id) %> 
       <%= link_to 'Edit', edit_recipe_ingredient_path(row.id) %> 

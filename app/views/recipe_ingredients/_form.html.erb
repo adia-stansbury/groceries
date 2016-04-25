@@ -1,8 +1,11 @@
 <%= form_for([@recipe, @recipe.recipe_ingredients.build]) do |f| %>
-  <%= f.collection_select(:ingredient_id, @ingredients, :id, :name) %>
+  <%= f.label(:ingredient_id) %>
+  <div class="input-group">
+    <%= f.collection_select(:ingredient_id, @ingredients, :id, :name) %>
+  </div>
   <%= f.label(:quantity) %>
-  <%= f.text_field(:quantity) %>
+  <div class="input-group"><%= f.text_field(:quantity) %></div>
   <%= f.label(:unit) %>
-  <%= f.text_field(:unit) %>
-  <%= f.submit %>
+  <div class="input-group"><%= f.text_field(:unit) %></div>
+  <%= f.submit(class:"btn btn-default") %>
 <% end %>

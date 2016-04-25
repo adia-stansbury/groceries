@@ -1,5 +1,6 @@
-<ul>
+<div class="page-header"><h1>Ingredients</h1></div>
+<ul class="list-group">
   <% @ingredients.each do |ing| %>
-    <li><%= link_to ing.name.capitalize!, ingredient_path(ing) %></li>
+    <li class="list-group-item"><%= link_to ing.name.capitalize!, ingredient_path(ing) %></li>
   <% end %>
 </ul>

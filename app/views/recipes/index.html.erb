@@ -1,5 +1,4 @@
-Select recipes to create grocery list
-
+<div class="page-header"><h1>Select recipes to create grocery list</h1></div>
 <%= form_tag("/lists/new", method: "get") do %>
   <% @recipes.each do |recipe| %>
     <%= check_box_tag('recipe_ids[]', recipe.id) %>
