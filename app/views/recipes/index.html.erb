@@ -4,6 +4,6 @@
     <%= check_box_tag('recipe_ids[]', recipe.id) %>
     <%= label_tag('recipe_id[recipe.id]', (link_to recipe.name, recipe_path(recipe))) %>
   <% end %>
-  <%= submit_tag("Create List") %>
+  <%= submit_tag("Create List", class:"btn btn-primary") %>
 <% end %>
 

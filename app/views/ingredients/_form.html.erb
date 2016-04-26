@@ -1,6 +1,6 @@
 <%= form_for @ingredient do |f| %>
   <form class="form-horizontal">
-    <% @ingredient_attributes.each do |attribute| %>
+    <% [:name, :ndbno].each do |attribute| %>
       <div class="form-group">
         <%= f.label(attribute, class:"col-sm-2 control-label") %>
         <div class="col-sm-6">
