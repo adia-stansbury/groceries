@@ -1,5 +1,5 @@
-<form class="form-horizontal">
-  <%= form_for @ingredient do |f| %>
+<%= form_for @ingredient do |f| %>
+  <form class="form-horizontal">
     <% @ingredient_attributes.each do |attribute| %>
       <div class="form-group">
         <%= f.label(attribute, class:"col-sm-2 control-label") %>
@@ -20,8 +20,8 @@
         <%= f.submit(class:"btn btn-primary") %>
       </div>
     </div>
-  <% end %>
-</form>
+  </form>
+<% end %>
 
 <h3 class="text-center">
   <a href="https://ndb.nal.usda.gov/ndb/foods" target="_blank">Look up Ndbno</a>
