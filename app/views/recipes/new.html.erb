@@ -1,10 +1,2 @@
-<div class="page-header"><h1>Add new recipe name</h1></div>
-<form class="navbar-form navbar-left">
-  <div class="form-group">
-    <%= form_for @recipe do |f| %>
-      <%= f.label(:name) %>:
-      <%= f.text_field(:name, class:"form-control") %>
-      <%= f.submit(class:"btn btn-primary") %>
-    <% end %>
-  </div>
-</form>
+<div class="page-header"><h1 class="text-center">Add new recipe name</h1></div>
+<%= render partial: 'form' %>
