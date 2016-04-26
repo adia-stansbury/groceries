@@ -11,7 +11,6 @@ class IngredientsController < ApplicationController
   def new
     @ingredient = Ingredient.new
     @locations = Location.all.order(:name)
-    @ingredient_attributes = [:name, :ndbno]
   end 
 
   def create
