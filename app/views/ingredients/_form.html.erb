@@ -1,16 +1,15 @@
 <form class="form-horizontal">
   <%= form_for @ingredient do |f| %>
-    <div class="form-group">
-      <%= f.label(:name, class:"col-sm-2 control-label") %>
-      <div class="col-sm-10">
-        <%= f.text_field(:name, class:"form-control") %>
+    <% @ingredient_attributes.each do |attribute| %>
+      <div class="form-group">
+        <%= f.label(attribute, class:"col-sm-2 control-label") %>
+        <div class="col-sm-10">
+          <%= f.text_field(attribute, class:"form-control") %>
+        </div>
       </div>
-    </div>
-      <%= f.label(:ndbno) %>
-    <div class="input-group"><%= f.text_field(:ndbno) %></div>
+    <% end %>
     <%= f.label(:location_id) %>
-      <%= f.collection_select(:location_id, @locations, :id, :name) %>
-    </div>
+    <%= f.collection_select(:location_id, @locations, :id, :name) %>
     <%= f.submit(class:"btn btn-primary") %>
   <% end %>
 </form>
