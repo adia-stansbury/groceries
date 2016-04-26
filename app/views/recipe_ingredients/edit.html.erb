@@ -1,8 +1,12 @@
-Edit Recipe
+<div class=page-header><h1 class="text-center">Edit Recipe</h1></div>
 <%= form_for @recipe_ingredient do |f| %>
-  <%= f.label(:quantity) %>
-  <%= f.text_field(:quantity) %>
-  <%= f.label(:unit) %>
-  <%= f.text_field(:unit) %>
-  <%= f.submit(class:"btn btn-primary") %>
+  <form class="form-inline">
+    <% [:quantity, :unit].each do |attribute| %>
+      <div class="form-group">
+        <%= f.label(attribute) %>
+        <%= f.text_field(attribute, class:"form-control") %>
+      </div>
+    <% end %>
+    <%= f.submit(class:"btn btn-primary") %>
+  </form>
 <% end %>

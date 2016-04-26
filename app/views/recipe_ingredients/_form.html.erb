@@ -1,11 +1,16 @@
 <%= form_for([@recipe, @recipe.recipe_ingredients.build]) do |f| %>
-  <%= f.label(:ingredient_id) %>
-  <div class="input-group">
-    <%= f.collection_select(:ingredient_id, @ingredients, :id, :name) %>
-  </div>
-  <%= f.label(:quantity) %>
-  <div class="input-group"><%= f.text_field(:quantity) %></div>
-  <%= f.label(:unit) %>
-  <div class="input-group"><%= f.text_field(:unit) %></div>
-  <%= f.submit(class:"btn btn-primary") %>
+  <form class="form-inline">
+    <div class="form-group">
+      <%= f.label(:ingredient_id) %>
+      <%= f.collection_select(:ingredient_id, @ingredients, :id, :name, 
+                              class:"form-control") %>
+    </div>
+    <% [:quantity, :unit].each do |attribute| %>
+      <div class="form-group">
+        <%= f.label(attribute) %>
+        <%= f.text_field(attribute, class:"form-control") %>
+      </div>
+    <% end %>
+    <%= f.submit(class:"btn btn-primary") %>
+  </form>
 <% end %>
