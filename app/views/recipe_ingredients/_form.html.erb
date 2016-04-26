@@ -1,5 +1,5 @@
-<form class="form-inline">
-  <%= form_for([@recipe, @recipe.recipe_ingredients.build]) do |f| %>
+<%= form_for([@recipe, @recipe.recipe_ingredients.build]) do |f| %>
+  <form class="form-inline">
     <div class="form-group">
       <%= f.label(:ingredient_id) %>
       <%= f.collection_select(:ingredient_id, @ingredients, :id, :name, 
@@ -12,5 +12,5 @@
       </div>
     <% end %>
     <%= f.submit(class:"btn btn-primary") %>
-  <% end %>
-</form>
+  </form>
+<% end %>
