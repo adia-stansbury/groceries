@@ -1,5 +1,6 @@
 <h2 class="text-center"><%= @ingredient.name.capitalize! %></h2> 
 <% if @ingredient.ndbno.present? %>
+  <h6 class="text-center">Amount of nutrient per 100g</h6>
   <% @groups.each do |group| %>
     <ul style="list-style-type:none">
       <li><strong>
