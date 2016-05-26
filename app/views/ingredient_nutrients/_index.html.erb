@@ -1,0 +1,29 @@
+<% @groups.each do |group| %>
+  <ul style="list-style-type:none">
+    <li><strong>
+      <% group_name = group.name.parameterize %>
+      <%= image_tag(
+        "plus_sign.png", 
+        class: "plus-sign", 
+        class: "plus-sign-#{group_name}"
+      ) %> 
+      <%= image_tag(
+        "minus_sign.png", 
+        class: "minus-sign",
+        class: "minus-sign-#{group_name}", 
+        style: "display:none"
+      ) %> 
+      <%= group.name %>
+    </strong></li>
+  </ul>
+  <ul class="list-group">
+    <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
+    <% IngredientNutrient.where(
+      ingredient_id: @recipe_ingredient_ids, nutrient_id: nutrient_ids
+    ).group(:nutrient_id, :unit).sum(:value).each do |key, sum| %>
+      <li class="nutrient-info-<%= group_name %> list-group-item" style="display:none">
+        <%= Nutrient.find(key.first).name %> <%= sum %> <%= key.last %>  
+      </li>
+      <% end %>
+    </ul>
+<% end %>
