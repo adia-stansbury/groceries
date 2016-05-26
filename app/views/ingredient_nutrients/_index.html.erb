@@ -18,5 +18,12 @@
   </ul>
   <ul class="list-group">
     <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
-  </ul>
+    <% IngredientNutrient.where(
+      ingredient_id: @recipe_ingredient_ids, nutrient_id: nutrient_ids
+    ).group(:nutrient_id, :unit).sum(:value).each do |key, sum| %>
+      <li class="nutrient-info-<%= group_name %> list-group-item" style="display:none">
+        <%= Nutrient.find(key.first).name %> <%= sum %> <%= key.last %>  
+      </li>
+      <% end %>
+    </ul>
 <% end %>

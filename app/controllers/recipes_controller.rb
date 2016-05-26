@@ -9,6 +9,7 @@ class RecipesController < ApplicationController
     @recipe_ingredients = @recipe.recipe_ingredients.includes(
       :ingredient).order('ingredients.name')
     @groups = NutrientGroup.all.order(:name)
+    @recipe_ingredient_ids = @recipe.recipe_ingredients.pluck(:ingredient_id)
   end 
 
   def new
