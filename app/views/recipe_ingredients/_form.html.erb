@@ -5,7 +5,7 @@
       <%= f.collection_select(:ingredient_id, @ingredients, :id, :name, 
                               class:"form-control") %>
     </div>
-    <% [:quantity, :unit].each do |attribute| %>
+    <% [:quantity, :unit, :amount_in_grams].each do |attribute| %>
       <div class="form-group">
         <%= f.label(attribute) %>
         <%= f.text_field(attribute, class:"form-control") %>

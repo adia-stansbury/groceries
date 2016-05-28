@@ -9,7 +9,18 @@ class RecipesController < ApplicationController
     @recipe_ingredients = @recipe.recipe_ingredients.includes(
       :ingredient).order('ingredients.name')
     @groups = NutrientGroup.all.order(:name)
-    @recipe_ingredient_ids = @recipe.recipe_ingredients.pluck(:ingredient_id)
+    @aggregate_nutrient_intake = IngredientNutrient.connection.select_all(
+      "SELECT nutrients.name, ingredient_nutrients.unit AS amt_consumed_unit, sum((value/100)*amount_in_grams) AS amt_consumed 
+        FROM ingredient_nutrients 
+        JOIN recipe_ingredients 
+        ON recipe_ingredients.ingredient_id = ingredient_nutrients.ingredient_id 
+        JOIN nutrients
+        ON nutrients.id = ingredient_nutrients.nutrient_id
+        WHERE recipe_ingredients.recipe_id = #{@recipe.id}
+        GROUP BY nutrients.name, amt_consumed_unit
+        ORDER BY nutrients.name
+      "
+    ) 
   end 
 
   def new

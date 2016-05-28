@@ -18,12 +18,13 @@
   </ul>
   <ul class="list-group">
     <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
-    <% IngredientNutrient.where(
-      ingredient_id: @recipe_ingredient_ids, nutrient_id: nutrient_ids
-    ).group(:nutrient_id, :unit).sum(:value).each do |key, sum| %>
-      <li class="nutrient-info-<%= group_name %> list-group-item" style="display:none">
-        <%= Nutrient.find(key.first).name %> <%= sum %> <%= key.last %>  
-      </li>
+    <% @aggregate_nutrient_intake.each do |record| %>
+      <% nutrient_id = Nutrient.where(name: record['name']).first.id %>
+      <% if nutrient_ids.include?(nutrient_id) %> 
+        <li class="nutrient-info-<%= group_name %> list-group-item" style="display:none">
+          <%= record['name'] %> <%= record['amt_consumed'] %> <%= record['amt_consumed_unit'] %>  
+        </li>
       <% end %>
+    <% end %>
     </ul>
 <% end %>

@@ -4,10 +4,20 @@ require 'evernote-thrift'
 class ListsController < ApplicationController
   def new
     recipe_ids = params['recipe_ids']
+    sql_recipe_ids = recipe_ids * ","
     @groups = NutrientGroup.all.order(:name)
-    #all of the ingredient ids that belong to recipe ids
-    @recipe_ingredient_ids = RecipeIngredient.where(recipe_id: recipe_ids).
-      uniq.pluck(:ingredient_id) 
+    @aggregate_nutrient_intake = IngredientNutrient.connection.select_all(
+      "SELECT nutrients.name, ingredient_nutrients.unit AS amt_consumed_unit, sum((value/100)*amount_in_grams) AS amt_consumed 
+        FROM ingredient_nutrients 
+        JOIN recipe_ingredients 
+        ON recipe_ingredients.ingredient_id = ingredient_nutrients.ingredient_id 
+        JOIN nutrients
+        ON nutrients.id = ingredient_nutrients.nutrient_id
+        WHERE recipe_ingredients.recipe_id IN (#{sql_recipe_ids})
+        GROUP BY nutrients.name, amt_consumed_unit
+        ORDER BY nutrients.name
+      "
+    ) 
     note_title = 'Grocery List'
     note_notebook = 'Cooking'
     db_name = 'recipes'
