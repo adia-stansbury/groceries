@@ -4,6 +4,10 @@ require 'evernote-thrift'
 class ListsController < ApplicationController
   def new
     recipe_ids = params['recipe_ids']
+    @groups = NutrientGroup.all.order(:name)
+    #all of the ingredient ids that belong to recipe ids
+    @recipe_ingredient_ids = RecipeIngredient.where(recipe_id: recipe_ids).
+      uniq.pluck(:ingredient_id) 
     note_title = 'Grocery List'
     note_notebook = 'Cooking'
     db_name = 'recipes'
@@ -80,22 +84,4 @@ class ListsController < ApplicationController
     note_body = make_note_body(results) 
     note = make_note(note_store, note_title, note_body, auth_token, note_notebook_guid)
   end
-
-  #def index
-    #ndb_usda_api_key = ENV['NDB_USDA_API_KEY']
-    #recipe_ids = params['recipe_ids']
-    #ndbno_array = RecipeIngredient.where(recipe_id: recipe_ids).
-        #includes(:ingredient).pluck(:ndbno, :quantity, :unit)
-    #ndbno_array.each do |ndbno, quantity, unit|
-      #if ndbno != nil
-        #ndbno = ndbno_array.first
-          #response = HTTParty.get("http://api.nal.usda.gov/ndb/reports/?ndbno=#{ndbno}&type=f&format=json&api_key=#{ndb_usda_api_key}")
-          #response['report']['food']['nutrients'].each do |nutrient|
-            #if nutrient['name'] == 'Energy'
-              #@response = nutrient    
-            #end 
-          #end 
-        #end 
-      #end 
-  #end 
 end
