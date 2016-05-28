@@ -29,6 +29,7 @@ class RecipeIngredientsController < ApplicationController
   private
     def recipe_ingredient_params
       params.require(:recipe_ingredient).permit(
+        :amount_in_grams,
         :ingredient_id, 
         :quantity,
         :unit
