@@ -7,14 +7,14 @@ class ListsController < ApplicationController
     sql_recipe_ids = recipe_ids * ","
     @groups = NutrientGroup.all.order(:name)
     @aggregate_nutrient_intake = IngredientNutrient.connection.select_all(
-      "SELECT nutrients.name, ingredient_nutrients.unit AS amt_consumed_unit, sum((value/100)*amount_in_grams) AS amt_consumed 
+      "SELECT nutrients.name, nutrients.id, ingredient_nutrients.unit AS amt_consumed_unit, sum((value/100)*amount_in_grams) AS amt_consumed 
         FROM ingredient_nutrients 
         JOIN recipe_ingredients 
         ON recipe_ingredients.ingredient_id = ingredient_nutrients.ingredient_id 
         JOIN nutrients
         ON nutrients.id = ingredient_nutrients.nutrient_id
         WHERE recipe_ingredients.recipe_id IN (#{sql_recipe_ids})
-        GROUP BY nutrients.name, amt_consumed_unit
+        GROUP BY nutrients.id, nutrients.name, amt_consumed_unit
         ORDER BY nutrients.name
       "
     ) 
@@ -57,7 +57,7 @@ class ListsController < ApplicationController
       list = ''
 
       results.each do |row|
-        list += "<en-todo/>#{row.quantity} #{row.unit} #{row.ingredient.name}<br/>"
+        list += "<en-todo/>#{row['total_quantity']} #{row['unit']} #{row['name']}<br/>"
       end 
 
       list
@@ -86,8 +86,18 @@ class ListsController < ApplicationController
       note
     end
 
-    results = RecipeIngredient.where(recipe_id: recipe_ids).
-      includes(ingredient: :location).order("locations.ordering")
+    results = RecipeIngredient.connection.select_all(
+      "SELECT SUM(quantity) AS total_quantity, unit, ingredients.name
+        FROM recipe_ingredients
+        JOIN ingredients 
+        ON recipe_ingredients.ingredient_id = ingredients.id
+        JOIN locations
+        ON ingredients.location_id = locations.id
+        WHERE recipe_ingredients.recipe_id IN (#{sql_recipe_ids})
+        GROUP BY locations.ordering, ingredients.name, unit
+        ORDER BY locations.ordering
+      "
+    ) 
 
     note_store = create_note_store(auth_token, evernote_host)
     note_notebook_guid = create_note_notebook_guid(note_notebook, auth_token, note_store)
