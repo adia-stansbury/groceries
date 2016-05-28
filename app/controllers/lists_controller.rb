@@ -5,9 +5,23 @@ class ListsController < ApplicationController
   def new
     recipe_ids = params['recipe_ids']
     @groups = NutrientGroup.all.order(:name)
-    #all of the ingredient ids that belong to recipe ids
-    @recipe_ingredient_ids = RecipeIngredient.where(recipe_id: recipe_ids).
+    recipe_ingredient_ids = RecipeIngredient.where(recipe_id: recipe_ids).
       uniq.pluck(:ingredient_id) 
+    recipe_ingredient_nutrients = IngredientNutrient.where(ingredient_id: recipe_ingredient_ids)
+    aggregate_nutrient_hash = {}
+    recipe_ingredient_nutrients.each do |record|
+      grams_of_recipe_ingredient = RecipeIngredient.where(
+        ingredient_id: record.ingredient_id, recipe_id: @recipe.id
+      ).first.amount_in_grams
+      nutrient_intake_per_ing = (record.value/100) * grams_of_recipe_ingredient
+      if aggregate_nutrient_hash.has_key?([record.nutrient_id, record.unit])
+        aggregate_nutrient_hash[[record.nutrient_id, record.unit]] += nutrient_intake_per_ing
+      else
+        aggregate_nutrient_hash[[record.nutrient_id, record.unit]] = nutrient_intake_per_ing     
+      end 
+      @aggregate_nutrient_hash = aggregate_nutrient_hash
+    end 
+
     note_title = 'Grocery List'
     note_notebook = 'Cooking'
     db_name = 'recipes'

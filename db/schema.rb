@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20160528183858) do
     t.integer "ingredient_id"
     t.string  "unit"
     t.integer "quantity"
-    t.float   "amount_in_grams"
+    t.float   "amount_in_grams", default: 0.0, null: false
   end
 
   create_table "recipes", force: :cascade do |t|

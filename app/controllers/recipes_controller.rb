@@ -15,10 +15,7 @@ class RecipesController < ApplicationController
     recipe_ingredient_nutrients.each do |record|
       grams_of_recipe_ingredient = RecipeIngredient.where(
         ingredient_id: record.ingredient_id, recipe_id: @recipe.id
-      ).first.try(:amount_in_grams)
-      if grams_of_recipe_ingredient == nil
-        grams_of_recipe_ingredient = 0
-      end
+      ).first.amount_in_grams
       nutrient_intake_per_ing = (record.value/100) * grams_of_recipe_ingredient
       if aggregate_nutrient_hash.has_key?([record.nutrient_id, record.unit])
         aggregate_nutrient_hash[[record.nutrient_id, record.unit]] += nutrient_intake_per_ing
