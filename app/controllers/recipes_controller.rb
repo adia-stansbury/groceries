@@ -9,21 +9,18 @@ class RecipesController < ApplicationController
     @recipe_ingredients = @recipe.recipe_ingredients.includes(
       :ingredient).order('ingredients.name')
     @groups = NutrientGroup.all.order(:name)
-    recipe_ingredient_ids = @recipe.recipe_ingredients.pluck(:ingredient_id)
-    recipe_ingredient_nutrients = IngredientNutrient.where(ingredient_id: recipe_ingredient_ids)
-    aggregate_nutrient_hash = {}
-    recipe_ingredient_nutrients.each do |record|
-      grams_of_recipe_ingredient = RecipeIngredient.where(
-        ingredient_id: record.ingredient_id, recipe_id: @recipe.id
-      ).first.amount_in_grams
-      nutrient_intake_per_ing = (record.value/100) * grams_of_recipe_ingredient
-      if aggregate_nutrient_hash.has_key?([record.nutrient_id, record.unit])
-        aggregate_nutrient_hash[[record.nutrient_id, record.unit]] += nutrient_intake_per_ing
-      else
-        aggregate_nutrient_hash[[record.nutrient_id, record.unit]] = nutrient_intake_per_ing     
-      end 
-      @aggregate_nutrient_hash = aggregate_nutrient_hash
-    end 
+    @aggregate_nutrient_intake = IngredientNutrient.connection.select_all(
+      "SELECT nutrients.name, ingredient_nutrients.unit AS amt_consumed_unit, sum((value/100)*amount_in_grams) AS amt_consumed 
+        FROM ingredient_nutrients 
+        JOIN recipe_ingredients 
+        ON recipe_ingredients.ingredient_id = ingredient_nutrients.ingredient_id 
+        JOIN nutrients
+        ON nutrients.id = ingredient_nutrients.nutrient_id
+        WHERE recipe_ingredients.recipe_id = #{@recipe.id}
+        GROUP BY nutrients.name, amt_consumed_unit
+        ORDER BY nutrients.name
+      "
+    ) 
   end 
 
   def new

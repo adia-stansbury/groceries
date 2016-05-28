@@ -18,10 +18,11 @@
   </ul>
   <ul class="list-group">
     <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
-    <% @aggregate_nutrient_hash.each do |(nutrient_id, unit), intake_amount| %>
+    <% @aggregate_nutrient_intake.each do |record| %>
+      <% nutrient_id = Nutrient.where(name: record['name']).first.id %>
       <% if nutrient_ids.include?(nutrient_id) %> 
         <li class="nutrient-info-<%= group_name %> list-group-item" style="display:none">
-          <%= Nutrient.find(nutrient_id).name %> <%= intake_amount %> <%= unit %>  
+          <%= record['name'] %> <%= record['amt_consumed'] %> <%= record['amt_consumed_unit'] %>  
         </li>
       <% end %>
     <% end %>

@@ -6,7 +6,7 @@ class ListsController < ApplicationController
     recipe_ids = params['recipe_ids']
     @groups = NutrientGroup.all.order(:name)
     recipe_ingredient_ids = RecipeIngredient.where(recipe_id: recipe_ids).
-      uniq.pluck(:ingredient_id) 
+      uniq.pluck(:ingredient_id, :amount_in_grams) 
     recipe_ingredient_nutrients = IngredientNutrient.where(ingredient_id: recipe_ingredient_ids)
     aggregate_nutrient_hash = {}
     recipe_ingredient_nutrients.each do |record|
