@@ -1,4 +1,6 @@
 class Recipe < ActiveRecord::Base
+  include NutrientIntake
+
   has_many :recipe_ingredients, dependent: :destroy
   has_many :ingredients, through: :recipe_ingredients
   before_save :capitalize_recipe_name!
