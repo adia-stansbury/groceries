@@ -10,7 +10,7 @@ module NutrientIntake
           ON recipe_ingredients.ingredient_id = ingredient_nutrients.ingredient_id 
           JOIN nutrients
           ON nutrients.id = ingredient_nutrients.nutrient_id
-          WHERE recipe_ingredients.recipe_id = #{recipe_ids}
+          WHERE recipe_ingredients.recipe_id IN (#{recipe_ids})
           GROUP BY nutrients.id, nutrients.name, amt_consumed_unit
           ORDER BY nutrients.name
         "
