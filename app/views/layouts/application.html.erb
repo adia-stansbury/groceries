@@ -48,17 +48,31 @@
         <ul class="nav navbar-nav">
           <li><a href="/recipes/new"><%= image_tag "book.png" %></a></li>
           <li class="dropdown">
-          <a href="#" 
-            class="dropdown-toggle" 
-            data-toggle="dropdown" 
-            role="button" 
-            aria-haspopup="true" 
-            aria-expanded="false"
-            ><%= image_tag "fruit.png" %><span class="caret"></span>
-          </a>
+            <a href="#" 
+              class="dropdown-toggle" 
+              data-toggle="dropdown" 
+              role="button" 
+              aria-haspopup="true" 
+              aria-expanded="false"
+              ><%= image_tag "fruit.png" %><span class="caret"></span>
+            </a>
             <ul class="dropdown-menu">
               <li><a href="/ingredients">Ingredient List</a></li>
               <li><a href="/ingredients/new">Add Ingredient</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" 
+              class="dropdown-toggle" 
+              data-toggle="dropdown" 
+              role="button" 
+              aria-haspopup="true" 
+              aria-expanded="false"
+              ><%= image_tag "consumer.png" %><span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="/consumers">Consumers</a></li>
+              <li><a href="/consumers/new">Add Consumer</a></li>
             </ul>
           </li>
         </ul>
