@@ -1,0 +1,9 @@
+<h2 class="text-center"><%= @consumer.name %></h2>
+<%= link_to 'Edit', edit_consumer_path(@consumer) %>
+<%= link_to(
+  'Delete', 
+  consumer_path(@consumer), 
+  method: :delete, 
+  data: { confirm: 'Are you sure?' } 
+) %>
+
