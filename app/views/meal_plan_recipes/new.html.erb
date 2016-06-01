@@ -1,5 +1,5 @@
-<h2 class="text-center">Assign recipes to a consumer</h2
-<%= form_tag("/meal_plan_recipes/create", method: "post") do %>
+<h2 class="text-center">Assign recipes to a consumer</h2>
+<%= form_for @meal_plan_recipe do |f| %>
   <form class="form-inline">
     <div class="form-group">
       <%= label_tag('consumers') %>
@@ -13,10 +13,12 @@
         )
       ) %>
     </div>
-    <% @recipes.each do |recipe| %>
-      <%= check_box_tag('recipe_ids[]', recipe.id) %>
-      <%= label_tag('recipe_id[recipe.id]', (link_to recipe.name, recipe_path(recipe))) %>
-    <% end %>
-    <%= submit_tag("Create Meal Plan", class:"btn btn-primary") %>
+    <%= f.collection_check_boxes(
+      :recipe_id, 
+      @recipes, 
+      :id, 
+      :name    
+    ) %>
+    <%= f.submit("Create Meal Plan", class:"btn btn-primary") %>
   </form>
 <% end %>
