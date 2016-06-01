@@ -19,9 +19,7 @@ class MealPlanRecipesController < ApplicationController
 
   private
   def meal_plan_recipe_params
-    params.require(:meal_plan_recipe).permit(
-      :consumer_id, 
-      recipe_id: [])
+    params.require(:meal_plan_recipe).permit(recipe_id: [])
   end 
 end 
 
