@@ -7,7 +7,6 @@ class MealPlanRecipesController < ApplicationController
 
   def create
     @meal_plan_recipe = MealPlanRecipe.new(meal_plan_recipe_params)
-    binding.pry
     mealplan = MealPlan.create(consumer_id: params[:consumer_id])
     @meal_plan_recipe.meal_plan_id = mealplan.id
     
@@ -20,7 +19,9 @@ class MealPlanRecipesController < ApplicationController
 
   private
   def meal_plan_recipe_params
-    params.require(:meal_plan_recipe).permit(:consumer_id, :recipe_id)
+    params.require(:meal_plan_recipe).permit(
+      :consumer_id, 
+      recipe_id: [])
   end 
 end 
 
