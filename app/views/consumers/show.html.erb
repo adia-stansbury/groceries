@@ -1,4 +1,10 @@
 <h2 class="text-center"><%= @consumer.name %></h2>
+<h4 class="text-center"><%= @consumer.name %>'s recipes</h4>
+<ul>
+  <% @consumers_recipes.each do |record| %>
+    <li><%= record.recipe.name %></li> 
+  <% end %>
+</ul>
 <%= link_to 'Edit', edit_consumer_path(@consumer) %>
 <%= link_to(
   'Delete', 
