@@ -5,6 +5,8 @@ class ConsumersController < ApplicationController
 
   def show
     @consumer = Consumer.find(params[:id])
+    #@consumers_recipes = @consumer.recipes.order(:name)
+    @consumers_recipes = ConsumerRecipe.where(consumer_id: @consumer.id)
   end 
 
   def new
@@ -24,6 +26,7 @@ class ConsumersController < ApplicationController
 
   def edit
     @consumer = Consumer.find(params[:id])
+    @recipes = Recipe.all.order(:name) 
   end 
 
   def update
