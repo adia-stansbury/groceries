@@ -9,6 +9,7 @@ class ConsumersController < ApplicationController
 
   def new
     @consumer = Consumer.new
+    @recipes = Recipe.all.order(:name) 
   end 
 
   def create
@@ -44,6 +45,6 @@ class ConsumersController < ApplicationController
   
   private
     def consumer_params
-      params.require(:consumer).permit(:name)
+      params.require(:consumer).permit(:name, recipe_ids: [])
     end 
 end 
