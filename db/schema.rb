@@ -11,10 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160528183858) do
+ActiveRecord::Schema.define(version: 20160607115311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "consumer_recipes", force: :cascade do |t|
+    t.integer "consumer_id", null: false
+    t.integer "recipe_id",   null: false
+  end
+
+  create_table "consumers", force: :cascade do |t|
+    t.string "name"
+  end
 
   create_table "ingredient_nutrients", force: :cascade do |t|
     t.float   "value",         null: false
@@ -43,6 +52,15 @@ ActiveRecord::Schema.define(version: 20160528183858) do
   add_index "locations", ["name"], name: "locations_name_key", unique: true, using: :btree
   add_index "locations", ["ordering"], name: "locations_aisle_key", unique: true, using: :btree
 
+  create_table "meal_plan_recipes", force: :cascade do |t|
+    t.integer "recipe_id"
+    t.integer "meal_plan_id"
+  end
+
+  create_table "meal_plans", force: :cascade do |t|
+    t.integer "consumer_id"
+  end
+
   create_table "nutrient_groups", force: :cascade do |t|
     t.string "name"
   end
@@ -56,7 +74,7 @@ ActiveRecord::Schema.define(version: 20160528183858) do
     t.integer "recipe_id"
     t.integer "ingredient_id"
     t.string  "unit"
-    t.integer "quantity"
+    t.float   "quantity"
     t.float   "amount_in_grams", default: 0.0, null: false
   end
 
