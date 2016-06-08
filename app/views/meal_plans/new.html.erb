@@ -10,12 +10,13 @@
       class:"form-control"
     )
   ) %>
-    <%= collection_check_boxes_tag(
-      :meal_plan_recipe,
+  <%= f.fields_for :meal_plan_recipes do |ff| %>
+    <%= ff.collection_check_boxes(
       :recipe_id, 
       @recipes, 
       :id, 
       :name    
     ) %>
+  <% end %>
   <%= f.submit("Create Meal Plan", class:"btn btn-primary") %>
 </form><% end %>
