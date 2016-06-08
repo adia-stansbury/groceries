@@ -1,7 +1,7 @@
 class RecipesController < ApplicationController
   def index
-    #@recipes = Recipe.all.order(:name) 
-    @consumers_recipes = ConsumerRecipe.where(consumer_id: @consumer.id)
+    @recipes = Recipe.all.order(:name) 
+    #@consumers_recipes = ConsumerRecipe.where(consumer_id: @consumer.id)
   end 
 
   def show
