@@ -6,13 +6,17 @@ class MealPlansController < ApplicationController
   end 
 
   def create
-    @meal_plan = MealPlan.new(meal_plan_params),
-    
-    if @meal_plan.save
-      redirect_to '/'
-    else
-      render 'new'
+    @meal_plan = MealPlan.create(consumer_id: params['meal_plan']['consumer_id'])     
+    params['meal_plan']['recipe_ids'].each do |recipe_id|
+      if recipe_id != ''
+        @meal_plan_recipe = MealPlanRecipe.create(
+          recipe_id: recipe_id, 
+          meal_plan_id: @meal_plan.id
+        ) 
+      end 
     end 
+    
+    render 'index'
   end 
 
   private
