@@ -1,21 +1,18 @@
 <h2 class="text-center">Create MealPlan</h2>
 <%= form_for @meal_plan do |f| %>
   <%= f.label :consumer_id %>
-  <%= f.select(
-    :consumer_id, 
-    options_from_collection_for_select(
+  <%= f.select(:consumer_id, options_from_collection_for_select(
       @consumers, 
       'id', 
       'name', 
       class:"form-control"
     )
   ) %>
-    <%= collection_check_boxes_tag(
-      :meal_plan_recipe,
-      :recipe_id, 
-      @recipes, 
-      :id, 
-      :name    
+    <%= f.select(:recipe_ids, options_from_collection_for_select(
+        @recipes, 
+        :id, 
+        :name    
+      )
     ) %>
   <%= f.submit("Create Meal Plan", class:"btn btn-primary") %>
 </form><% end %>
