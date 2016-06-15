@@ -1,0 +1,24 @@
+<h2 class="text-center">Assign recipes to a consumer</h2>
+<%= form_for @meal_plan_recipe do |f| %>
+  <form class="form-inline">
+    <div class="form-group">
+      <%= label_tag('consumers') %>
+      <%= select_tag(
+        'consumer_id', 
+        options_from_collection_for_select(
+          @consumers, 
+          'id', 
+          'name', 
+          class:"form-control"
+        )
+      ) %>
+    </div>
+    <%= f.collection_check_boxes(
+      :recipe_id, 
+      @recipes, 
+      :id, 
+      :name    
+    ) %>
+    <%= f.submit("Create Meal Plan", class:"btn btn-primary") %>
+  </form>
+<% end %>
