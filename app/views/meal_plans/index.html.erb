@@ -1,0 +1,10 @@
+<ul>
+  <% @meal_plans.each do |meal_plan| %>
+    <li><%= link_to meal_plan.created_at, meal_plan_path(meal_plan) %> <%= meal_plan.consumer.name %></li>
+    <ul>
+      <% meal_plan.recipes.each do |recipe| %>
+        <li><%= recipe.name %></li>
+      <% end %>
+    </ul>
+  <% end %>
+</ul>

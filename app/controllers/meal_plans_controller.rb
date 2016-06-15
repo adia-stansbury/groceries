@@ -1,4 +1,16 @@
 class MealPlansController < ApplicationController
+  def index
+    @meal_plans = MealPlan.all.order(created_at: :desc)
+  end 
+
+  def show
+    @meal_plan = MealPlan.find(params[:id])
+    recipe_ids_array = @meal_plan.recipes.pluck(:id)
+    formatted_recipe_ids = recipe_ids_array * ","
+    @aggregate_nutrient_intake = MealPlan.nutrient_intake(formatted_recipe_ids)      
+    @groups = NutrientGroup.all.order(:name)
+  end 
+  
   def new 
     @consumers = Consumer.all.order(:name)
     @recipes = Recipe.all.order(:name)
@@ -16,11 +28,13 @@ class MealPlansController < ApplicationController
       end 
     end 
     
-    render 'index'
+    if @meal_plan.save
+      render 'index'
+    end 
   end 
 
   private
   def meal_plan_params
-    params.require(:meal_plan).permit(:consumer_id, recipe_ids: [])
+    params.require(:meal_plan).permit(:id, :consumer_id, recipe_ids: [])
   end 
 end 
