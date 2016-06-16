@@ -1,10 +1,20 @@
-<ul>
-  <% @meal_plans.each do |meal_plan| %>
-    <li><%= link_to meal_plan.created_at, meal_plan_path(meal_plan) %> <%= meal_plan.consumer.name %></li>
-    <ul>
-      <% meal_plan.recipes.each do |recipe| %>
-        <li><%= recipe.name %></li>
-      <% end %>
-    </ul>
-  <% end %>
-</ul>
+<h1 class="page-header">Select meal plans to create grocery list</h1>
+<%= form_tag("/lists/new", method: "get") do %>
+  <ul>
+    <% @meal_plans.each do |meal_plan| %>
+      <li>
+        <%= check_box_tag('meal_plan_ids[]', meal_plan.id) %>
+        <%= label_tag('meal_plan_id[meal_plan.id]', (
+          link_to meal_plan.created_at, meal_plan_path(meal_plan)
+        )) %> 
+        <%= meal_plan.consumer.name %>
+      </li>
+      <ul>
+        <% meal_plan.recipes.each do |recipe| %>
+          <li><%= recipe.name %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </ul>
+  <%= submit_tag("Create List", class:"btn btn-primary") %>
+<% end %>
