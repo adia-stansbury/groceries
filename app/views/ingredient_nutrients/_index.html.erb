@@ -26,23 +26,22 @@
       </tr> 
     <% @aggregate_nutrient_intake.each do |record| %>
       <% if nutrient_ids.include?(record['id'].to_i) %> 
-            <tr>
-              <td><%= record['name'] %></td>
-              <td><%= record['amt_consumed'] %><%= record['amt_consumed_unit'] %></td>
-              <%  nutrient_name_symbol = record['name'].to_sym %>
-              <% if nutrient_target_hash.include?(nutrient_name_symbol) %>
-                <td>
-                  <%= nutrient_target_hash[nutrient_name_symbol][:amount][:Mick] * 7 %> 
-                  <%= nutrient_target_hash[nutrient_name_symbol][:unit] %>
-                </td>
-                <td>
-                  <%= nutrient_target_hash[nutrient_name_symbol][:amount][:Adia] * 7 %>
-                  <%= nutrient_target_hash[nutrient_name_symbol][:unit] %>
-                </td>
-              <% end %>
-            </tr>
-          </table>
+        <tr>
+          <td><%= record['name'] %></td>
+          <td><%= record['amt_consumed'] %><%= record['amt_consumed_unit'] %></td>
+          <%  nutrient_name_symbol = record['name'].to_sym %>
+          <% if nutrient_target_hash.include?(nutrient_name_symbol) %>
+            <td>
+              <%= nutrient_target_hash[nutrient_name_symbol][:amount][:Mick] * 7 %> 
+              <%= nutrient_target_hash[nutrient_name_symbol][:unit] %>
+            </td>
+            <td>
+              <%= nutrient_target_hash[nutrient_name_symbol][:amount][:Adia] * 7 %>
+              <%= nutrient_target_hash[nutrient_name_symbol][:unit] %>
+            </td>
+          <% end %>
+        </tr>
       <% end %>
-    <% end %>
-  </ul>
+    <% end %></table>
+  </div>
 <% end %>
