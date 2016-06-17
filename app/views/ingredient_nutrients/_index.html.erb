@@ -4,31 +4,28 @@
       <% group_name = group.name.parameterize %>
       <%= image_tag(
         "plus_sign.png", 
-        class: "plus-sign", 
-        class: "plus-sign-#{group_name}"
+        class: "plus-sign js-plus-sign-#{group_name}"
       ) %> 
       <%= image_tag(
         "minus_sign.png", 
-        class: "minus-sign",
-        class: "minus-sign-#{group_name}", 
+        class: "minus-sign js-minus-sign-#{group_name}", 
         style: "display:none"
       ) %> 
       <%= group.name %>
     </strong></li>
   </ul>
-  <ul class="list-group">
+  <div class="js-nutrient-info-<%= group_name %>" style="display:none">
     <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
     <% nutrient_target_hash = IngredientNutrient.nutrient_target_hash %>
+    <table class="table">
+      <tr>
+        <th>Name</th>
+        <th>Intake</th>
+        <th>Mick's Goal</th>
+        <th>Adia's Goal</th>
+      </tr> 
     <% @aggregate_nutrient_intake.each do |record| %>
       <% if nutrient_ids.include?(record['id'].to_i) %> 
-        <li class="nutrient-info-<%= group_name %> list-group-item" style="display:none">
-          <table>
-            <tr>
-              <th>Name</th>
-              <th>Intake</th>
-              <th>Mick's Weekly Target</th>
-              <th>Adia's Weekly Target</th>
-            </tr>
             <tr>
               <td><%= record['name'] %></td>
               <td><%= record['amt_consumed'] %><%= record['amt_consumed_unit'] %></td>
@@ -45,7 +42,6 @@
               <% end %>
             </tr>
           </table>
-        </li>
       <% end %>
     <% end %>
   </ul>
