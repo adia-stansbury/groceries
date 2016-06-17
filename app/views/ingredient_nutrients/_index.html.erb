@@ -18,6 +18,7 @@
   </ul>
   <ul class="list-group">
     <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
+    <% nutrient_target_hash = IngredientNutrient.nutrient_target_hash %>
     <table>
       <tr>
         <th>Name</th>
@@ -30,7 +31,8 @@
           <tr>
             <td><%= record['name'] %></td>
             <td><%= record['amt_consumed'] %> <%= record['amt_consumed_unit'] %></td>
-            <td>Target Amt not yet Calculated</td>
+            <td><%= nutrient_target_hash[record['name']['Mick']['unit'] %></td>
+            <td><%= nutrient_target_hash[record['name']['Adia']['unit'] %></td>
           </tr>
         </li>
       <% end %>
