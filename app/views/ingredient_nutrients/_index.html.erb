@@ -18,12 +18,23 @@
   </ul>
   <ul class="list-group">
     <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Intake</th>
+        <th>Target</th>
+      </tr>
     <% @aggregate_nutrient_intake.each do |record| %>
       <% if nutrient_ids.include?(record['id'].to_i) %> 
         <li class="nutrient-info-<%= group_name %> list-group-item" style="display:none">
-          <%= record['name'] %> <%= record['amt_consumed'] %> <%= record['amt_consumed_unit'] %>  
+          <tr>
+            <td><%= record['name'] %></td>
+            <td><%= record['amt_consumed'] %> <%= record['amt_consumed_unit'] %></td>
+            <td>Target Amt not yet Calculated</td>
+          </tr>
         </li>
       <% end %>
+      </table>
     <% end %>
-    </ul>
+  </ul>
 <% end %>
