@@ -19,24 +19,34 @@
   <ul class="list-group">
     <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
     <% nutrient_target_hash = IngredientNutrient.nutrient_target_hash %>
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Intake</th>
-        <th>Target</th>
-      </tr>
     <% @aggregate_nutrient_intake.each do |record| %>
       <% if nutrient_ids.include?(record['id'].to_i) %> 
         <li class="nutrient-info-<%= group_name %> list-group-item" style="display:none">
-          <tr>
-            <td><%= record['name'] %></td>
-            <td><%= record['amt_consumed'] %> <%= record['amt_consumed_unit'] %></td>
-            <td><%= nutrient_target_hash[record['name']['Mick']['unit'] %></td>
-            <td><%= nutrient_target_hash[record['name']['Adia']['unit'] %></td>
-          </tr>
+          <table>
+            <tr>
+              <th>Name</th>
+              <th>Intake</th>
+              <th>Mick's Target</th>
+              <th>Adia's Target</th>
+            </tr>
+            <tr>
+              <td><%= record['name'] %></td>
+              <td><%= record['amt_consumed'] %><%= record['amt_consumed_unit'] %></td>
+              <%  nutrient_name_symbol = record['name'].to_sym %>
+              <% if nutrient_target_hash.include?(nutrient_name_symbol) %>
+                <td>
+                  <%= nutrient_target_hash[nutrient_name_symbol][:Mick] %> 
+                  <%= nutrient_target_hash[nutrient_name_symbol][:unit] %>
+                </td>
+                <td>
+                  <%= nutrient_target_hash[nutrient_name_symbol][:Adia] %>
+                  <%= nutrient_target_hash[nutrient_name_symbol][:unit] %>
+                </td>
+              <% end %>
+            </tr>
+          </table>
         </li>
       <% end %>
-      </table>
     <% end %>
   </ul>
 <% end %>
