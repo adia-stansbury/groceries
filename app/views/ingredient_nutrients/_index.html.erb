@@ -35,11 +35,11 @@
               <%  nutrient_name_symbol = record['name'].to_sym %>
               <% if nutrient_target_hash.include?(nutrient_name_symbol) %>
                 <td>
-                  <%= nutrient_target_hash[nutrient_name_symbol][:week][:Mick] %> 
+                  <%= nutrient_target_hash[nutrient_name_symbol][:amount][:Mick] * 7 %> 
                   <%= nutrient_target_hash[nutrient_name_symbol][:unit] %>
                 </td>
                 <td>
-                  <%= nutrient_target_hash[nutrient_name_symbol][:week][:Adia] * 7 %>
+                  <%= nutrient_target_hash[nutrient_name_symbol][:amount][:Adia] * 7 %>
                   <%= nutrient_target_hash[nutrient_name_symbol][:unit] %>
                 </td>
               <% end %>
