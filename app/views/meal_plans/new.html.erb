@@ -8,6 +8,10 @@
       class:"form-control"
     )
   ) %>
-  <%= f.collection_check_boxes(:recipe_ids, @recipes, :id, :name) %>
+  <ul class="list-group">
+    <li class="list-group">
+      <%= f.collection_check_boxes(:recipe_ids, @recipes, :id, :name) %>
+    </li>
+  </ul>
   <%= f.submit("Create Meal Plan", class:"btn btn-primary") %>
 </form><% end %>
