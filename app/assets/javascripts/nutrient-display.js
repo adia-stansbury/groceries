@@ -1,15 +1,15 @@
 $( document ).ready(function() {
   var groups = ["amino-acids", "lipids", "minerals", "proximates", "vitamins"];
   $.each(groups, function( index, group ) {
-    $( ".plus-sign-" + group).click(function() {
-      $( ".plus-sign-" + group).hide();
-      $( ".minus-sign-" + group).show();
-      $( ".nutrient-info-" + group).show();
+    $( ".js-plus-sign-" + group).click(function() {
+      $( ".js-plus-sign-" + group).hide();
+      $( ".js-minus-sign-" + group).show();
+      $( ".js-nutrient-info-" + group).show();
     });
-    $( ".minus-sign-" + group).click(function() {
-      $( ".minus-sign-" + group).hide();
-      $( ".plus-sign-" + group).show();
-      $( ".nutrient-info-" + group).hide();
+    $( ".js-minus-sign-" + group).click(function() {
+      $( ".js-minus-sign-" + group).hide();
+      $( ".js-plus-sign-" + group).show();
+      $( ".js-nutrient-info-" + group).hide();
     });
   });
 });

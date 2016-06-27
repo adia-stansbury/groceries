@@ -1,4 +1,6 @@
 class IngredientNutrient < ActiveRecord::Base
+  include NutrientTargets
+
   belongs_to :ingredient
   belongs_to :nutrient
 
