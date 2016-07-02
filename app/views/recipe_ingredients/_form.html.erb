@@ -2,15 +2,32 @@
   <form class="form-inline">
     <div class="form-group">
       <%= f.label(:ingredient_id) %>
-      <%= f.collection_select(:ingredient_id, @ingredients, :id, :name, 
-                              class:"form-control") %>
+      <%= f.collection_select(
+        :ingredient_id, 
+        @ingredients, 
+        :id, 
+        :name, 
+        class:"form-control"
+      ) %>
     </div>
-    <% [:quantity, :unit, :amount_in_grams].each do |attribute| %>
-      <div class="form-group">
-        <%= f.label(attribute) %>
-        <%= f.text_field(attribute, class:"form-control") %>
-      </div>
-    <% end %>
+    <div class="form-group">
+      <%= f.label(:quantity) %>
+      <%= f.text_field(:quantity, class:"form-control") %>
+    </div>
+    <div class="form-group">
+      <%= f.label(:unit_id) %>
+      <%= f.collection_select(
+        :unit_id, 
+        @units, 
+        :id, 
+        :name, 
+        class:"form-control"
+      ) %>
+    </div>
+    <div class="form-group">
+      <%= f.label(:amount_in_grams) %>
+      <%= f.text_field(:amount_in_grams, class:"form-control") %>
+    </div>
     <%= f.submit(class:"btn btn-primary") %>
   </form>
 <% end %>

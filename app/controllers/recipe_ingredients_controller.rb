@@ -7,6 +7,7 @@ class RecipeIngredientsController < ApplicationController
   
   def edit
     @recipe_ingredient = RecipeIngredient.find(params[:id])
+    @units = Unit.all.order(:name)
   end 
 
   def update
@@ -32,6 +33,7 @@ class RecipeIngredientsController < ApplicationController
         :amount_in_grams,
         :ingredient_id, 
         :quantity,
+        :unit_id,
         :unit
       )
     end 

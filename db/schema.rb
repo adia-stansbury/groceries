@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160615012153) do
+ActiveRecord::Schema.define(version: 20160702031834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20160615012153) do
     t.string  "unit"
     t.float   "quantity"
     t.float   "amount_in_grams", default: 0.0, null: false
+    t.integer "unit_id"
   end
 
   create_table "recipes", force: :cascade do |t|
@@ -84,6 +85,10 @@ ActiveRecord::Schema.define(version: 20160615012153) do
   end
 
   add_index "recipes", ["name"], name: "recipes_name_key", unique: true, using: :btree
+
+  create_table "units", force: :cascade do |t|
+    t.string "name"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -108,4 +113,5 @@ ActiveRecord::Schema.define(version: 20160615012153) do
   add_foreign_key "ingredients", "locations", name: "ingredients_location_id_fkey"
   add_foreign_key "recipe_ingredients", "ingredients", name: "recipe_ingredients_ingredient_id_fkey"
   add_foreign_key "recipe_ingredients", "recipes", name: "recipe_ingredients_recipe_id_fkey"
+  add_foreign_key "recipe_ingredients", "units"
 end
