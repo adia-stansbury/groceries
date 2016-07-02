@@ -24,6 +24,7 @@ class RecipesController < ApplicationController
   def create
     @recipe = Recipe.new(recipe_params)
     @ingredients = Ingredient.all.order(:name)
+    @units = Unit.all.order(:name)
     @recipe_ingredients = @recipe.recipe_ingredients.includes(
       :ingredient).order('ingredients.name')
 
