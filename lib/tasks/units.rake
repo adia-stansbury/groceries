@@ -51,4 +51,27 @@ namespace :units do
       end 
     end 
   end 
+  desc 'prod db unit values imported to unit_id'
+  task import_unit_values: :environment do
+    RecipeIngredient.all.each do |record|
+      unit = record[:unit]
+      if unit == 'each' || unit == 'hen' || unit == 'large' || unit == ' egg'
+        record.unit_id = 23
+        record.save
+        next
+      end 
+      case unit
+      when 'cups '
+        unit = 'cup'
+      when 'leaves'
+        unit = 'bunch'
+      when 'box'
+        unit = 'container'
+      end 
+      if Unit.all.pluck(:name).include?(unit)
+        record.unit_id = Unit.where(name: unit).first.id
+        record.save
+      end 
+    end 
+  end 
 end
