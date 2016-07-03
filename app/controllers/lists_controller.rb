@@ -3,21 +3,21 @@ require 'evernote-thrift'
 
 class ListsController < ApplicationController
   def new
-    def get_recipe_ids_array
+    def get_ids_array
       if params['recipe_ids'].present?
         return params['recipe_ids']
       else
-       MealPlanRecipe.where(meal_plan_id: params['meal_plan_ids']).pluck('recipe_id')
+       params['meal_plan_ids']
       end 
     end 
 
-    def sql_recipe_ids
-      recipe_ids = get_recipe_ids_array
-      recipe_ids * ","
+    def sql_ids
+      ids = get_ids_array
+      ids * ","
     end 
 
     @groups = NutrientGroup.all.order(:name)
-    @aggregate_nutrient_intake = List.nutrient_intake(sql_recipe_ids)
+    @aggregate_nutrient_intake = List.nutrient_intake(sql_ids)
     note_title = 'Grocery List'
     note_notebook = 'Cooking'
     db_name = 'recipes'
@@ -95,7 +95,9 @@ class ListsController < ApplicationController
         ON ingredients.location_id = locations.id
         JOIN units
         ON recipe_ingredients.unit_id = units.id
-        WHERE recipe_ingredients.recipe_id IN (#{sql_recipe_ids})
+        JOIN meal_plan_recipes
+        ON recipe_ingredients.recipe_id = meal_plan_recipes.recipe_id
+        WHERE meal_plan_recipes.meal_plan_id IN (#{sql_ids})
         GROUP BY locations.ordering, ingredients.name, units.name
         ORDER BY locations.ordering
       "
