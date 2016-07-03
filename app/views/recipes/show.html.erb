@@ -1,6 +1,6 @@
 <div class="page-header">
   <h1 class="text-center">
-    <%= @recipe.name %> 
+    <%= @recipe.name %> (<%= @recipe.number_of_servings %> Servings)
     <small> 
       <%= link_to 'Edit', edit_recipe_path(@recipe) %>
       <%= link_to(
