@@ -33,8 +33,7 @@ class RecipeIngredientsController < ApplicationController
         :amount_in_grams,
         :ingredient_id, 
         :quantity,
-        :unit_id,
-        :unit
+        :unit_id
       )
     end 
 end 

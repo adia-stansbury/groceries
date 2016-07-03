@@ -1,2 +1,10 @@
-<h2 class="text-center">Total nutrients for the week</h2>
+<h3 class="text-center">Meal Plan's Recipes</h3>
+<ul class="list-group">
+  <% @meal_plan.recipes.each do |recipe| %>
+    <li class="list-group"><%= recipe.name %></li>
+  <% end %>
+</ul>
+<h3 class="text-center">Add Recipes</h3>
+<%= render 'meal_plan_recipes/form' %>
+<h3 class="text-center">Total amount of nutrients for this meal plan</h3>
 <%= render 'ingredient_nutrients/index' %>
