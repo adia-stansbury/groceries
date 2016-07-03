@@ -87,17 +87,19 @@ class ListsController < ApplicationController
     end
 
     results = RecipeIngredient.connection.select_all(
-      "SELECT SUM(quantity) AS total_quantity, unit, ingredients.name
+      "SELECT SUM(quantity) AS total_quantity, units.name AS unit, ingredients.name
         FROM recipe_ingredients
         JOIN ingredients 
         ON recipe_ingredients.ingredient_id = ingredients.id
         JOIN locations
         ON ingredients.location_id = locations.id
+        JOIN units
+        ON recipe_ingredients.unit_id = units.id
         WHERE recipe_ingredients.recipe_id IN (#{sql_recipe_ids})
-        GROUP BY locations.ordering, ingredients.name, unit
+        GROUP BY locations.ordering, ingredients.name, units.name
         ORDER BY locations.ordering
       "
-    ) 
+    )
 
     note_store = create_note_store(auth_token, evernote_host)
     note_notebook_guid = create_note_notebook_guid(note_notebook, auth_token, note_store)
