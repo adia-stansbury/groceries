@@ -1,0 +1,17 @@
+<%= form_for ([@meal_plan, @meal_plan.meal_plan_recipes.build]) do |f| %>
+  <form class="form-inline">
+    <ul class="list-group">
+      <% @recipes.each do |recipe| %>
+        <li class="list-group">
+          <%= check_box_tag 'recipe_id[]', recipe.id %>
+          <%= label_tag recipe.name %>
+          <%= f.label :number_of_recipes %>
+          <%= f.number_field :number_of_recipes %>
+          <% label_tag :number_of_recipes, (link_to recipe.name, recipe_path(recipe)) %>
+          <% number_field_tag('number_of_recipes[recipe.id]', :number_of_recipes) %>
+        </li>
+      <% end %>
+    </ul>
+    <%= f.submit('Add Recipes', class:"btn btn-primary") %>
+  </form> 
+<% end %>
