@@ -9,8 +9,10 @@ Rails.application.routes.draw do
   resources :ingredients 
   resources :locations 
   resources :consumers
-  resources :meal_plan_recipes
-  resources :meal_plans, only: [:index, :show, :new, :create]
+  resources :meal_plan_recipes, only: [:edit, :update, :destroy]
+  resources :meal_plans, only: [:index, :show, :new, :create] do
+    resources :meal_plan_recipes, only: :create
+  end 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
