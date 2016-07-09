@@ -6,10 +6,12 @@ class MealPlansController < ApplicationController
   def show
     @meal_plan = MealPlan.find(params[:id])
     @recipes = Recipe.all.order(:name)
-    recipe_ids_array = @meal_plan.recipes.pluck(:id)
-    formatted_recipe_ids = recipe_ids_array * ","
-    @aggregate_nutrient_intake = MealPlan.nutrient_intake(formatted_recipe_ids)      
-    @groups = NutrientGroup.all.order(:name)
+    if @meal_plan.recipes.present?
+      recipe_ids_array = @meal_plan.recipes.pluck(:id)
+      formatted_recipe_ids = recipe_ids_array * ","
+      @aggregate_nutrient_intake = MealPlan.nutrient_intake(formatted_recipe_ids)      
+      @groups = NutrientGroup.all.order(:name)
+    end 
   end 
   
   def new 

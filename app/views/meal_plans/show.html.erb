@@ -1,12 +1,16 @@
 <h3 class="text-center">Meal Plan's Recipes</h3>
-<ul class="list-group">
-  <% @meal_plan.recipes.each do |recipe| %>
-    <li class="list-group">
-      <%= recipe.name %> (<%= recipe.number_of_servings %> Servings)
-    </li>
-  <% end %>
-</ul>
+<% if @meal_plan.recipes.present? %>
+  <ul class="list-group">
+    <% @meal_plan.recipes.each do |recipe| %>
+      <li class="list-group">
+        <%= recipe.name %> (<%= recipe.number_of_servings %> Servings)
+      </li>
+    <% end %>
+  </ul>
+<% end %>
 <h3 class="text-center">Add Recipes</h3>
 <%= render 'meal_plan_recipes/form' %>
-<h3 class="text-center">Total amount of nutrients for this meal plan</h3>
-<%= render 'ingredient_nutrients/index' %>
+<% if @meal_plan.recipes.present? %>
+  <h3 class="text-center">Total amount of nutrients for this meal plan</h3>
+  <%= render 'ingredient_nutrients/index' %>
+<% end %>
