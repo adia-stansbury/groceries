@@ -1,7 +1,7 @@
 <ul class="list-group">
   <% @recipe_ingredients.each do |row| %>
     <li class="list-group-item">
-    <%= row.quantity %> <%= row.unit.name %> (<%= row.amount_in_grams %>)
+    <%= row.quantity %> <%= row.unit.name %> (<%= row.amount_in_grams %> grams) (Ndbno: <%= row.ingredient.ndbno %>)
     <%= link_to row.ingredient.name, ingredient_path(row.ingredient.id) %> 
       <%= link_to 'Edit', edit_recipe_ingredient_path(row.id) %> 
       <%= link_to(
