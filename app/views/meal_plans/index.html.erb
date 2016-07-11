@@ -11,7 +11,7 @@
       </li>
       <ul>
         <% meal_plan.recipes.each do |recipe| %>
-          <li><%= recipe.name %> (<%= recipe.number_of_servings %> Servings)</li>
+          <li><%= link_to recipe.name, recipe_path(recipe) %> (<%= recipe.number_of_servings %> Servings)</li>
         <% end %>
       </ul>
     <% end %>
