@@ -1,4 +1,4 @@
-<h1 class="page-header">Select meal plans to create grocery list</h1>
+<h1 class="page-header">Check a meal plan's checkbox to add to grocery list. Click on meal plan to add recipes and view nutrient information</h1>
 <%= form_tag("/lists/new", method: "get") do %>
   <ul>
     <% @meal_plans.each do |meal_plan| %>
