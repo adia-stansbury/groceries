@@ -1,21 +1,19 @@
-<div class="page-header">
-  <h1 class="text-center">
-    <%= @recipe.name %> (<%= @recipe.number_of_servings %> Servings)
-    <small> 
-      <%= link_to 'Edit', edit_recipe_path(@recipe) %>
-      <%= link_to(
-        'Delete', 
-        recipe_path(@recipe), 
-        method: :delete, 
-        data: { confirm: 'Are you sure?' } 
-      )%>
-    </small>
-  </h1>
-</div> 
+<h2 class="page-header text-center">
+  <%= @recipe.name %> (<%= @recipe.number_of_servings %> Servings)
+  <small> 
+    <%= link_to 'Edit', edit_recipe_path(@recipe) %>
+    <%= link_to(
+      'Delete', 
+      recipe_path(@recipe), 
+      method: :delete, 
+      data: { confirm: 'Are you sure?' } 
+    )%>
+  </small>
+</h2>
 <h3>Recipe's Ingredients:</h3>
 <%= render 'recipe_ingredients/recipe_ingredient' %>
-<h3 class="text-center">Add ingredients</h3>
+<h3>Add ingredients</h3>
 <%= render 'recipe_ingredients/form' %>
-<h3 class="text-center">Total amount of nutrients for this recipe</h3>
+<h3>Total amount of nutrients for this recipe</h3>
 <%= render 'ingredient_nutrients/index' %>
 
