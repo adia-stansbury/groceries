@@ -22,6 +22,7 @@ class MealPlansController < ApplicationController
 
   def create
     @meal_plan = MealPlan.new(meal_plan_params)     
+    @recipes = Recipe.all.order(:name)
     
     if @meal_plan.save
       render 'show'
