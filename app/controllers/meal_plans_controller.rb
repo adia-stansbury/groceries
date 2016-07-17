@@ -6,6 +6,8 @@ class MealPlansController < ApplicationController
   def show
     @meal_plan = MealPlan.find(params[:id])
     @recipes = Recipe.all.order(:name)
+    @consumer = @meal_plan.consumer.name 
+    @week = @meal_plan.created_at
     if @meal_plan.recipes.present?
       recipe_ids_array = @meal_plan.recipes.pluck(:id)
       formatted_recipe_ids = recipe_ids_array * ","
