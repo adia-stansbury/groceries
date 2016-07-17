@@ -12,19 +12,14 @@ class RecipeIngredientsController < ApplicationController
 
   def update
     @recipe_ingredient = RecipeIngredient.find(params[:id])
-
-    if @recipe_ingredient.update(recipe_ingredient_params)
-      redirect_to '/recipes'
-    else
-      render 'edit'
-    end 
+    @recipe_ingredient.update(recipe_ingredient_params)
+    redirect_to recipe_path(@recipe_ingredient.recipe.id)
   end 
 
   def destroy
     @recipe_ingredient = RecipeIngredient.find(params[:id])
     @recipe_ingredient.destroy
-
-    redirect_to recipes_path
+    redirect_to recipe_path(@recipe_ingredient.recipe.id)
   end 
   
   private
