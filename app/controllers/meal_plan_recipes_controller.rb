@@ -2,7 +2,12 @@ class MealPlanRecipesController < ApplicationController
   def create
     @recipes = Recipe.all.order(:name)
     @meal_plan = MealPlan.find(params[:meal_plan_id])
-    @meal_plan_recipe = @meal_plan.meal_plan_recipes.create(meal_plan_recipe_params)
+    params[:meal_plan_recipe][:number_of_recipes].to_i.times do
+      @meal_plan.meal_plan_recipes.create(
+        recipe_id: params[:meal_plan_recipe][:recipe_id],
+        number_of_recipes: 1
+      )
+    end 
     redirect_to meal_plan_path(@meal_plan)
   end 
 
