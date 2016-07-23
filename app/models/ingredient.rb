@@ -3,6 +3,7 @@ class Ingredient < ActiveRecord::Base
   has_many :recipes, through: :recipe_ingredients
   has_many :ingredient_nutrients, dependent: :destroy
   belongs_to :location
+  belongs_to :food_source
 
   validates :name, uniqueness: true, presence: true
   validates :location_id, presence: true

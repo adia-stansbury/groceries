@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160703233727) do
+ActiveRecord::Schema.define(version: 20160723145351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,10 @@ ActiveRecord::Schema.define(version: 20160703233727) do
     t.string "name"
   end
 
+  create_table "food_sources", force: :cascade do |t|
+    t.string "name", null: false
+  end
+
   create_table "ingredient_nutrients", force: :cascade do |t|
     t.float   "value",         null: false
     t.string  "unit",          null: false
@@ -36,9 +40,10 @@ ActiveRecord::Schema.define(version: 20160703233727) do
   add_index "ingredient_nutrients", ["nutrient_id"], name: "index_ingredient_nutrients_on_nutrient_id", using: :btree
 
   create_table "ingredients", force: :cascade do |t|
-    t.string  "name",        limit: 1000, null: false
+    t.string  "name",           limit: 1000, null: false
     t.integer "location_id"
     t.string  "ndbno"
+    t.integer "food_source_id"
   end
 
   add_index "ingredients", ["name"], name: "ingredients_name_key", unique: true, using: :btree
@@ -111,6 +116,7 @@ ActiveRecord::Schema.define(version: 20160703233727) do
 
   add_foreign_key "ingredient_nutrients", "ingredients"
   add_foreign_key "ingredient_nutrients", "nutrients"
+  add_foreign_key "ingredients", "food_sources"
   add_foreign_key "ingredients", "locations", name: "ingredients_location_id_fkey"
   add_foreign_key "recipe_ingredients", "ingredients", name: "recipe_ingredients_ingredient_id_fkey"
   add_foreign_key "recipe_ingredients", "recipes", name: "recipe_ingredients_recipe_id_fkey"
