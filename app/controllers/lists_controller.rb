@@ -19,7 +19,7 @@ class ListsController < ApplicationController
     @groups = NutrientGroup.all.order(:name)
     @aggregate_nutrient_intake = List.nutrient_intake(sql_ids)
     note_title = 'Grocery List'
-    note_notebook = 'Cooking'
+    note_notebook = 'Shopping List'
     db_name = 'recipes'
     #auth_token = ENV['SANDBOX_AUTH_TOKEN']
     auth_token = ENV['PROD_AUTH_TOKEN']
