@@ -4,7 +4,9 @@
     <% @meal_plan.meal_plan_recipes.each do |mpr| %>
       <% if mpr.recipe.present? %>
         <li class="list-group">
-          <%= mpr.try(:number_of_recipes) %> <%= mpr.recipe.name %> (<%= mpr.recipe.try(:number_of_servings) %> Servings)
+          <%= mpr.try(:number_of_recipes) %> 
+          <%= link_to mpr.recipe.name, recipe_path(mpr.recipe.id) %> 
+          (<%= mpr.recipe.try(:number_of_servings) %> Servings)
         </li>
       <% end %>
     <% end %>
