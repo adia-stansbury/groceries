@@ -1,13 +1,6 @@
-<h1 class="page-header">Select recipes to create grocery list</h1>
-<%= form_tag("/lists/new", method: "get") do %>
-  <ul class="list-group">
-    <% @recipes.each do |recipe| %>
-      <li class="list-group">
-        <%= check_box_tag('recipe_ids[]', recipe.id) %>
-        <%= label_tag('recipe_id[recipe.id]', (link_to recipe.name, recipe_path(recipe))) %>
-      </li>
-    <% end %>
-  </ul>
-  <%= submit_tag("Create List", class:"btn btn-primary") %>
-<% end %>
-
+<h1 class="page-header">Select recipe to add ingredients</h1>
+<ul class="list-group">
+  <% @recipes.each do |recipe| %>
+    <li class="list-group"><%= link_to recipe.name, recipe_path(recipe) %></li>
+  <% end %>
+</ul>
