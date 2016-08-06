@@ -3,16 +3,8 @@ require 'evernote-thrift'
 
 class ListsController < ApplicationController
   def new
-    def get_ids_array
-      if params['recipe_ids'].present?
-        return params['recipe_ids']
-      else
-       params['meal_plan_ids']
-      end 
-    end 
-
     def sql_ids
-      ids = get_ids_array
+      ids = params['meal_plan_ids']
       ids * ","
     end 
 
