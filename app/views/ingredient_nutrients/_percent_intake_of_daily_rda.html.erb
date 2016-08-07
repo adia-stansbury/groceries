@@ -20,25 +20,29 @@
     <table class="table">
       <tr>
         <th>Name</th>
-        <th>Intake</th>
-        <th>Mick's Weekly RDA</th>
-        <th>Adia's Weekly RDA</th>
+        <th>% Mick's daily RDA</th>
+        <th>% Adia's daily RDA</th>
       </tr> 
     <% @aggregate_nutrient_intake.each do |record| %>
       <% if nutrient_ids.include?(record['id'].to_i) %> 
         <tr>
-          <td><%= record['name'] %></td>
-          <td><%= record['amt_consumed'] %> <%= record['amt_consumed_unit'] %></td>
           <%  nutrient_name_symbol = record['name'].to_sym %>
           <% if daily_rda_hash.include?(nutrient_name_symbol) %>
-            <td>
-              <%= daily_rda_hash[nutrient_name_symbol][:amount][:Mick] * 7 %> 
-              <%= daily_rda_hash[nutrient_name_symbol][:unit] %>
-            </td>
-            <td>
-              <%= daily_rda_hash[nutrient_name_symbol][:amount][:Adia] * 7 %>
-              <%= daily_rda_hash[nutrient_name_symbol][:unit] %>
-            </td>
+            <% if daily_rda_hash[nutrient_name_symbol][:amount][:Mick] != 0 %>
+              <td><%= record['name'] %></td>
+              <td>
+                <%= IngredientNutrient.percent_rda(
+                  record['amt_consumed'],  
+                  daily_rda_hash[nutrient_name_symbol][:amount][:Mick] 
+                ) %> 
+              </td>
+              <td>
+                <%= IngredientNutrient.percent_rda(
+                  record['amt_consumed'],  
+                  daily_rda_hash[nutrient_name_symbol][:amount][:Adia] 
+                ) %>
+              </td>
+            <% end %>
           <% end %>
         </tr>
       <% end %>

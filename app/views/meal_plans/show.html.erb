@@ -14,6 +14,8 @@
 <% end %>
 <%= render 'meal_plan_recipes/form' %>
 <% if @meal_plan.recipes.present? %>
-  <h3 class="text-center">Total amount of nutrients for this meal plan</h3>
+  <h3>Percent intake of weekly RDA</h3>
+  <%= render 'ingredient_nutrients/percent_intake_of_weekly_rda' %>
+  <h3>Nutrition Facts</h3>
   <%= render 'ingredient_nutrients/weekly_rda' %>
 <% end %>

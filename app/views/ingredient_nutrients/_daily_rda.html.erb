@@ -28,7 +28,7 @@
       <% if nutrient_ids.include?(record['id'].to_i) %> 
         <tr>
           <td><%= record['name'] %></td>
-          <td><%= record['amt_consumed'] %><%= record['amt_consumed_unit'] %></td>
+          <td><%= record['amt_consumed'] %> <%= record['amt_consumed_unit'] %></td>
           <%  nutrient_name_symbol = record['name'].to_sym %>
           <% if daily_rda_hash.include?(nutrient_name_symbol) %>
             <td>
