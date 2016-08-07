@@ -16,13 +16,13 @@
   </ul>
   <div class="js-nutrient-info-<%= group_name %>" style="display:none">
     <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
-    <% nutrient_target_hash = IngredientNutrient.nutrient_target_hash %>
+    <% daily_rda_hash = IngredientNutrient.daily_rda_hash %>
     <table class="table">
       <tr>
         <th>Name</th>
         <th>Intake</th>
-        <th>Mick's Weekly Goal</th>
-        <th>Adia's Weekly Goal</th>
+        <th>Mick's Daily RDA</th>
+        <th>Adia's Daily RDA</th>
       </tr> 
     <% @aggregate_nutrient_intake.each do |record| %>
       <% if nutrient_ids.include?(record['id'].to_i) %> 
@@ -30,14 +30,14 @@
           <td><%= record['name'] %></td>
           <td><%= record['amt_consumed'] %><%= record['amt_consumed_unit'] %></td>
           <%  nutrient_name_symbol = record['name'].to_sym %>
-          <% if nutrient_target_hash.include?(nutrient_name_symbol) %>
+          <% if daily_rda_hash.include?(nutrient_name_symbol) %>
             <td>
-              <%= nutrient_target_hash[nutrient_name_symbol][:amount][:Mick] * 7 %> 
-              <%= nutrient_target_hash[nutrient_name_symbol][:unit] %>
+              <%= daily_rda_hash[nutrient_name_symbol][:amount][:Mick] %> 
+              <%= daily_rda_hash[nutrient_name_symbol][:unit] %>
             </td>
             <td>
-              <%= nutrient_target_hash[nutrient_name_symbol][:amount][:Adia] * 7 %>
-              <%= nutrient_target_hash[nutrient_name_symbol][:unit] %>
+              <%= daily_rda_hash[nutrient_name_symbol][:amount][:Adia] %>
+              <%= daily_rda_hash[nutrient_name_symbol][:unit] %>
             </td>
           <% end %>
         </tr>

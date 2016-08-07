@@ -15,5 +15,5 @@
 <%= render 'meal_plan_recipes/form' %>
 <% if @meal_plan.recipes.present? %>
   <h3 class="text-center">Total amount of nutrients for this meal plan</h3>
-  <%= render 'ingredient_nutrients/index' %>
+  <%= render 'ingredient_nutrients/weekly_rda' %>
 <% end %>

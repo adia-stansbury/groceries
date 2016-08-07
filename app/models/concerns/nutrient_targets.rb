@@ -5,7 +5,7 @@ module NutrientTargets
     ADIA_WEIGHT_LBS = 122
     MICK_WEIGHT_LBS = 201
 
-    def nutrient_target_hash
+    def daily_rda_hash
       {
         'Calcium, Ca': create_goal_hash('mg', 1000, 1000),
         'Copper, Cu': create_goal_hash('ug', 900, 900),
@@ -18,7 +18,11 @@ module NutrientTargets
         'Sodium, Na': create_goal_hash('g', 1.5, 1.5),
         'Zinc, Zn': create_goal_hash('mg', 11, 8),
         'Fiber, total dietary': create_goal_hash('g', 38, 25),
-        'Protein': create_goal_hash('g', 56, 46),
+        'Protein': create_goal_hash(
+          'g',
+          adjust_RDA_for_weight(MICK_WEIGHT_LBS, 0.8),
+          adjust_RDA_for_weight(ADIA_WEIGHT_LBS, 0.8)
+        ),
         'Alanine': create_goal_hash('no RDA', '', ''),
         'Arginine': create_goal_hash('no RDA', '', ''),
         'Aspartic acid': create_goal_hash('no RDA', '', ''),
