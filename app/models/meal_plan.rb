@@ -1,5 +1,5 @@
 class MealPlan < ActiveRecord::Base
-  include NutrientIntake
+  include GroupedRecipes
 
   has_many :meal_plan_recipes, dependent: :destroy
   has_many :recipes, through: :meal_plan_recipes
