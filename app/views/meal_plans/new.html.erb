@@ -1,2 +1,11 @@
 <h2 class="page-header text-center">Create MealPlan</h2>
 <%= render partial: 'form' %>
+<%= button_to 'Generate Template Meal Plans', 
+  { 
+    controller: :generate_template_meal_plans,
+    action: 'new' 
+  },
+ method: :get 
+%>
+
+

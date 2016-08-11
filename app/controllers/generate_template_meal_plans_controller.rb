@@ -1,6 +1,5 @@
-namespace :meal_plan do
-  desc "create template meal plans for Mick and Adia" 
-  task generate_template: :environment do
+class GenerateTemplateMealPlansController < ApplicationController
+  def new
     adia_meal_plan = MealPlan.create(consumer_id: 1)
     mick_meal_plan = MealPlan.create(consumer_id: 4)
     MealPlanRecipe.create(
