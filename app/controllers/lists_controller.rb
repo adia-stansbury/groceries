@@ -8,8 +8,6 @@ class ListsController < ApplicationController
       ids * ","
     end 
 
-    @groups = NutrientGroup.all.order(:name)
-    @aggregate_nutrient_intake = List.nutrient_intake(sql_ids)
     note_title = 'Grocery List'
     note_notebook = 'Shopping List'
     db_name = 'recipes'
