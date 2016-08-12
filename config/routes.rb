@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     resources :meal_plan_recipes, only: :create
   end 
   resources :generate_template_meal_plans, only: :new
+  resources :google_calendar_generated_meal_plans, only: :new
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

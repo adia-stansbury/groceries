@@ -17,6 +17,7 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'pry', '~> 0.10.3'
 gem 'evernote-thrift'
 gem 'awesome_print', require:'ap'
+gem 'google-api-client'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

@@ -7,5 +7,12 @@
   },
  method: :get 
 %>
+<%= button_to 'Generate Meal Plans from Google Calendar', 
+  { 
+    controller: :google_calendar_generated_meal_plans,
+    action: 'new' 
+  },
+ method: :get 
+%>
 
 
