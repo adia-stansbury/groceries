@@ -1,4 +1,5 @@
-<h2 class="text-center"><%= @ingredient.name.capitalize! %></h2> 
+<h2 class="text-center"><%= @ingredient.name.capitalize! %></h2>
+<div class="text-center"> NDB Number: <%= @ingredient.try(:ndbno) %></div>
 <% if @ingredient.ndbno.present? %>
   <h6 class="text-center">Amount of nutrient per 100g</h6>
   <% @groups.each do |group| %>
@@ -30,10 +31,17 @@
     </ul>
   <% end %>
 <% end %>
-<%= link_to 'Edit', edit_ingredient_path(@ingredient) %>
-<%= link_to(
-  'Delete', 
-  ingredient_path(@ingredient), 
-  method: :delete, 
-  data: { confirm: 'Are you sure?' } 
-) %>
+<div class="text-center">
+  <%= link_to 'Edit', edit_ingredient_path(@ingredient) %>
+</div>
+<div class="text-center">
+  <%= link_to(
+    'Delete', 
+    ingredient_path(@ingredient), 
+    method: :delete, 
+    data: { confirm: 'Are you sure?' } 
+  ) %>
+</div>
+<div class="text-center">
+  <a href="https://ndb.nal.usda.gov/ndb/foods" target="_blank">Look up Ndbno</a>
+</div>
