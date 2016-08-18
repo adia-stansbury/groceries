@@ -9,7 +9,7 @@ module NutrientTargets
       {
         'Calcium, Ca': create_goal_hash('mg', 1000, 1000),
         'Copper, Cu': create_goal_hash('mg', 0.9, 0.9),
-        'Iron, Fe': create_goal_hash('mg', 8, 18),
+        'Iron, Fe': create_goal_hash('mg', 8, 10),
         'Magnesium, Mg': create_goal_hash('mg', 420, 310),
         'Manganese, Mn': create_goal_hash('mg', 2.3, 1.8),
         'Phosphorus, P': create_goal_hash('mg', 700, 700),

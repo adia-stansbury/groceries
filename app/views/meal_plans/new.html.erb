@@ -1,18 +1,34 @@
 <h2 class="page-header text-center">Create MealPlan</h2>
-<%= render partial: 'form' %>
-<%= button_to 'Generate Template Meal Plans', 
-  { 
-    controller: :generate_template_meal_plans,
-    action: 'new' 
-  },
- method: :get 
-%>
-<%= button_to 'Generate Meal Plans from Google Calendar', 
-  { 
-    controller: :google_calendar_generated_meal_plans,
-    action: 'new' 
-  },
- method: :get 
-%>
+<h4 class="text-center">There are three ways to create a meal plan:</h4>
+<div class="text-center">
+  Option 1, create an empty meal plan (has no recipes) and then manually add recipes to it.
+</div>
+<div class="text-center"><%= render partial: 'form' %></div>
+<div class="text-center">
+  Option 2, create a template meal plan for Mick and Adia. It includes standard recipes that we have every week.
+</div>
+<div class="text-center">
+  <%= button_to 'Generate Template Meal Plans', 
+    { 
+      controller: :generate_template_meal_plans,
+      action: 'new' 
+    },
+    method: :get,
+    class: "btn btn-primary" 
+  %>
+</div>
+<div class="text-center">
+  Option 3, create meal plans for Mick and Adia populated with recipes found in our Google Calendar and those found in template meal plan.
+</div>
+<div class="text-center">
+  <%= button_to 'Generate Meal Plans from Google Calendar', 
+    { 
+      controller: :google_calendar_generated_meal_plans,
+      action: 'new' 
+    },
+    method: :get,
+    class: "btn btn-primary" 
+  %>
+</div>
 
 

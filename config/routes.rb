@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'recipes#index'
+  root 'meal_plans#new'
   devise_for :users
   resources :lists
   resources :recipes do
