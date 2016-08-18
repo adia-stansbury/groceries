@@ -15,7 +15,6 @@ class ConsumersController < ApplicationController
 
   def new
     @consumer = Consumer.new
-    @recipes = Recipe.all.order(:name) 
   end 
 
   def create
