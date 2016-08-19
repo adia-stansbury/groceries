@@ -20,7 +20,7 @@
     crossorigin="anonymous"
   >
 </head>
-<body>
+<body id="adia-body">
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script 
     src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
@@ -74,7 +74,7 @@
               <li><a href="/consumers">Consumers</a></li>
               <li><a href="/consumers/new">Create consumer</a></li>
               <li><a href="/meal_plans">Meal plans</a></li>
-              <li><a href="/meal_plans/new">Assign meal plan to consumer</a></li>
+              <li><a href="/meal_plans/new">Create meal plan</a></li>
             </ul>
           </li>
         </ul>
@@ -83,11 +83,9 @@
   </nav>
 
   <%= yield %>
-    <div class="container-fluid">
 
   <%= javascript_include_tag 'application' %>
   <% require 'pry' %>
-  <%= yield :extra_footer %>
   <!-- 
   <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="container-fluid">

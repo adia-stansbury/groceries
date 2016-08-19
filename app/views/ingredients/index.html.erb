@@ -1,6 +1,8 @@
-<div class="page-header"><h1>Ingredients</h1></div>
-<ul class="list-group">
-  <% @ingredients.each do |ing| %>
-    <li class="list-group-item"><%= link_to ing.name.capitalize!, ingredient_path(ing) %></li>
-  <% end %>
-</ul>
+<div class="container-fluid">
+  <div class="page-header"><h3>Ingredients</h3></div>
+  <ul class="list-group">
+    <% @ingredients.each do |ing| %>
+      <li class="list-group-item"><%= link_to ing.name.capitalize!, ingredient_path(ing) %></li>
+    <% end %>
+  </ul>
+</div>

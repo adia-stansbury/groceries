@@ -1,6 +1,8 @@
-<h1 class="page-header">Select recipe to add ingredients</h1>
-<ul class="list-group">
-  <% @recipes.each do |recipe| %>
-    <li class="list-group"><%= link_to recipe.name, recipe_path(recipe) %></li>
-  <% end %>
-</ul>
+<div class="container-fluid">
+  <div class="page-header"><h3>Select recipe to add ingredients</h3></div>
+  <ul class="list-group">
+    <% @recipes.each do |recipe| %>
+      <li class="list-group-item"><%= link_to recipe.name, recipe_path(recipe) %></li>
+    <% end %>
+  </ul>
+</div>

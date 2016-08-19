@@ -1,6 +1,10 @@
-<h2 class="text-center">Consumers</h2>
-<ul>
-  <% @consumers.each do |consumer| %>
-    <li><%= link_to consumer.name, consumer_path(consumer) %></li>
-  <% end %>
-</ul>
+<div class="container-fluid">
+  <div class="page-header"><h3>Consumers</h3></div>
+  <ul class="list-group">
+    <% @consumers.each do |consumer| %>
+      <li class="list-group-item">
+        <%= link_to consumer.name, consumer_path(consumer) %>
+      </li>
+    <% end %>
+  </ul>
+</div>

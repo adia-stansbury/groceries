@@ -1,17 +1,9 @@
-<%= form_for @consumer do |f| %>
-  <form class="form-horizontal">
-    <% [:name].each do |attribute| %>
-      <div class="form-group">
-        <%= f.label(attribute, class:"col-sm-2 control-label") %>
-        <div class="col-sm-6">
-          <%= f.text_field(attribute, class:"form-control") %>
-        </div>
-      </div>
-    <% end %>
+<form>
+  <%= form_for @consumer do |f| %>
     <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-6">
-        <%= f.submit(class:"btn btn-primary") %>
-      </div>
+      <%= f.label(:name) %>
+      <%= f.text_field(:name, class:"form-control") %>
     </div>
-  </form>
-<% end %>
+    <%= f.submit(class:"btn btn-primary") %>
+  <% end %>
+</form>
