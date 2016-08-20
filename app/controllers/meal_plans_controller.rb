@@ -1,6 +1,6 @@
 class MealPlansController < ApplicationController
   def index
-    @meal_plans = MealPlan.all.order(created_at: :desc).limit(4)
+    @meal_plans = MealPlan.all.order(created_at: :desc).limit(2)
   end 
 
   def show

@@ -1,73 +1,71 @@
-<div class="container-fluid">
-  <div class="jumbotron">
-    <div class="page-header"><h3>Daily RDA Nutrient Report</h3></div>
-      <% @groups.each do |group| %>
-        <ul style="list-style-type:none">
-          <li><strong>
-            <% group_name = group.name.parameterize %>
-            <%= image_tag(
-              "plus_sign.png", 
-              class: "plus-sign js-plus-sign-#{group_name}"
-            ) %> 
-            <%= image_tag(
-              "minus_sign.png", 
-              class: "minus-sign js-minus-sign-#{group_name}", 
-              style: "display:none"
-            ) %> 
-            <%= group.name %>
-          </strong></li>
-        </ul>
-        <div class="js-nutrient-info-<%= group_name %>" style="display:none">
-          <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
-          <% daily_rda_hash = IngredientNutrient.daily_rda_hash %>
-          <table class="table">
+<div class="jumbotron">
+  <div class="page-header"><h3>Daily RDA Nutrient Report</h3></div>
+    <% @groups.each do |group| %>
+      <ul style="list-style-type:none">
+        <li><strong>
+          <% group_name = group.name.parameterize %>
+          <%= image_tag(
+            "plus_sign.png", 
+            class: "plus-sign js-plus-sign-#{group_name}"
+          ) %> 
+          <%= image_tag(
+            "minus_sign.png", 
+            class: "minus-sign js-minus-sign-#{group_name}", 
+            style: "display:none"
+          ) %> 
+          <%= group.name %>
+        </strong></li>
+      </ul>
+      <div class="js-nutrient-info-<%= group_name %>" style="display:none">
+        <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
+        <% daily_rda_hash = IngredientNutrient.daily_rda_hash %>
+        <table class="table">
+          <tr>
+            <th>Nutrient</th>
+            <th>Consumed</th>
+            <th>Mick's RDA</th>
+            <th>% Mick's</th>
+            <th>Adia's RDA</th>
+            <th>% Adia's</th>
+          </tr> 
+        <% @aggregate_nutrient_intake.each do |record| %>
+          <% if nutrient_ids.include?(record['id'].to_i) %> 
             <tr>
-              <th>Name</th>
-              <th>Consumed</th>
-              <th>Mick's RDA</th>
-              <th>% Mick's</th>
-              <th>Adia's RDA</th>
-              <th>% Adia's</th>
-            </tr> 
-          <% @aggregate_nutrient_intake.each do |record| %>
-            <% if nutrient_ids.include?(record['id'].to_i) %> 
-              <tr>
-                <td><%= record['name'] %></td>
-                <td><%= record['amt_consumed'].to_f.round(2) %> <%= record['amt_consumed_unit'] %></td>
-                <%  nutrient_name_symbol = record['name'].to_sym %>
-                <% if daily_rda_hash.include?(nutrient_name_symbol) %>
-                  <% if daily_rda_hash[nutrient_name_symbol][:amount][:Mick] != 0 %>
-                    <td>
-                      <%= daily_rda_hash[nutrient_name_symbol][:amount][:Mick].to_f.round(2) %> 
-                      <%= daily_rda_hash[nutrient_name_symbol][:unit] %>
-                    </td>
-                    <td>
-                      <%= IngredientNutrient.percent_rda(
-                        record['amt_consumed'],  
-                        daily_rda_hash[nutrient_name_symbol][:amount][:Mick] 
-                      ) %> 
-                    </td>
-                    <td>
-                      <%= daily_rda_hash[nutrient_name_symbol][:amount][:Adia].to_f.round(2) %>
-                      <%= daily_rda_hash[nutrient_name_symbol][:unit] %>
-                    </td>
-                    <td>
-                      <%= IngredientNutrient.percent_rda(
-                        record['amt_consumed'],  
-                        daily_rda_hash[nutrient_name_symbol][:amount][:Adia] 
-                      ) %>
-                    </td>
-                  <% else %>
-                    <% 4.times do %> 
-                      <td>No RDA</td>
-                    <% end %>
+              <td><%= record['name'] %></td>
+              <td><%= record['amt_consumed'].to_f.round(2) %> <%= record['amt_consumed_unit'] %></td>
+              <%  nutrient_name_symbol = record['name'].to_sym %>
+              <% if daily_rda_hash.include?(nutrient_name_symbol) %>
+                <% if daily_rda_hash[nutrient_name_symbol][:amount][:Adia] != 0 %>
+                  <td>
+                    <%= daily_rda_hash[nutrient_name_symbol][:amount][:Mick].to_f.round(2) %> 
+                    <%= daily_rda_hash[nutrient_name_symbol][:unit] %>
+                  </td>
+                  <td>
+                    <%= IngredientNutrient.percent_rda(
+                      record['amt_consumed'],  
+                      daily_rda_hash[nutrient_name_symbol][:amount][:Mick] 
+                    ) %> 
+                  </td>
+                  <td>
+                    <%= daily_rda_hash[nutrient_name_symbol][:amount][:Adia].to_f.round(2) %>
+                    <%= daily_rda_hash[nutrient_name_symbol][:unit] %>
+                  </td>
+                  <td>
+                    <%= IngredientNutrient.percent_rda(
+                      record['amt_consumed'],  
+                      daily_rda_hash[nutrient_name_symbol][:amount][:Adia] 
+                    ) %>
+                  </td>
+                <% else %>
+                  <% 4.times do %> 
+                    <td>No RDA</td>
                   <% end %>
                 <% end %>
-              </tr>
-            <% end %>
-          <% end %></table>
-        </div>
-      <% end %>
-    </div>
+              <% end %>
+            </tr>
+          <% end %>
+        <% end %></table>
+      </div>
+    <% end %>
   </div>
 </div>
