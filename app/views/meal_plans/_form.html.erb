@@ -3,9 +3,8 @@
   <%= f.select(:consumer_id, options_from_collection_for_select(
       @consumers, 
       'id', 
-      'name', 
-      class:"form-control"
+      'name' 
     )
   ) %>
   <%= f.submit("Create Meal Plan", class:"btn btn-success") %>
-</form><% end %>
+<% end %>

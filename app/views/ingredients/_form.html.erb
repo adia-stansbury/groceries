@@ -1,27 +1,29 @@
-<form>
+<div class="jumbotron">
   <%= form_for @ingredient do |f| %>
-    <div class="form-group">
-      <%= f.label(:name) %>
-      <%= f.text_field(:name, class:"form-control") %>
-    </div>
-    <div class="form-group">
-      <%= f.label(:ndbno, 'Nutrient Database Number (Ndbno)') %>
-<a href="https://ndb.nal.usda.gov/ndb/foods" target="_blank">Look up Ndbno</a>
-      <%= f.text_field(:name, class:"form-control") %>
-    </div>
-    <div class="form-group">
-      <%= f.label(:location_id) %>
-      <%= f.collection_select(:location_id, @locations, :id, :name, 
-                                  class:"form-control") %>
-    </div>
-    <label class="radio-inline">
-      <%= f.radio_button(:food_source_id, 2) %>
-      <%= f.label(:food_source_id_2, 'Plant') %>
-    </label>
-    <label class="radio-inline">
-      <%= f.radio_button(:food_source_id, 1) %>
-      <%= f.label(:food_source_id_1, 'Animal') %>
-    </label>
-    <div><%= f.submit(class:"btn btn-success") %></div>
+    <form>
+      <div class="form-group">
+        <%= f.label(:name) %>
+        <%= f.text_field(:name, class:"form-control") %>
+      </div>
+      <div class="form-group">
+        <%= f.label(:ndbno, 'Nutrient Database Number (Ndbno)') %>
+  <a href="https://ndb.nal.usda.gov/ndb/foods" target="_blank">Look up Ndbno</a>
+        <%= f.text_field(:ndbno, class:"form-control") %>
+      </div>
+      <div class="form-group">
+        <%= f.label(:location_id) %>
+        <%= f.collection_select(:location_id, @locations, :id, :name, 
+                                    class:"form-control") %>
+      </div>
+      <label class="radio-inline">
+        <%= f.radio_button(:food_source_id, 2) %>
+        <%= f.label(:food_source_id_2, 'Plant') %>
+      </label>
+      <label class="radio-inline">
+        <%= f.radio_button(:food_source_id, 1) %>
+        <%= f.label(:food_source_id_1, 'Animal') %>
+      </label>
+      <div><%= f.submit(class:"btn btn-success") %></div>
+    </form>
   <% end %>
-</form>
+</div>

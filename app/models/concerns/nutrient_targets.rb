@@ -9,7 +9,7 @@ module NutrientTargets
       {
         'Calcium, Ca': create_goal_hash('mg', 1000, 1000),
         'Copper, Cu': create_goal_hash('mg', 0.9, 0.9),
-        'Iron, Fe': create_goal_hash('mg', 8, 10),
+        'Iron, Fe': create_goal_hash('mg', 8, 10, 45),
         'Magnesium, Mg': create_goal_hash('mg', 420, 310),
         'Manganese, Mn': create_goal_hash('mg', 2.3, 1.8),
         'Phosphorus, P': create_goal_hash('mg', 700, 700),
@@ -112,8 +112,36 @@ module NutrientTargets
       }
     end 
 
+    def has_rda(nutrient_name_symbol)
+      daily_rda_hash[nutrient_name_symbol][:unit] != 'no RDA'
+    end 
+
+    def daily_rda(nutrient_name_symbol, consumer_symbol)
+      daily_rda_hash[nutrient_name_symbol][:amount][consumer_symbol].to_f.round(2)
+    end 
+
+    def weekly_rda(nutrient_name_symbol, consumer_symbol)
+      (daily_rda_hash[nutrient_name_symbol][:amount][consumer_symbol] * 7).to_f.round(2)
+    end 
+
     def percent_rda(intake, rda)
       (intake.to_i.to_f/rda * 100).round(2)
+    end 
+
+    def has_upper_limit(nutrient_name_symbol)
+      daily_rda_hash[nutrient_name_symbol][:UL] != 'N/A'  
+    end 
+
+    def daily_upper_limit(nutrient_name_symbol)
+      daily_rda_hash[nutrient_name_symbol][:UL]  
+    end 
+
+    def weekly_upper_limit(nutrient_name_symbol)
+      daily_rda_hash[nutrient_name_symbol][:UL] * 7  
+    end 
+
+    def unit(nutrient_name_symbol)
+      daily_rda_hash[nutrient_name_symbol][:unit]
     end 
 
     private
@@ -122,13 +150,14 @@ module NutrientTargets
       rda * weight_in_lbs/2.2    
     end 
 
-    def create_goal_hash(unit, mick_daily_rda, adia_daily_rda)
+    def create_goal_hash(unit, mick_daily_rda, adia_daily_rda, upper_limit='N/A')
       {
         unit: unit,
         amount: {
           Mick: mick_daily_rda,
           Adia: adia_daily_rda
         },
+        UL: upper_limit 
       }
     end 
   end 

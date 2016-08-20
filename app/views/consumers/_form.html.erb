@@ -1,9 +1,9 @@
-<form>
-  <%= form_for @consumer do |f| %>
+<%= form_for @consumer do |f| %>
+  <form class="form-inline">
     <div class="form-group">
       <%= f.label(:name) %>
       <%= f.text_field(:name, class:"form-control") %>
     </div>
     <%= f.submit('Add Consumer', class:"btn btn-success") %>
-  <% end %>
-</form>
+  </form>
+<% end %>
