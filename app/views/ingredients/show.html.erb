@@ -1,47 +1,56 @@
-<h2 class="text-center"><%= @ingredient.name.capitalize! %></h2>
-<div class="text-center"> NDB Number: <%= @ingredient.try(:ndbno) %></div>
-<% if @ingredient.ndbno.present? %>
-  <h6 class="text-center">Amount of nutrient per 100g</h6>
-  <% @groups.each do |group| %>
-    <ul style="list-style-type:none">
-      <li><strong>
-        <% group_name = group.name.parameterize %>
-        <%= image_tag(
-          "plus_sign.png", 
-          class: "plus-sign js-plus-sign-#{group_name}"
-        ) %> 
-        <%= image_tag(
-          "minus_sign.png", 
-          class: "minus-sign js-minus-sign-#{group_name}", 
-          style: "display:none"
-        ) %> 
-        <%= group.name %>
-      </strong></li>
-    </ul>
-    <ul class="list-group">
-      <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
-      <% IngredientNutrient.includes(:nutrient).where(
-        ingredient_id: @ingredient.id, 
-        nutrient_id: nutrient_ids
-      ).order('nutrients.name').each do |row| %>
-        <li class="js-nutrient-info-<%= group_name %> list-group-item" style="display:none">
-          <%= row.nutrient.name %> <%= row.value %> <%= row.unit %>
-        </li> 
-      <% end %>
-    </ul>
+<div class="container-fluid">
+  <div class="page-header">
+    <h3><%= @ingredient.name.capitalize! %></h3>
+    <small>
+      NDB Number: <%= @ingredient.try(:ndbno) %>
+      <div>
+        <a href="https://ndb.nal.usda.gov/ndb/foods" target="_blank">Look up Ndbno</a>
+      </div>
+      <div>
+        <%= link_to 'Edit', edit_ingredient_path(@ingredient) %>
+        <%= link_to(
+          'Delete', 
+          ingredient_path(@ingredient), 
+          method: :delete, 
+          data: { confirm: 'Are you sure?' } 
+        ) %>
+      </div>
+    </small>
+  </div>
+  <% if @ingredient.ndbno.present? %>
+    <% @groups.each do |group| %>
+      <ul style="list-style-type:none">
+        <li><strong>
+          <% group_name = group.name.parameterize %>
+          <%= image_tag(
+            "plus_sign.png", 
+            class: "plus-sign js-plus-sign-#{group_name}"
+          ) %> 
+          <%= image_tag(
+            "minus_sign.png", 
+            class: "minus-sign js-minus-sign-#{group_name}", 
+            style: "display:none"
+          ) %> 
+          <%= group.name %>
+        </strong></li>
+      </ul>
+      <div class="js-nutrient-info-<%= group_name %>" style="display:none">
+        <table class="table">
+          <tr>
+            <th>Nutrient</th>
+            <th>per 100g</th>
+          </tr>
+        <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
+        <% IngredientNutrient.includes(:nutrient).where(
+          ingredient_id: @ingredient.id, 
+          nutrient_id: nutrient_ids
+        ).order('nutrients.name').each do |row| %>
+          <tr>
+            <td><%= row.nutrient.name %></td> 
+            <td><%= row.value %> <%= row.unit %></td>
+          </tr>
+        <% end %></table>
+      </div>
+    <% end %>
   <% end %>
-<% end %>
-<div class="text-center">
-  <%= link_to 'Edit', edit_ingredient_path(@ingredient) %>
-</div>
-<div class="text-center">
-  <%= link_to(
-    'Delete', 
-    ingredient_path(@ingredient), 
-    method: :delete, 
-    data: { confirm: 'Are you sure?' } 
-  ) %>
-</div>
-<div class="text-center">
-  <a href="https://ndb.nal.usda.gov/ndb/foods" target="_blank">Look up Ndbno</a>
 </div>

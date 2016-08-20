@@ -1,23 +1,21 @@
-<h2 class="page-header text-center">
-  <%= @recipe.name %> (<%= @recipe.number_of_servings %> Servings)
-  <small> 
-    <%= link_to 'Edit', edit_recipe_path(@recipe) %>
-    <%= link_to(
-      'Delete', 
-      recipe_path(@recipe), 
-      method: :delete, 
-      data: { confirm: 'Are you sure?' } 
-    )%>
-  </small>
-</h2>
-<h3>Recipe's Ingredients:</h3>
-<%= render 'recipe_ingredients/recipe_ingredient' %>
-<h3>Add ingredients</h3>
-<%= render 'recipe_ingredients/form' %>
-<% if @recipe.ingredients.present? %>
-  <h3>Percent intake of daily RDA</h3>
-  <%= render 'ingredient_nutrients/percent_intake_of_daily_rda' %>
-  <h3>Nutrition Facts</h3>
-  <%= render 'ingredient_nutrients/daily_rda' %>
-<% end %>
-
+<div class="container-fluid">
+  <div class="page-header">
+    <h3>
+      <%= @recipe.name %> (<%= @recipe.number_of_servings %> Servings)
+    </h3>
+    <small> 
+      <%= link_to 'Edit', edit_recipe_path(@recipe) %>
+      <%= link_to(
+        'Delete', 
+        recipe_path(@recipe), 
+        method: :delete, 
+        data: { confirm: 'Are you sure?' } 
+      )%>
+    </small>
+  </div>
+  <%= render 'recipe_ingredients/recipe_ingredient' %>
+  <%= render 'recipe_ingredients/form' %>
+  <% if @recipe.ingredients.present? %>
+    <%= render 'ingredient_nutrients/daily_rda' %>
+  <% end %>
+</div>

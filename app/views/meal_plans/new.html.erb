@@ -5,9 +5,18 @@
   <div class="jumbotron">
     <h4>Option 1</h4> 
     <div>
-      Create an empty meal plan (has no recipes) and then manually add recipes to it.
+      Create meal plans for Mick and Adia populated with recipes found in our Google Calendar and those found in template meal plan.
     </div>
-    <p><%= render partial: 'form' %></p>
+    <p>
+      <%= button_to 'Generate Meal Plans from Google Calendar', 
+        { 
+          controller: :google_calendar_generated_meal_plans,
+          action: 'new' 
+        },
+        method: :get,
+        class: "btn btn-success" 
+      %>
+      </p>
   </div>
   <div class="jumbotron">
     <h4>Option 2</h4> 
@@ -28,17 +37,9 @@
   <div class="jumbotron">
     <h4>Option 3</h4> 
     <div>
-      Create meal plans for Mick and Adia populated with recipes found in our Google Calendar and those found in template meal plan.
+      Create an empty meal plan (has no recipes) and then manually add recipes to it.
     </div>
-    <p>
-      <%= button_to 'Generate Meal Plans from Google Calendar', 
-        { 
-          controller: :google_calendar_generated_meal_plans,
-          action: 'new' 
-        },
-        method: :get,
-        class: "btn btn-success" 
-      %>
-      </p>
+    <p><%= render partial: 'form' %></p>
+    <p><%= render partial: 'consumers/form' %></p>
   </div>
 </div>
