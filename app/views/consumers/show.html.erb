@@ -1,15 +1,10 @@
-<h2 class="text-center"><%= @consumer.name %></h2>
-<h4 class="text-center"><%= @consumer.name %>'s recipes</h4>
-<ul>
-  <% @consumers_recipes.each do |record| %>
-    <li><%= record.recipe.name %></li> 
-  <% end %>
-</ul>
-<%= link_to 'Edit', edit_consumer_path(@consumer) %>
-<%= link_to(
-  'Delete', 
-  consumer_path(@consumer), 
-  method: :delete, 
-  data: { confirm: 'Are you sure?' } 
-) %>
-
+<div class="container-fluid">
+  <div class="page-header"><h3><%= @consumer.name %></h3></div>
+  <%= link_to 'Edit', edit_consumer_path(@consumer) %>
+  <%= link_to(
+    'Delete', 
+    consumer_path(@consumer), 
+    method: :delete, 
+    data: { confirm: 'Are you sure?' } 
+  ) %>
+</div>
