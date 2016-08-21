@@ -53,8 +53,13 @@ class GoogleCalendarGeneratedMealPlansController < ApplicationController
                                     time_min: Time.now.iso8601)
     end 
 
-    adia_meal_plan = MealPlan.create(consumer_id: 1)
-    mick_meal_plan = MealPlan.create(consumer_id: 4)
+    def create_meal_plan(consumer)
+      consumer_id = Consumer.where(name: consumer).first.id
+      MealPlan.create(consumer_id: consumer_id)
+    end 
+
+    adia_meal_plan = create_meal_plan('Adia')
+    mick_meal_plan = create_meal_plan('Mick')
 
     def get_recipe_names_from_calendar(calendar_id)
       recipe_names = []
