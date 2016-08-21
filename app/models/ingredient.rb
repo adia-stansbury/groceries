@@ -4,6 +4,7 @@ class Ingredient < ActiveRecord::Base
   has_many :ingredient_nutrients, dependent: :destroy
   belongs_to :location
   belongs_to :food_source
+  belongs_to :unit
 
   validates :name, uniqueness: true, presence: true
   validates :location_id, presence: true

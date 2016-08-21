@@ -8,7 +8,7 @@
       </div>
       <% if @ingredient.measuring_amount.present? %>
         <div>
-          <%= @ingredient.measuring_amount %> <%= @ingredient.unit_id.try(:name) %> has
+          <%= @ingredient.measuring_amount %> <%= @ingredient.unit.try(:name) %> has
           <%= @ingredient.num_of_grams_in_measuring_amount %> grams
         </div>
       <% end %>
