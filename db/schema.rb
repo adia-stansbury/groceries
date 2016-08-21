@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160723145351) do
+ActiveRecord::Schema.define(version: 20160821151728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20160723145351) do
   create_table "recipes", force: :cascade do |t|
     t.string "name",               limit: 1000, null: false
     t.float  "number_of_servings"
+    t.text   "note"
   end
 
   add_index "recipes", ["name"], name: "recipes_name_key", unique: true, using: :btree

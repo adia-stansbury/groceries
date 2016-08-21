@@ -1,15 +1,11 @@
 <div class="jumbotron">
   <%= form_for @recipe do |f| %>
-    <form>
+    <% [:name, :number_of_servings, :note].each do |column| %>
       <div class="form-group">
-        <%= f.label(:name) %>
-        <%= f.text_field(:name, class:"form-control") %>
+        <%= f.label(column) %>
+        <%= f.text_field(column, class:"form-control") %>
       </div>
-      <div class="form-group">
-        <%= f.label(:number_of_servings) %>
-        <%= f.text_field(:number_of_servings, class:"form-control") %>
-      </div>
-      <%= f.submit(class:"btn btn-success") %>
-    </form>
+    <% end %>
+    <%= f.submit(class:"btn btn-success") %>
   <% end %>
 </div>
