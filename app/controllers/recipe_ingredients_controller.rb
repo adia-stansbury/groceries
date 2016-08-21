@@ -8,7 +8,7 @@ class RecipeIngredientsController < ApplicationController
   def edit
     @recipe_ingredient = RecipeIngredient.find(params[:id])
     @units = Unit.all.order(:name)
-    @ingredient = @recipe_ingredient.ingredient.name
+    @ingredient = @recipe_ingredient.ingredient
     @recipe = @recipe_ingredient.recipe.name
   end 
 
