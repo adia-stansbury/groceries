@@ -10,6 +10,19 @@
       <%= f.text_field(:ndbno, class:"form-control") %>
     </div>
     <div class="form-group">
+      <%= f.label(:measuring_amount) %>
+      <%= f.text_field(:measuring_amount, class:"form-control") %>
+    </div>
+    <div class="form-group">
+      <%= f.label(:unit_id) %>
+      <%= f.collection_select(:unit_id, @units, :id, :name, 
+                                  class:"form-control") %>
+    </div>
+    <div class="form-group">
+      <%= f.label(:num_of_grams_in_measuring_amount) %>
+      <%= f.text_field(:num_of_grams_in_measuring_amount, class:"form-control") %>
+    </div>
+    <div class="form-group">
       <%= f.label(:location_id) %>
       <%= f.collection_select(:location_id, @locations, :id, :name, 
                                   class:"form-control") %>

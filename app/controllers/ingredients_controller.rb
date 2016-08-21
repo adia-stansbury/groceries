@@ -11,6 +11,7 @@ class IngredientsController < ApplicationController
   def new
     @ingredient = Ingredient.new
     @locations = Location.all.order(:name)
+    @units = Unit.all.order(:name)
   end 
 
   def create
@@ -27,6 +28,7 @@ class IngredientsController < ApplicationController
   def edit
     @ingredient = Ingredient.find(params[:id])
     @locations = Location.all.order(:name)
+    @units = Unit.all.order(:name)
   end 
 
   def update
@@ -51,8 +53,11 @@ class IngredientsController < ApplicationController
       params.require(:ingredient).permit(
         :food_source_id,
         :location_id,
+        :measuring_amount,
         :name, 
-        :ndbno
+        :ndbno,
+        :num_of_grams_in_measuring_amount,
+        :unit_id
       )
     end 
 end 

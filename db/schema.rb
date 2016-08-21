@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160821151728) do
+ActiveRecord::Schema.define(version: 20160821194147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,10 +40,13 @@ ActiveRecord::Schema.define(version: 20160821151728) do
   add_index "ingredient_nutrients", ["nutrient_id"], name: "index_ingredient_nutrients_on_nutrient_id", using: :btree
 
   create_table "ingredients", force: :cascade do |t|
-    t.string  "name",           limit: 1000, null: false
+    t.string  "name",                             limit: 1000, null: false
     t.integer "location_id"
     t.string  "ndbno"
     t.integer "food_source_id"
+    t.float   "measuring_amount"
+    t.float   "num_of_grams_in_measuring_amount"
+    t.integer "unit_id"
   end
 
   add_index "ingredients", ["name"], name: "ingredients_name_key", unique: true, using: :btree
@@ -119,6 +122,7 @@ ActiveRecord::Schema.define(version: 20160821151728) do
   add_foreign_key "ingredient_nutrients", "nutrients"
   add_foreign_key "ingredients", "food_sources"
   add_foreign_key "ingredients", "locations", name: "ingredients_location_id_fkey"
+  add_foreign_key "ingredients", "units"
   add_foreign_key "recipe_ingredients", "ingredients", name: "recipe_ingredients_ingredient_id_fkey"
   add_foreign_key "recipe_ingredients", "recipes", name: "recipe_ingredients_recipe_id_fkey"
   add_foreign_key "recipe_ingredients", "units"
