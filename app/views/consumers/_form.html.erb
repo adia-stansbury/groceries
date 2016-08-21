@@ -1,9 +1,7 @@
-<div class="jumbotron">
-  <%= form_for @consumer do |f| %>
-    <div class="form-group">
-      <%= f.label(:name) %>
-      <%= f.text_field(:name, class:"form-control") %>
-    </div>
-    <%= f.submit('Add Consumer', class:"btn btn-success") %>
-  <% end %>
-</div>
+<%= form_for @consumer do |f| %>
+  <div class="form-group">
+    <%= f.label(:name) %>
+    <%= f.text_field(:name, class:"form-control") %>
+  </div>
+  <%= f.submit('Add Consumer', class:"btn btn-success") %>
+<% end %>
