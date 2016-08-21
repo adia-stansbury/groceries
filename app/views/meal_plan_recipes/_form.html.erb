@@ -1,21 +1,15 @@
 <div class="jumbotron">
-  <form class="form-inline">
-    <%= form_for([@meal_plan, @meal_plan.meal_plan_recipes.build]) do |f| %>
-      <div class="form-group">
-        <%= f.label(:recipe_id) %>
-        <%= f.collection_select(
-          :recipe_id,
-          @recipes,
-          :id,
-          :name
-          )
-        %>
-      </div>
-      <div class="form-group">
-        <%= f.label :number_of_recipes %>
-        <%= f.text_field :number_of_recipes %>
-      </div>
-      <%= f.submit('Add Recipe', class:"btn btn-success") %>
-    <% end %>
-  </form> 
+  <%= form_for([@meal_plan, @meal_plan.meal_plan_recipes.build]) do |f| %>
+    <%= f.label(:recipe_id) %>
+    <%= f.collection_select(
+      :recipe_id,
+      @recipes,
+      :id,
+      :name
+      )
+    %>
+    <%= f.label :number_of_recipes %>
+    <%= f.text_field :number_of_recipes %>
+    <%= f.submit('Add Recipe', class:"btn btn-success") %>
+  <% end %>
 </div>

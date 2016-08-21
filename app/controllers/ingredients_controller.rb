@@ -15,6 +15,7 @@ class IngredientsController < ApplicationController
 
   def create
     @ingredient = Ingredient.new(ingredient_params)
+    @groups = NutrientGroup.all.order(:name)
 
     if @ingredient.save
       render 'show'
