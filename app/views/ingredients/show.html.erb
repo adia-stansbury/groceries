@@ -1,14 +1,13 @@
 <div class="container-fluid">
   <div class="page-header">
-    <h3><%= @ingredient.name.capitalize! %></h3>
-    <small>
+    <h2><%= @ingredient.name.capitalize! %></h2>
+    <h5>
       NDB Number: <%= @ingredient.try(:ndbno) %>
-      <div>
-        <a href="https://ndb.nal.usda.gov/ndb/foods" target="_blank">Look up Ndbno</a>
-      </div>
+      <a href="https://ndb.nal.usda.gov/ndb/foods" target="_blank">Look up Ndbno</a>
       <% if @ingredient.measuring_amount.present? %>
         <div>
-          <%= @ingredient.measuring_amount %> <%= @ingredient.unit.try(:name) %> has
+          Package size:
+          <%= @ingredient.measuring_amount %> <%= @ingredient.unit.try(:name) %>, 
           <%= @ingredient.num_of_grams_in_measuring_amount %> grams
         </div>
       <% end %>
@@ -21,7 +20,7 @@
           data: { confirm: 'Are you sure?' } 
         ) %>
       </div>
-    </small>
+    </h5>
   </div>
   <div class="jumbotron">
     <div class="page-header"><h3>Nutrient Report</h3></div>
