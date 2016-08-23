@@ -56,6 +56,7 @@ class IngredientsController < ApplicationController
         :measuring_amount,
         :name, 
         :ndbno,
+        :note,
         :num_of_grams_in_measuring_amount,
         :unit_id
       )

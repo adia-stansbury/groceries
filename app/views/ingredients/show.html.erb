@@ -11,6 +11,7 @@
           <%= @ingredient.num_of_grams_in_measuring_amount %> grams
         </div>
       <% end %>
+      <div><%= @ingredient.note %></div>
       <div>
         <%= link_to 'Edit', edit_ingredient_path(@ingredient) %>
         <%= link_to(

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160821194147) do
+ActiveRecord::Schema.define(version: 20160823213226) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20160821194147) do
     t.float   "measuring_amount"
     t.float   "num_of_grams_in_measuring_amount"
     t.integer "unit_id"
+    t.text    "note"
   end
 
   add_index "ingredients", ["name"], name: "ingredients_name_key", unique: true, using: :btree
