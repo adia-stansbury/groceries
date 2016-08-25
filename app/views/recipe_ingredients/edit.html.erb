@@ -16,13 +16,8 @@
         </div>
         <div class="form-group">
           <%= f.label(:unit_id) %>
-          <%= f.collection_select(
-            :unit_id,
-            @units,
-            :id, 
-            :name,
-            class:"form-control"
-          ) %>
+          <%= f.collection_select(:unit_id, @units, :id, :name, {}, 
+                                  class:"js-dropdown form-control") %></br>
         <div class="form-group">
           <%= f.label(:amount_in_grams) %>
           <%= f.text_field(:amount_in_grams, class:"form-control") %>
