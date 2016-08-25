@@ -12,4 +12,6 @@ $( document ).ready(function() {
       $( ".js-nutrient-info-" + group).hide();
     });
   });
+
+  $( '.js-dropdown' ).select2({theme: 'bootstrap'});
 });

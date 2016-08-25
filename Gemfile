@@ -18,6 +18,7 @@ gem 'pry', '~> 0.10.3'
 gem 'evernote-thrift'
 gem 'awesome_print', require:'ap'
 gem 'google-api-client'
+gem 'select2-rails'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
