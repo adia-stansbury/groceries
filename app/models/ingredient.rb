@@ -9,12 +9,22 @@ class Ingredient < ActiveRecord::Base
   validates :name, uniqueness: true, presence: true
   validates :location_id, presence: true
 
+  before_save :remove_extraneous_characters
   after_save :create_ingredient_nutrient_record
-
+  
   private
+
+  def remove_extraneous_characters
+    name.chomp!
+    name.strip!
+    ndbno.chomp!
+    ndbno.strip!
+  end 
 
   def create_ingredient_nutrient_record
     if self.ndbno.present?
+      self.ndbno.chomp!
+      self.ndbno.strip!
       ndb_usda_api_key = ENV['NDB_USDA_API_KEY']
       ndbno = self.ndbno
       HTTParty.get(
