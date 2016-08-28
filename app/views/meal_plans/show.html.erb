@@ -9,6 +9,7 @@
           <th>Number of Recipes</th>
           <th>Recipe</th>
           <th>Number of Servings</th>
+          <th>Action</th>
         </tr>
         <% @meal_plan.meal_plan_recipes.each do |mpr| %>
           <% if mpr.recipe.present? %>
@@ -16,6 +17,8 @@
               <td><%= mpr.try(:number_of_recipes) %></td>
               <td><%= link_to mpr.recipe.name, recipe_path(mpr.recipe.id) %></td>
               <td><%= mpr.recipe.try(:number_of_servings) %></td>
+              <td><%= link_to('Delete', meal_plan_recipe_path(mpr), method: :delete,
+                              data: { confirm: 'Are you sure?' }) %>
             </tr>
           <% end %>
         <% end %>

@@ -8,7 +8,16 @@ class MealPlanRecipesController < ApplicationController
         number_of_recipes: 1
       )
     end 
+
     redirect_to meal_plan_path(@meal_plan)
+  end 
+
+  def destroy
+    @meal_plan_recipe = MealPlanRecipe.find(params[:id])
+    @meal_plan_recipe.destroy
+    @meal_plans = MealPlan.all.order(created_at: :desc).limit(2)
+
+    render 'meal_plans/index'
   end 
 
   private
