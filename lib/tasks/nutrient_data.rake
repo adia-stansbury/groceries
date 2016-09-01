@@ -42,8 +42,8 @@ namespace :nutrient_data do
     Nutrient.all.each do |nutrient|
       response.each do |info| 
         if info['name'] == nutrient.name 
-          group_id = NutrientGroup.where(name: info['group']).first.id
-          nutrient.group_id = group_id
+          nutrient_group_id = NutrientGroup.where(name: info['group']).first.id
+          nutrient.nutrient_group_id = nutrient_group_id
           nutrient.save
         end 
       end 

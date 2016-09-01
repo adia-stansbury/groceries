@@ -48,10 +48,9 @@
               <th>Nutrient</th>
               <th>per 100g</th>
             </tr>
-          <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
           <% IngredientNutrient.includes(:nutrient).where(
             ingredient_id: @ingredient.id, 
-            nutrient_id: nutrient_ids
+            nutrient_id: group.nutrients.ids
           ).order('nutrients.name').each do |row| %>
             <tr>
               <td><%= row.nutrient.name %></td> 

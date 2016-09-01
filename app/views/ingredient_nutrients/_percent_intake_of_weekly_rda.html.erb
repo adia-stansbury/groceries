@@ -15,7 +15,6 @@
     </strong></li>
   </ul>
   <div class="js-nutrient-info-<%= group_name %>" style="display:none">
-    <% nutrient_ids = Nutrient.where(group_id: group.id).pluck(:id) %>
     <% daily_rda_hash = IngredientNutrient.daily_rda_hash %>
     <table class="table">
       <tr>
@@ -24,7 +23,7 @@
         <th>% Adia's weekly RDA</th>
       </tr> 
     <% @aggregate_nutrient_intake.each do |record| %>
-      <% if nutrient_ids.include?(record['id'].to_i) %> 
+      <% if group.nutrients.ids.include?(record['id'].to_i) %> 
         <tr>
           <%  nutrient_name_symbol = record['name'].to_sym %>
           <% if daily_rda_hash.include?(nutrient_name_symbol) %>

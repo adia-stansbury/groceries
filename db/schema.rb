@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160823213226) do
+ActiveRecord::Schema.define(version: 20160901210223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,8 +77,8 @@ ActiveRecord::Schema.define(version: 20160823213226) do
   end
 
   create_table "nutrients", force: :cascade do |t|
-    t.string  "name",     null: false
-    t.integer "group_id"
+    t.string  "name",              null: false
+    t.integer "nutrient_group_id"
   end
 
   create_table "recipe_ingredients", force: :cascade do |t|
