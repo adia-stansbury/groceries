@@ -47,7 +47,7 @@ class GoogleCalendarGeneratedMealPlansController < ApplicationController
       service.authorization = authorize
 
       response = service.list_events(calendar_id,
-                                    max_results: 16,
+                                    max_results: 106,
                                     single_events: true,
                                     order_by: 'startTime',
                                     time_min: Time.now.iso8601)
