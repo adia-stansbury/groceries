@@ -1,11 +1,13 @@
 <div class="container-fluid">
   <div class=page-header>
     <h3>Edit <%= @ingredient.name %> for <%= @recipe %></h3>
-    <h4>
-      Package size: 
-      <%= @ingredient.measuring_amount %> <%= @ingredient.unit.name %>, 
-      <%= @ingredient.num_of_grams_in_measuring_amount %> grams
-    </h4>
+    <% if @ingredient.measuring_amount.present? %>
+      <h4>
+        Package size: 
+        <%= @ingredient.measuring_amount %> <%= @ingredient.unit.try(:name) %>, 
+        <%= @ingredient.num_of_grams_in_measuring_amount %> grams
+      </h4>
+    <% end %>
   </div>
   <div class="jumbotron">
     <%= form_for @recipe_ingredient do |f| %>
