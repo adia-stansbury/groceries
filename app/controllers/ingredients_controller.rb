@@ -27,7 +27,7 @@ class IngredientsController < ApplicationController
 
   def edit
     @ingredient = Ingredient.find(params[:id])
-    @locations = Location.all.order(:name)
+    @locations = Location.all.order(:ordering)
     @units = Unit.all.order(:name)
   end 
 
