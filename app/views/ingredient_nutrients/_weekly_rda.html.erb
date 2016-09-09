@@ -29,9 +29,14 @@
         <% @aggregate_nutrient_intake.each do |record| %>
           <% if group.nutrients.ids.include?(record['id'].to_i) %> 
             <tr>
-              <td><%= record['name'] %></td>
-              <td><%= record['amt_consumed'].to_f.round(2) %> <%= record['amt_consumed_unit'] %></td>
-              <%  nutrient = record['name'].to_sym %>
+              <td><%= IngredientNutrient.nutrient_name(record) %></td>
+              <td>
+                <%= IngredientNutrient.total_nutrient_intake(
+                  record, @meal_plan, @consumer
+                ) %> 
+                <%= record['amt_consumed_unit'] %>
+              </td>
+              <%  nutrient = IngredientNutrient.symbolized_nutrient_name(record) %>
               <% if daily_rda_hash.include?(nutrient) %>
                 <% if IngredientNutrient.has_rda(nutrient) %>
                   <td>

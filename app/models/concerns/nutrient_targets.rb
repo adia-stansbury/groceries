@@ -89,9 +89,9 @@ module NutrientTargets
         'Carotene, alpha': create_goal_hash('no RDA', 0, 0),
         'Carotene, beta': create_goal_hash('no RDA', 0, 0),
         'Choline, total': create_goal_hash('mg', 550, 425), 
-        'Folate, DFE': create_goal_hash('ug', 400, 400),
-        'Folate, food': create_goal_hash('ug', 400, 400),
-        'Folate, total': create_goal_hash('ug', 400, 400),
+        'Folate, DFE': create_goal_hash('µg', 400, 400),
+        'Folate, food': create_goal_hash('µg', 400, 400),
+        'Folate, total': create_goal_hash('µg', 400, 400),
         'Folic acid': create_goal_hash('no RDA', 0, 0),
         'Lutein + zeaxanthin': create_goal_hash('no RDA', 0, 0),
         'Lycopene': create_goal_hash('no RDA', 0, 0),
@@ -101,16 +101,40 @@ module NutrientTargets
         'Riboflavin': create_goal_hash('mg', 1.1, 1.1),
         'Thiamin': create_goal_hash('mg', 1.2, 1.1),
         'Vitamin A, IU': create_goal_hash('no RDA', 0, 0),
-        'Vitamin A, RAE': create_goal_hash('ug', 900, 700),
-        'Vitamin B-12': create_goal_hash('ug', 2.4, 2.4), 
+        'Vitamin A, RAE': create_goal_hash('µg', 900, 700),
+        'Vitamin B-12': create_goal_hash('µg', 2.4, 2.4), 
         'Vitamin B-6': create_goal_hash('mg', 1.3, 1.3), 
         'Vitamin C, total ascorbic acid': create_goal_hash('mg', 90, 75),
-        'Vitamin D': create_goal_hash('ug', 5, 5),
+        'Vitamin D': create_goal_hash('µg', 5, 5),
         'Vitamin D (D2 + D3)': create_goal_hash('no RDA', 0, 0),
         'Vitamin E (alpha-tocopherol)': create_goal_hash('mg', 15, 15),
-        'Vitamin K (phylloquinone)': create_goal_hash('ug', 120, 90) 
+        'Vitamin K (phylloquinone)': create_goal_hash('µg', 120, 90) 
       }
     end 
+
+    SOYLENT_NUTRIENTS_AT_25_PERCENT_DAILY_RDA = [
+      'Calcium, Ca',
+      'Choline, total',
+      'Chromium',
+      'Copper, Cu',
+      'Folic Acid',
+      'Iron, Fe',
+      'Magnesium, Mg',
+      'Manganese, Mn',
+      'Niacin',
+      'Potassium, K',
+      'Riboflavin',
+      'Selenium, Se',
+      'Thiamin',
+      'Vitamin A, RAE',
+      'Vitamin B-12',
+      'Vitamin B-6',
+      'Vitamin C, total',
+      'Vitamin D', 
+      'Vitamin E (alpha-tocopherol)',
+      'Vitamin K (phylloquinone)',
+      'Zinc, Zn',
+    ]
 
     def has_rda(nutrient_name_symbol)
       daily_rda_hash[nutrient_name_symbol][:unit] != 'no RDA'
@@ -144,10 +168,39 @@ module NutrientTargets
       daily_rda_hash[nutrient_name_symbol][:unit]
     end 
 
+    def total_nutrient_intake(record, mealplan, consumer)
+      if mealplan.recipes.pluck(:name).include?('Soylent')
+        if SOYLENT_NUTRIENTS_AT_25_PERCENT_DAILY_RDA.include?(record['name'])
+          soylent_nutrient_intake = convert_percent_intake_to_raw_num(
+            25, 
+            record,
+            symbolized_nutrient_name(record),            
+            consumer.to_sym
+          ) 
+        end 
+      end 
+      if soylent_nutrient_intake.nil?
+        soylent_nutrient_intake = 0
+      end 
+      (record['amt_consumed'].to_f + soylent_nutrient_intake).to_f.round(2)
+    end 
+
+    def nutrient_name(record)
+      record['name']
+    end
+
+    def symbolized_nutrient_name(record)
+      record['name'].to_sym
+    end 
+
     private
 
     def adjust_RDA_for_weight(weight_in_lbs, rda)
       rda * weight_in_lbs/2.2    
+    end 
+
+    def convert_percent_intake_to_raw_num(percent_of_rda, record, nutrient_name_symbol, consumer_symbol)
+      daily_rda(nutrient_name_symbol, consumer_symbol) * (percent_of_rda.to_f/100)
     end 
 
     def create_goal_hash(unit, mick_daily_rda, adia_daily_rda, upper_limit='N/A')
