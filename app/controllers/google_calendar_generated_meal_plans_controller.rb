@@ -50,7 +50,8 @@ class GoogleCalendarGeneratedMealPlansController < ApplicationController
                                     max_results: 106,
                                     single_events: true,
                                     order_by: 'startTime',
-                                    time_min: Time.now.iso8601)
+                                    time_min: (Time.now + (60 * 60 * 24)).iso8601
+                                    )
     end 
 
     def create_meal_plan(consumer)
