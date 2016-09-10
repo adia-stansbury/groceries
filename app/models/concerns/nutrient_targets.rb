@@ -7,6 +7,7 @@ module NutrientTargets
 
     def daily_rda_hash
       {
+        'Energy': create_goal_hash('kcal', 3400, 2285),
         'Calcium, Ca': create_goal_hash('mg', 1000, 1000),
         'Copper, Cu': create_goal_hash('mg', 0.9, 0.9),
         'Iron, Fe': create_goal_hash('mg', 8, 10, 45),
