@@ -178,6 +178,31 @@ module NutrientTargets
             symbolized_nutrient_name(record),            
             consumer.to_sym
           ) 
+        elsif 
+          case record['name'] 
+          when 'Sodium, Na'
+            soylent_nutrient_intake = 380
+          when  'Fiber, total dietary'
+            soylent_nutrient_intake = 7
+          when 'Sugars, total'
+            soylent_nutrient_intake = 19
+          when 'Total lipid (fat)'
+            soylent_nutrient_intake = 25 
+          when 'Fatty acids, total monounsaturated'
+            soylent_nutrient_intake = 17
+          when 'Fatty acids, total polyunsaturated'
+            soylent_nutrient_intake = 4.5 
+          when 'Fatty acids, total saturated'
+            soylent_nutrient_intake = 2.5 
+          when 'Fatty acids, total trans'
+            soylent_nutrient_intake = 0 
+          when 'Cholesterol'
+            soylent_nutrient_intake = 0
+          when 'Carbohydrate, by difference'
+            soylent_nutrient_intake = 47
+          when 'Protein'
+            soylent_nutrient_intake = 25
+          end 
         end 
       end 
       if soylent_nutrient_intake.nil?

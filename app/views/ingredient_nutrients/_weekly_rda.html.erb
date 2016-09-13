@@ -45,7 +45,11 @@
                   </td>
                   <td>
                     <%= IngredientNutrient.percent_rda(
-                      record['amt_consumed'],  
+                      IngredientNutrient.total_nutrient_intake(
+                        record, 
+                        @meal_plan, 
+                        @consumer
+                      ),
                       IngredientNutrient.weekly_rda(nutrient, @consumer.to_sym) 
                     ) %> 
                   </td>
