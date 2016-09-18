@@ -1,5 +1,5 @@
 module NutrientTargets
-  extend ActiveSupport::Concern
+  extend ActiveSupport::Concern 
 
   module ClassMethods
     ADIA_WEIGHT_LBS = 122
@@ -113,10 +113,10 @@ module NutrientTargets
       }
     end 
 
-    SOYLENT_NUTRIENTS_AT_25_PERCENT_DAILY_RDA = [
-      'Calcium, Ca',
-      'Choline, total',
-      'Chromium',
+    SOYLENT_NUTRIENTS_AT_25_PERCENT_DAILY_RDA = [ 
+      'Calcium, Ca', 
+      'Choline, total', 
+      'Chromium', 
       'Copper, Cu',
       'Folic Acid',
       'Iron, Fe',
@@ -130,11 +130,24 @@ module NutrientTargets
       'Vitamin A, RAE',
       'Vitamin B-12',
       'Vitamin B-6',
-      'Vitamin C, total',
+      'Vitamin C, total ascorbic acid',
       'Vitamin D', 
       'Vitamin E (alpha-tocopherol)',
       'Vitamin K (phylloquinone)',
       'Zinc, Zn',
+    ]
+
+    MEALSQUARE_NUTRIENTS_AT_20_PERCENT_DAILY_RDA = [
+      'Calcium, Ca',
+      'Folic Acid',
+      'Iron, Fe',
+      'Niacin',
+      'Riboflavin',
+      'Selenium, Se',
+      'Thiamin',
+      'Vitamin A, RAE',
+      'Vitamin B-6',
+      'Vitamin E (alpha-tocopherol)'
     ]
 
     def has_rda(nutrient_name_symbol)
@@ -180,6 +193,8 @@ module NutrientTargets
           ) 
         elsif 
           case record['name'] 
+          when 'Energy'
+            soylent_nutrient_intake = 500
           when 'Sodium, Na'
             soylent_nutrient_intake = 380
           when  'Fiber, total dietary'
@@ -205,10 +220,85 @@ module NutrientTargets
           end 
         end 
       end 
+      if mealplan.recipes.pluck(:name).include?('MealSquare')
+        if MEALSQUARE_NUTRIENTS_AT_20_PERCENT_DAILY_RDA.include?(record['name'])
+          mealsquare_nutrient_intake = convert_percent_intake_to_raw_num(
+            20, 
+            record,
+            symbolized_nutrient_name(record),            
+            consumer.to_sym
+          ) 
+        elsif 
+          case record['name'] 
+          when 'Energy'
+            mealsquare_nutrient_intake = 400
+          when 'Sodium, Na'
+            mealsquare_nutrient_intake = 529
+          when  'Fiber, total dietary'
+            mealsquare_nutrient_intake = 5.5
+          when 'Sugars, total'
+            mealsquare_nutrient_intake = 17
+          when 'Total lipid (fat)'
+            mealsquare_nutrient_intake = 20 
+          when 'Fatty acids, total monounsaturated'
+            mealsquare_nutrient_intake = 10
+          when 'Fatty acids, total polyunsaturated'
+            mealsquare_nutrient_intake = 4
+          when 'Fatty acids, total saturated'
+            mealsquare_nutrient_intake = 4 
+          when 'Fatty acids, total trans'
+            mealsquare_nutrient_intake = 0 
+          when 'Cholesterol'
+            mealsquare_nutrient_intake = 60
+          when 'Carbohydrate, by difference'
+            mealsquare_nutrient_intake = 36
+          when 'Protein'
+            mealsquare_nutrient_intake = 20
+          when 'Vitamin K (phylloquinone)', 'Vitamin B-12',
+            mealsquare_nutrient_intake = convert_percent_intake_to_raw_num(
+              30, 
+              record,
+              symbolized_nutrient_name(record),            
+              consumer.to_sym
+            ) 
+          when 'Vitamin D', 'Vitamin C, total ascorbic acid'
+            mealsquare_nutrient_intake = convert_percent_intake_to_raw_num(
+              50,
+              record,
+              symbolized_nutrient_name(record),
+              consumer.to_sym
+            )
+          when 'Pantothenic Acid'
+            mealsquare_nutrient_intake = convert_percent_intake_to_raw_num(
+              45,
+              record,
+              symbolized_nutrient_name(record),
+              consumer.to_sym
+            )
+          when 'Magnesium, Mg'
+            mealsquare_nutrient_intake = convert_percent_intake_to_raw_num(
+              35,
+              record,
+              symbolized_nutrient_name(record),
+              consumer.to_sym
+            )
+          when 'Zinc, Zn', 'Copper, Cu'
+            mealsquare_nutrient_intake = convert_percent_intake_to_raw_num(
+              25,
+              record,
+              symbolized_nutrient_name(record),
+              consumer.to_sym
+            )
+          end 
+        end 
+      end 
       if soylent_nutrient_intake.nil?
         soylent_nutrient_intake = 0
       end 
-      (record['amt_consumed'].to_f + soylent_nutrient_intake).to_f.round(2)
+      if mealsquare_nutrient_intake.nil?
+        mealsquare_nutrient_intake = 0
+      end 
+      (record['amt_consumed'].to_f + soylent_nutrient_intake + mealsquare_nutrient_intake).to_f.round(2)
     end 
 
     def nutrient_name(record)
