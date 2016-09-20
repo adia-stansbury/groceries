@@ -17,8 +17,10 @@ class Ingredient < ActiveRecord::Base
   def remove_extraneous_characters
     name.chomp!
     name.strip!
-    ndbno.chomp!
-    ndbno.strip!
+    if self.ndbno.present?
+      ndbno.chomp!
+      ndbno.strip!
+    end 
   end 
 
   def create_ingredient_nutrient_record
