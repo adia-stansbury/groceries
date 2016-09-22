@@ -11,10 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160901210223) do
+ActiveRecord::Schema.define(version: 20160922004146) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "consumer_nutrients", force: :cascade do |t|
+    t.float   "daily_rda"
+    t.integer "consumer_id"
+    t.integer "nutrient_id"
+  end
+
+  add_index "consumer_nutrients", ["consumer_id"], name: "index_consumer_nutrients_on_consumer_id", using: :btree
+  add_index "consumer_nutrients", ["nutrient_id"], name: "index_consumer_nutrients_on_nutrient_id", using: :btree
 
   create_table "consumer_recipes", force: :cascade do |t|
     t.integer "consumer_id", null: false
@@ -22,7 +31,8 @@ ActiveRecord::Schema.define(version: 20160901210223) do
   end
 
   create_table "consumers", force: :cascade do |t|
-    t.string "name"
+    t.string  "name"
+    t.integer "weight_in_lbs"
   end
 
   create_table "food_sources", force: :cascade do |t|
@@ -79,7 +89,11 @@ ActiveRecord::Schema.define(version: 20160901210223) do
   create_table "nutrients", force: :cascade do |t|
     t.string  "name",              null: false
     t.integer "nutrient_group_id"
+    t.float   "upper_limit"
+    t.integer "unit_id"
   end
+
+  add_index "nutrients", ["unit_id"], name: "index_nutrients_on_unit_id", using: :btree
 
   create_table "recipe_ingredients", force: :cascade do |t|
     t.integer "recipe_id"
@@ -119,11 +133,14 @@ ActiveRecord::Schema.define(version: 20160901210223) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "consumer_nutrients", "consumers"
+  add_foreign_key "consumer_nutrients", "nutrients"
   add_foreign_key "ingredient_nutrients", "ingredients"
   add_foreign_key "ingredient_nutrients", "nutrients"
   add_foreign_key "ingredients", "food_sources"
   add_foreign_key "ingredients", "locations", name: "ingredients_location_id_fkey"
   add_foreign_key "ingredients", "units"
+  add_foreign_key "nutrients", "units"
   add_foreign_key "recipe_ingredients", "ingredients", name: "recipe_ingredients_ingredient_id_fkey"
   add_foreign_key "recipe_ingredients", "recipes", name: "recipe_ingredients_recipe_id_fkey"
   add_foreign_key "recipe_ingredients", "units"
