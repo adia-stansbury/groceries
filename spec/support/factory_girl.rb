@@ -4,6 +4,7 @@ FactoryGirl.define do
   factory :consumer do
     id 1
     name 'Adia'
+    weight_in_lbs 124
   end 
 
   factory :food_source do

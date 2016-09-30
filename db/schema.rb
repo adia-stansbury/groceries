@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 20160922004146) do
   create_table "meal_plan_recipes", force: :cascade do |t|
     t.integer "recipe_id"
     t.integer "meal_plan_id"
-    t.float   "number_of_recipes"
+    t.float   "number_of_recipes", default: 1.0
   end
 
   create_table "meal_plans", force: :cascade do |t|
