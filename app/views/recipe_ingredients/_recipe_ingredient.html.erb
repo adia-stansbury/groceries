@@ -10,7 +10,7 @@
     </tr>
   <% @recipe_ingredients.each do |row| %>
     <tr>
-      <td><%= row.quantity %> <%= row.unit.name %></td> 
+      <td><%= row.quantity %> <%= row.unit.try(:name) %></td> 
       <td>
         <%= link_to row.ingredient.name, ingredient_path(row.ingredient.id) %> 
       </td>
