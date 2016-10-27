@@ -21,22 +21,6 @@
   <div class="jumbotron">
     <h4>Option 2</h4> 
     <div>
-      Create a template meal plan for Mick and Adia. It includes standard recipes that we have every week.
-    </div>
-    <p>
-      <%= button_to 'Generate Template Meal Plans', 
-        { 
-          controller: :generate_template_meal_plans,
-          action: 'new' 
-        },
-        method: :get,
-        class: "btn btn-success" 
-      %>
-    </p>
-  </div>
-  <div class="jumbotron">
-    <h4>Option 3</h4> 
-    <div>
       Create an empty meal plan (has no recipes) and then manually add recipes to it.
     </div>
     <p><%= render partial: 'form' %></p>
