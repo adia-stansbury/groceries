@@ -7,6 +7,10 @@ FactoryGirl.define do
     weight_in_lbs 124
   end 
 
+  factory :consumer_nutrient do
+    id 1
+  end 
+
   factory :food_source do
     id 2
     name 'plant'

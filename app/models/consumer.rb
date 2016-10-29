@@ -9,6 +9,10 @@ class Consumer < ActiveRecord::Base
 
   before_save :remove_extraneous_characters
   
+  def self.fetch_id_from_name(name)
+    self.where(name: name).first.id
+  end 
+
   private
 
   def remove_extraneous_characters

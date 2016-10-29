@@ -17,10 +17,10 @@
         </strong></li>
       </ul>
       <div class="js-nutrient-info-<%= group_name %>" style="display:none">
-        <% daily_rda_hash = IngredientNutrient.daily_rda_hash %>
         <table class="table">
           <tr>
             <th>Nutrient</th>
+            <th>Unit</th>
             <th>Amount</th>
             <th>Mick's RDA</th>
             <th>% Mick's</th>
@@ -30,36 +30,22 @@
           </tr> 
         <% @aggregate_nutrient_intake.each do |record| %>
           <% if group.nutrients.ids.include?(record['id'].to_i) %> 
+            <% nutrient_name = IngredientNutrient.nutrient_name(record) %> 
+            <% nutrient_row = Nutrient.where(name: nutrient_name).first %>
             <tr>
-              <td><%= record['name'] %></td>
-              <td><%= record['amt_consumed'].to_f.round(2) %> <%= record['amt_consumed_unit'] %></td>
-              <%  nutrient = record['name'].to_sym %>
-              <% if daily_rda_hash.include?(nutrient) %>
-                <% if IngredientNutrient.has_rda(nutrient) %>
-                  <% [:Mick, :Adia].each do |consumer| %>
-                    <td>
-                      <%= IngredientNutrient.daily_rda(nutrient, consumer) %> 
-                      <%= IngredientNutrient.unit(nutrient) %>
-                    </td>
-                    <td>
-                      <%= IngredientNutrient.percent_rda(
-                        record['amt_consumed'],  
-                        IngredientNutrient.daily_rda(nutrient, consumer)
-                      ) %> 
-                    </td>
-                  <% end %>
-                <% else %>
-                  <% 4.times do %> 
-                    <td>No RDA</td>
-                  <% end %>
-                <% end %>
+              <td><%= nutrient_name %></td>
+              <td><%= record['amt_consumed_unit'] %></td>
+              <td><%= intake = record['amt_consumed'].to_f.round(2) %></td>
+              <% ['Mick', 'Adia'].each do |consumer_name| %>
                 <td>
-                  <% if IngredientNutrient.has_upper_limit(nutrient) %>
-                      <%= IngredientNutrient.daily_upper_limit(nutrient) %>
-                      <%= IngredientNutrient.unit(nutrient) %>
-                    <% end %>
+                  <%= daily_rda = 
+                    ConsumerNutrient.daily_rda(nutrient_name, consumer_name) %> 
+                </td>
+                <td>
+                  <%= IngredientNutrient.percent_rda(intake, daily_rda) %> 
                 </td>
               <% end %>
+              <td><%= nutrient_row.try(:upper_limit) %></td>
             </tr>
           <% end %>
         <% end %></table>

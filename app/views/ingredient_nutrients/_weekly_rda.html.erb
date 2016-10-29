@@ -17,10 +17,10 @@
         </strong></li>
       </ul>
       <div class="js-nutrient-info-<%= group_name %>" style="display:none">
-        <% daily_rda_hash = IngredientNutrient.daily_rda_hash %>
         <table class="table">
           <tr>
             <th>Nutrient</th>
+            <th>Unit</th>
             <th>Consumed</th>
             <th><%= @consumer %>'s RDA</th>
             <th>% <%= @consumer %>'s</th>
@@ -29,42 +29,27 @@
         <% @aggregate_nutrient_intake.each do |record| %>
           <% if group.nutrients.ids.include?(record['id'].to_i) %> 
             <tr>
-              <td><%= IngredientNutrient.nutrient_name(record) %></td>
               <td>
-                <%= IngredientNutrient.total_nutrient_intake(
-                  record, @meal_plan, @consumer
-                ) %> 
-                <%= record['amt_consumed_unit'] %>
+                <%= nutrient_name = IngredientNutrient.nutrient_name(record) %>
+                <% nutrient_row = Nutrient.where(name: nutrient_name).first %>
               </td>
-              <%  nutrient = IngredientNutrient.symbolized_nutrient_name(record) %>
-              <% if daily_rda_hash.include?(nutrient) %>
-                <% if IngredientNutrient.has_rda(nutrient) %>
-                  <td>
-                    <%= IngredientNutrient.weekly_rda(nutrient, @consumer.to_sym) %> 
-                    <%= IngredientNutrient.unit(nutrient) %>
-                  </td>
-                  <td>
-                    <%= IngredientNutrient.percent_rda(
-                      IngredientNutrient.total_nutrient_intake(
-                        record, 
-                        @meal_plan, 
-                        @consumer
-                      ),
-                      IngredientNutrient.weekly_rda(nutrient, @consumer.to_sym) 
-                    ) %> 
-                  </td>
-                <% else %>
-                  <% 2.times do %> 
-                    <td>No RDA</td>
-                  <% end %>
-                <% end %>
-                <td>
-                  <% if IngredientNutrient.has_upper_limit(nutrient) %>
-                    <%= IngredientNutrient.weekly_upper_limit(nutrient) %>
-                    <%= IngredientNutrient.unit(nutrient) %>
-                  <% end %>
-                </td>
-              <% end %>
+              <td><%= record['amt_consumed_unit'] %></td>
+              <td>
+                <%= total_nutrient_intake = IngredientNutrient.total_nutrient_intake(
+                  record, 
+                  @mealsquare_nutrition, 
+                  @soylent_nutrition
+                ) %> 
+              </td>
+              <td>
+                <% daily_rda = 
+                  ConsumerNutrient.daily_rda(nutrient_name, @consumer) %> 
+                <%= weekly_rda = ConsumerNutrient.weekly_rda(daily_rda) %> 
+              </td>
+              <td>
+                <%= IngredientNutrient.percent_rda(total_nutrient_intake, weekly_rda) %> 
+              </td>
+              <td><%= nutrient_row.weekly_upper_limit %></td>
             </tr>
           <% end %>
         <% end %></table>

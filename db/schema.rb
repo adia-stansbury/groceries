@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160922004146) do
+ActiveRecord::Schema.define(version: 20161028013917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,7 +35,20 @@ ActiveRecord::Schema.define(version: 20160922004146) do
     t.integer "weight_in_lbs"
   end
 
+  create_table "food_nutrients", id: false, force: :cascade do |t|
+    t.integer "food_id",         null: false
+    t.integer "nutrient_id",     null: false
+    t.float   "nutrient_amount", null: false
+  end
+
+  add_index "food_nutrients", ["food_id"], name: "index_food_nutrients_on_food_id", using: :btree
+  add_index "food_nutrients", ["nutrient_id"], name: "index_food_nutrients_on_nutrient_id", using: :btree
+
   create_table "food_sources", force: :cascade do |t|
+    t.string "name", null: false
+  end
+
+  create_table "foods", force: :cascade do |t|
     t.string "name", null: false
   end
 
@@ -74,7 +87,7 @@ ActiveRecord::Schema.define(version: 20160922004146) do
   create_table "meal_plan_recipes", force: :cascade do |t|
     t.integer "recipe_id"
     t.integer "meal_plan_id"
-    t.float   "number_of_recipes", default: 1.0
+    t.float   "number_of_recipes"
   end
 
   create_table "meal_plans", force: :cascade do |t|
