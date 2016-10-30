@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 shared_examples_for 'nutrient_targets' do
   describe '.total_nutrient_intake' do

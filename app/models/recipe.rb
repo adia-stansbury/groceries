@@ -1,5 +1,6 @@
 class Recipe < ActiveRecord::Base
   include SingleRecipe
+  include CleanUpUserInput
 
   has_many :recipe_ingredients, dependent: :destroy
   has_many :ingredients, through: :recipe_ingredients
@@ -9,7 +10,6 @@ class Recipe < ActiveRecord::Base
   has_many :consumers, through: :consumer_recipes
 
   before_save :capitalize_recipe_name!
-  before_save :remove_extraneous_characters
 
   validates :name, uniqueness: true, presence: true
 
@@ -18,10 +18,5 @@ class Recipe < ActiveRecord::Base
   def capitalize_recipe_name!
     word_array = self.name.split.each { |word| word.capitalize! }
     self.name = word_array.join(' ')
-  end 
-  
-  def remove_extraneous_characters
-    name.chomp!
-    name.strip!
   end 
 end

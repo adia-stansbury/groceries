@@ -1,4 +1,6 @@
 class Ingredient < ActiveRecord::Base
+  include CleanUpUserInput
+
   has_many :recipe_ingredients, dependent: :destroy
   has_many :recipes, through: :recipe_ingredients
   has_many :ingredient_nutrients, dependent: :destroy
@@ -9,19 +11,9 @@ class Ingredient < ActiveRecord::Base
   validates :name, uniqueness: true, presence: true
   validates :location_id, presence: true
 
-  before_save :remove_extraneous_characters
   after_save :create_ingredient_nutrient_record
   
   private
-
-  def remove_extraneous_characters
-    name.chomp!
-    name.strip!
-    if self.ndbno.present?
-      ndbno.chomp!
-      ndbno.strip!
-    end 
-  end 
 
   def create_ingredient_nutrient_record
     if self.ndbno.present?

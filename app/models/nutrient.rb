@@ -1,4 +1,7 @@
 class Nutrient < ActiveRecord::Base
+  include CleanUpUserInput
+  include Fetcher
+
   has_many :ingredient_nutrients, dependent: :destroy
   has_many :ingredients, through: :ingredient_nutrients
   has_many :consumer_nutrients, dependent: :destroy
@@ -9,20 +12,7 @@ class Nutrient < ActiveRecord::Base
 
   validates :name, uniqueness: true, presence: true
 
-  before_save :remove_extraneous_characters
-
-  def self.fetch_id_from_name(name)
-    self.where(name: name).first.id
-  end 
-
   def weekly_upper_limit
     self.upper_limit.present? ? (self.upper_limit * 7) : ''  
-  end 
-  
-  private
-
-  def remove_extraneous_characters
-    name.chomp!
-    name.strip!
   end 
 end 
