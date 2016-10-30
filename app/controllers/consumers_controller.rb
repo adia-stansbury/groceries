@@ -5,12 +5,6 @@ class ConsumersController < ApplicationController
 
   def show
     @consumer = Consumer.find(params[:id])
-    consumers_recipes = @consumer.recipes.order(:name)
-    if consumers_recipes.present?
-      @consumers_recipes = consumers_recipes
-    else
-      @consumers_recipes = ConsumerRecipe.where(consumer_id: @consumer.id)
-    end 
   end 
 
   def new

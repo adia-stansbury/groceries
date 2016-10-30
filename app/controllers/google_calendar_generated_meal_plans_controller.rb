@@ -57,8 +57,7 @@ class GoogleCalendarGeneratedMealPlansController < ApplicationController
     end 
 
     def create_meal_plan(consumer)
-      consumer_id = Consumer.where(name: consumer).first.id
-      MealPlan.create(consumer_id: consumer_id)
+      Consumer.where(name: consumer).first.meal_plans.create()      
     end 
 
     adia_meal_plan = create_meal_plan('Adia')
@@ -73,6 +72,9 @@ class GoogleCalendarGeneratedMealPlansController < ApplicationController
     end 
 
     def get_hash_of_meal_plan_recipe_info(calendar_id)
+      #Recipe.where({name: recipe_names}).pluck(:id).each do |recipe_id|
+        #I had to get rid of this optimization b/c it was calling unique on
+        #recipe names
       meal_plan_recipe_info = []
       recipe_ids = []
       recipe_names = get_recipe_names_from_calendar(calendar_id)
@@ -80,9 +82,6 @@ class GoogleCalendarGeneratedMealPlansController < ApplicationController
         recipe_ids << Recipe.where(name: recipe_name).first.id
       end 
       recipe_ids.each do |recipe_id|
-      #Recipe.where({name: recipe_names}).pluck(:id).each do |recipe_id|
-        #I had to get rid of this optimization b/c it was calling unique on
-        #recipe names
         meal_plan_recipe_info << { 
           recipe_id: recipe_id, 
           number_of_recipes: 1

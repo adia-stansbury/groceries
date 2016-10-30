@@ -5,6 +5,8 @@ class IngredientsController < ApplicationController
 
   def show
     @ingredient = Ingredient.find(params[:id])
+    @ndbno = @ingredient.try(:ndbno)
+    @unit = @ingredient.unit.try(:name)
     @groups = NutrientGroup.all.order(:name)
   end 
 

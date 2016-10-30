@@ -9,6 +9,8 @@ class RecipeIngredientsController < ApplicationController
     @recipe_ingredient = RecipeIngredient.find(params[:id])
     @units = Unit.all.order(:name)
     @ingredient = @recipe_ingredient.ingredient
+    @unit = @ingredient.unit.try(:name)
+    @measuring_amount = @ingredient.try(:measuring_amount)
     @recipe = @recipe_ingredient.recipe.name
   end 
 

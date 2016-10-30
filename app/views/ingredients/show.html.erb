@@ -2,12 +2,12 @@
   <div class="page-header">
     <h2><%= @ingredient.name.capitalize! %></h2>
     <h5>
-      NDB Number: <%= @ingredient.try(:ndbno) %>
+      NDB Number: <%= @ndbno %>
       <a href="https://ndb.nal.usda.gov/ndb/foods" target="_blank">Look up Ndbno</a>
       <% if @ingredient.measuring_amount.present? %>
         <div>
           Package size:
-          <%= @ingredient.measuring_amount %> <%= @ingredient.unit.try(:name) %>, 
+          <%= @ingredient.measuring_amount %> <%= @unit %>, 
           <%= @ingredient.num_of_grams_in_measuring_amount %> grams
         </div>
       <% end %>
@@ -25,7 +25,7 @@
   </div>
   <div class="jumbotron">
     <div class="page-header"><h3>Nutrient Report</h3></div>
-    <% if @ingredient.ndbno.present? %>
+    <% if @ndbno.present? %>
       <% @groups.each do |group| %>
         <ul style="list-style-type:none">
           <li><strong>
@@ -48,10 +48,10 @@
               <th>Nutrient</th>
               <th>per 100g</th>
             </tr>
-          <% IngredientNutrient.includes(:nutrient).where(
-            ingredient_id: @ingredient.id, 
-            nutrient_id: group.nutrients.ids
-          ).order('nutrients.name').each do |row| %>
+          <% IngredientNutrient.nutrition(
+            @ingredient.id, 
+            group.nutrients.ids
+          ).each do |row| %>
             <tr>
               <td><%= row.nutrient.name %></td> 
               <td><%= row.value %> <%= row.unit %></td>

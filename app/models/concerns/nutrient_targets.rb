@@ -17,10 +17,6 @@ module NutrientTargets
       record['name']
     end
 
-    def symbolized_nutrient_name(record)
-      record['name'].to_sym
-    end 
-
     private
 
     def nutrients_from_food_table(food_nutrients, record)
