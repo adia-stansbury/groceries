@@ -11,14 +11,11 @@ RSpec.describe ConsumerNutrient, type: :model do
         nutrient_id: nutrient.id,
         daily_rda: 8
       )
-      nutrient_ids = Nutrient.name_id_pairs 
-      consumer_ids = Consumer.name_id_pairs 
+      consumer_rdas = Consumer.rda_hash(consumer.name)
 
       results = ConsumerNutrient.daily_rda(
-        nutrient_ids,
-        consumer_ids,
         nutrient.name, 
-        consumer.name
+        consumer_rdas
       )
 
       expect(results).to eq(8)

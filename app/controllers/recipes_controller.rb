@@ -15,8 +15,6 @@ class RecipesController < ApplicationController
       :name, 
       :upper_limit
     ).to_h
-    @nutrient_ids = Nutrient.name_id_pairs
-    @consumer_ids = Consumer.name_id_pairs
   end 
 
   def new

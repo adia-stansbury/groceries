@@ -42,12 +42,7 @@
               </td>
               <td>
                 <% daily_rda = 
-                  ConsumerNutrient.daily_rda(
-                    @nutrient_ids,
-                    @consumer_ids,
-                    nutrient_name, 
-                    @consumer
-                ) %> 
+                  ConsumerNutrient.daily_rda(nutrient_name, @consumer_rdas) %> 
                 <%= weekly_rda = ConsumerNutrient.weekly_rda(daily_rda) %> 
               </td>
               <td>

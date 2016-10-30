@@ -9,11 +9,8 @@ class ConsumerNutrient < ActiveRecord::Base
   belongs_to :nutrient
   belongs_to :consumer
 
-  def self.daily_rda(nutrient_ids, consumer_ids, nutrient_name, consumer_name)
-    nutrient_id = Nutrient.fetch_id_from_name(nutrient_ids, nutrient_name)
-    consumer_id = Consumer.fetch_id_from_name(consumer_ids, consumer_name)
-
-    where(nutrient_id: nutrient_id, consumer_id: consumer_id).first.try(:daily_rda)
+  def self.daily_rda(nutrient_name, consumer_rdas)
+    consumer_rdas[nutrient_name]
   end 
 
   def self.weekly_rda(daily_rda)

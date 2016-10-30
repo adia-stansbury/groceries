@@ -24,8 +24,7 @@ class MealPlansController < ApplicationController
         :name, 
         :upper_limit
       ).to_h
-      @nutrient_ids = Nutrient.name_id_pairs 
-      @consumer_ids = Consumer.name_id_pairs
+      @consumer_rdas = Consumer.rda_hash(@consumer) 
     end 
   end 
   

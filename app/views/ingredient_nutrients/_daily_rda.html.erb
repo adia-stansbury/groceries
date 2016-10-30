@@ -37,13 +37,11 @@
               <td><%= intake = record['amt_consumed'].to_f.round(2) %></td>
               <% ['Mick', 'Adia'].each do |consumer_name| %>
                 <td>
-                  <%= daily_rda = 
-                    ConsumerNutrient.daily_rda(
-                      @nutrient_ids,
-                      @consumer_ids,
-                      nutrient_name, 
-                      consumer_name
-                  ) %> 
+                  <%= daily_rda = ConsumerNutrient.daily_rda(
+                        nutrient_name, 
+                        Consumer.rda_hash(consumer_name)
+                      ) 
+                  %> 
                 </td>
                 <td>
                   <%= IngredientNutrient.percent_rda(intake, daily_rda) %> 
