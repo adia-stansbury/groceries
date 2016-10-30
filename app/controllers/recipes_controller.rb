@@ -5,12 +5,18 @@ class RecipesController < ApplicationController
 
   def show
     @recipe = Recipe.find(params[:id])
-    @ingredients = Ingredient.all.order(:name)
-    @units = Unit.all.order(:name)
+    @ingredients = Ingredient.order(:name)
+    @units = Unit.order(:name)
     @recipe_ingredients = @recipe.recipe_ingredients.includes(
       :ingredient).order('ingredients.name')
-    @groups = NutrientGroup.all.order(:name)
+    @groups = NutrientGroup.order(:name)
     @aggregate_nutrient_intake = Recipe.nutrient_intake(@recipe.id)      
+    @nutrients_upper_limit = Nutrient.where.not(upper_limit: nil).pluck(
+      :name, 
+      :upper_limit
+    ).to_h
+    @nutrient_ids = Nutrient.name_id_pairs
+    @consumer_ids = Consumer.name_id_pairs
   end 
 
   def new
@@ -23,8 +29,8 @@ class RecipesController < ApplicationController
 
   def create
     @recipe = Recipe.new(recipe_params)
-    @ingredients = Ingredient.all.order(:name)
-    @units = Unit.all.order(:name)
+    @ingredients = Ingredient.order(:name)
+    @units = Unit.order(:name)
     @recipe_ingredients = @recipe.recipe_ingredients.includes(
       :ingredient).order('ingredients.name')
 

@@ -1,6 +1,7 @@
 class Nutrient < ActiveRecord::Base
   include CleanUpUserInput
   include Fetcher
+  include StoreDataInHash
 
   has_many :ingredient_nutrients, dependent: :destroy
   has_many :ingredients, through: :ingredient_nutrients
@@ -12,7 +13,11 @@ class Nutrient < ActiveRecord::Base
 
   validates :name, uniqueness: true, presence: true
 
-  def weekly_upper_limit
-    self.upper_limit.present? ? (self.upper_limit * 7) : ''  
+  def self.upper_limit(nutrients_upper_limit, nutrient_name)
+    nutrients_upper_limit[nutrient_name]
+  end 
+
+  def self.weekly_upper_limit(upper_limit)
+    upper_limit.present? ? (upper_limit * 7) : ''  
   end 
 end 

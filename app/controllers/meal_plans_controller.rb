@@ -20,6 +20,12 @@ class MealPlansController < ApplicationController
         meal_plan_recipe_names,
         'Soylent'
       )
+      @nutrients_upper_limit = Nutrient.where.not(upper_limit: nil).pluck(
+        :name, 
+        :upper_limit
+      ).to_h
+      @nutrient_ids = Nutrient.name_id_pairs 
+      @consumer_ids = Consumer.name_id_pairs
     end 
   end 
   

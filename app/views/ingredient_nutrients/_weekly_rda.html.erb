@@ -31,7 +31,6 @@
             <tr>
               <td>
                 <%= nutrient_name = IngredientNutrient.nutrient_name(record) %>
-                <% nutrient_row = Nutrient.where(name: nutrient_name).first %>
               </td>
               <td><%= record['amt_consumed_unit'] %></td>
               <td>
@@ -43,13 +42,24 @@
               </td>
               <td>
                 <% daily_rda = 
-                  ConsumerNutrient.daily_rda(nutrient_name, @consumer) %> 
+                  ConsumerNutrient.daily_rda(
+                    @nutrient_ids,
+                    @consumer_ids,
+                    nutrient_name, 
+                    @consumer
+                ) %> 
                 <%= weekly_rda = ConsumerNutrient.weekly_rda(daily_rda) %> 
               </td>
               <td>
                 <%= IngredientNutrient.percent_rda(total_nutrient_intake, weekly_rda) %> 
               </td>
-              <td><%= nutrient_row.weekly_upper_limit %></td>
+              <td>
+                <% upper_limit = Nutrient.upper_limit(
+                  @nutrients_upper_limit,
+                  nutrient_name
+                ) %>
+                <%= Nutrient.weekly_upper_limit(upper_limit) %>
+              </td>
             </tr>
           <% end %>
         <% end %></table>

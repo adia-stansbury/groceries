@@ -1,9 +1,9 @@
-module Fetcher
+module StoreDataInHash
   extend ActiveSupport::Concern
 
   module ClassMethods
-    def fetch_id_from_name(ids, name)
-      ids[name]
+    def name_id_pairs
+      pluck(:name, :id).to_h
     end 
   end 
 end 
