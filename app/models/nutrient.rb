@@ -1,6 +1,5 @@
 class Nutrient < ActiveRecord::Base
   include CleanUpUserInput
-  include Fetcher
   include StoreDataInHash
 
   has_many :ingredient_nutrients, dependent: :destroy

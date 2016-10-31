@@ -1,6 +1,5 @@
 class Consumer < ActiveRecord::Base
   include CleanUpUserInput
-  include Fetcher
   include StoreDataInHash
 
   has_many :consumer_recipes, dependent: :destroy
