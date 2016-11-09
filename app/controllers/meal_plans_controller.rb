@@ -9,7 +9,7 @@ class MealPlansController < ApplicationController
     @consumer = @meal_plan.consumer.name 
     @week = @meal_plan.created_at
     if @meal_plan.recipes.present?
-      @aggregate_nutrient_intake = MealPlan.nutrient_intake(@meal_plan.id)
+      @aggregate_nutrient_intake = @meal_plan.nutrient_intake
       @groups = NutrientGroup.all.order(:name)
       meal_plan_recipe_names = @meal_plan.recipes.pluck(:name)
       @mealsquare_nutrition = Food.nutrition(
