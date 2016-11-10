@@ -10,7 +10,7 @@ class RecipesController < ApplicationController
     @recipe_ingredients = @recipe.recipe_ingredients.includes(
       :ingredient).order('ingredients.name')
     @groups = NutrientGroup.order(:name)
-    @aggregate_nutrient_intake = Recipe.nutrient_intake(@recipe.id)      
+    @aggregate_nutrient_intake = @recipe.nutrient_intake      
     @nutrients_upper_limit = Nutrient.where.not(upper_limit: nil).pluck(
       :name, 
       :upper_limit
