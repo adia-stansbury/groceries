@@ -4,7 +4,7 @@
       Create grocery list. View nutrient facts for the week.
     </h3>
   </div>
-  <%= form_tag("/lists/new", method: "get") do %>
+  <%= form_tag("/grocery_lists/new", method: "get") do %>
     <% @meal_plans.each do |meal_plan| %>
       <div class="jumbotron">
         <div class="page-header">

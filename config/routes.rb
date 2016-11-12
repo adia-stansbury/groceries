@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'meal_plans#new'
   devise_for :users
-  resources :lists
+  resources :grocery_lists
   resources :recipes do
     resources :recipe_ingredients, only: :create
   end  
