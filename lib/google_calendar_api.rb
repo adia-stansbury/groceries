@@ -12,20 +12,12 @@ module GoogleCalendarApi
   #
   # @return [Google::Auth::UserRefreshCredentials] OAuth2 credentials
   
-  def self.get_calendar_events(calendar_id) 
-    #initialize api
-    service = Google::Apis::CalendarV3::CalendarService.new
-    service.client_options.application_name = APPLICATION_NAME
-    service.authorization = authorize
-
-    response = service.list_events(
-      calendar_id,
-      max_results: 106,
-      single_events: true,
-      order_by: 'startTime',
-      time_min: (Time.now + (60 * 60 * 24)).iso8601
-      # time_min: Time.now.iso8601
-    )
+  def self.get_recipe_names_from_calendar(calendar_id)
+    recipe_names = []
+    get_calendar_events(calendar_id).items.each do | event |
+      recipe_names << event.summary
+    end 
+    recipe_names
   end 
  
   private
@@ -51,4 +43,20 @@ module GoogleCalendarApi
     end
     credentials
   end
+
+  def self.get_calendar_events(calendar_id) 
+    #initialize api
+    service = Google::Apis::CalendarV3::CalendarService.new
+    service.client_options.application_name = APPLICATION_NAME
+    service.authorization = authorize
+
+    response = service.list_events(
+      calendar_id,
+      max_results: 106,
+      single_events: true,
+      order_by: 'startTime',
+      time_min: (Time.now + (60 * 60 * 24)).iso8601
+      # time_min: Time.now.iso8601
+    )
+  end 
 end 

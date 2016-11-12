@@ -14,4 +14,8 @@ class Consumer < ActiveRecord::Base
   def self.rda_hash(consumer_name)
     where(name: consumer_name).first.nutrients.pluck(:name, :daily_rda).to_h
   end 
+
+  def self.create_meal_plan(consumer_name)
+    Consumer.where(name: consumer_name).first.meal_plans.create()      
+  end 
 end 
