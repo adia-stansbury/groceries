@@ -2,7 +2,6 @@ require 'google/apis/calendar_v3'
 require 'googleauth'
 require 'googleauth/stores/file_token_store'
 require 'fileutils'
-require "#{Rails.root}/lib/google_calendar_api"
 
 class GoogleCalendarGeneratedMealPlansController < ApplicationController
   def new
