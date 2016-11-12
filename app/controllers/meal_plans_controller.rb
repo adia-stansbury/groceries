@@ -11,15 +11,8 @@ class MealPlansController < ApplicationController
     if @meal_plan.recipes.present?
       @aggregate_nutrient_intake = @meal_plan.nutrient_intake
       @groups = NutrientGroup.all.order(:name)
-      meal_plan_recipe_names = @meal_plan.recipes.pluck(:name)
-      @mealsquare_nutrition = Food.nutrition(
-        meal_plan_recipe_names,
-        'Mealsquare'
-      )
-      @soylent_nutrition = Food.nutrition(
-        meal_plan_recipe_names,
-        'Soylent'
-      )
+      @mealsquare = Food.find_by(name: 'Mealsquare')
+      @soylent = Food.find_by(name: 'Soylent')
       @nutrients_upper_limit = Nutrient.where.not(upper_limit: nil).pluck(
         :name, 
         :upper_limit

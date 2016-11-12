@@ -38,4 +38,16 @@ class MealPlan < ActiveRecord::Base
       "
     ) 
   end  
+
+  def nutrient_intake_from_custom_food(food, nutrient_name)
+    if recipes.pluck(:name).include?(food.name)
+      if food.nutrition[nutrient_name].present?
+        return food.nutrition[nutrient_name]
+      else 
+        return 0
+      end 
+    else 
+      return 0
+    end 
+  end 
 end 

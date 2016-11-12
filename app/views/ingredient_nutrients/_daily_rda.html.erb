@@ -30,7 +30,7 @@
           </tr> 
         <% @aggregate_nutrient_intake.each do |record| %>
           <% if group.nutrients.ids.include?(record['id'].to_i) %> 
-            <% nutrient_name = IngredientNutrient.nutrient_name(record) %> 
+            <% nutrient_name = Nutrient.nutrient_name(record) %> 
             <tr>
               <td><%= nutrient_name %></td>
               <td><%= record['amt_consumed_unit'] %></td>
@@ -43,9 +43,7 @@
                       ) 
                   %> 
                 </td>
-                <td>
-                  <%= IngredientNutrient.percent_rda(intake, daily_rda) %> 
-                </td>
+                <td><%= ConsumerNutrient.percent_rda(intake, daily_rda) %></td>
               <% end %>
               <td><%= Nutrient.upper_limit(@nutrients_upper_limit, nutrient_name) %></td>
             </tr>

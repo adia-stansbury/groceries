@@ -13,6 +13,10 @@ class Nutrient < ActiveRecord::Base
 
   validates :name, uniqueness: true, presence: true
 
+  def self.nutrient_name(record)
+    record['name']
+  end
+
   def self.upper_limit(nutrients_upper_limit, nutrient_name)
     nutrients_upper_limit[nutrient_name]
   end 

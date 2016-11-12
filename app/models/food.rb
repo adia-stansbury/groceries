@@ -14,4 +14,8 @@ class Food < ActiveRecord::Base
       food_nutrients = {}
     end 
   end 
+
+  def nutrition
+    nutrients.pluck(:name, :nutrient_amount).to_h 
+  end 
 end  

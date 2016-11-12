@@ -29,16 +29,19 @@
         <% @aggregate_nutrient_intake.each do |record| %>
           <% if group.nutrients.ids.include?(record['id'].to_i) %> 
             <tr>
-              <td>
-                <%= nutrient_name = IngredientNutrient.nutrient_name(record) %>
-              </td>
+              <td><%= nutrient_name = Nutrient.nutrient_name(record) %></td>
               <td><%= record['amt_consumed_unit'] %></td>
               <td>
-                <%= total_nutrient_intake = IngredientNutrient.total_nutrient_intake(
-                  record, 
-                  @mealsquare_nutrition, 
-                  @soylent_nutrition
-                ) %> 
+                <%= nutrition = (
+                  record['amt_consumed'].to_f + 
+                  @meal_plan.nutrient_intake_from_custom_food(
+                    @mealsquare, 
+                    nutrient_name
+                  ) + @meal_plan.nutrient_intake_from_custom_food(
+                    @soylent, 
+                    nutrient_name                 
+                  )
+                ).round(2) %> 
               </td>
               <td>
                 <% daily_rda = 
@@ -46,7 +49,7 @@
                 <%= weekly_rda = ConsumerNutrient.weekly_rda(daily_rda) %> 
               </td>
               <td>
-                <%= IngredientNutrient.percent_rda(total_nutrient_intake, weekly_rda) %> 
+                <%= ConsumerNutrient.percent_rda(nutrition, weekly_rda) %> 
               </td>
               <td>
                 <% upper_limit = Nutrient.upper_limit(
@@ -60,4 +63,5 @@
         <% end %></table>
       </div>
     <% end %>
+  </div>
 </div>

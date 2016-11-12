@@ -11,6 +11,12 @@ FactoryGirl.define do
     id 1
   end 
 
+  factory :food do
+    name 'Soylent'
+  end 
+
+  factory :food_nutrient
+
   factory :food_source do
     id 2
     name 'plant'

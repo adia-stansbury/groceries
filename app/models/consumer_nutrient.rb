@@ -16,4 +16,8 @@ class ConsumerNutrient < ActiveRecord::Base
   def self.weekly_rda(daily_rda)
     daily_rda.present? ? (daily_rda * 7).to_f.round(2) : ''
   end 
+
+  def self.percent_rda(intake, rda)
+    (rda.present?) ? ((intake/rda * 100).round(2)) : ''
+  end 
 end 
