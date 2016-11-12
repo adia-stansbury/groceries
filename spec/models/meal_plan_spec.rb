@@ -97,7 +97,29 @@ RSpec.describe MealPlan, type: :model do
     unit
   end 
 
-  describe '.nutrient_intake' do
+  describe '.shopping_list' do
+    it 'returns contents of shopping list' do
+      grams_of_apple_in_recipe
+      grams_of_peanut_butter_in_recipe
+      grams_of_black_beans_in_recipe
+      meal_plan_recipe
+      meal_plan_recipe2
+
+      sql_meal_plan_ids = SqlFormatter.sql_ids([meal_plan.id])
+
+      results = MealPlan.shopping_list(sql_meal_plan_ids)
+
+      expected = [
+        ["1", "fruit", "apple"], 
+        ["1", "fruit", "black_beans"], 
+        ["1", "fruit", "peanut butter"]
+      ]
+
+      expect(results.rows).to eq(expected)
+    end 
+  end 
+      
+  describe '#nutrient_intake' do
     context 'meal plan with multiple recipes' do
       it 'returns total nutrient intake' do
         zinc_in_apple
@@ -135,7 +157,7 @@ RSpec.describe MealPlan, type: :model do
     end 
   end 
 
-  describe '.nutrient_intake_from_custom_food' do
+  describe '#nutrient_intake_from_custom_food' do
     let(:food) { FactoryGirl.create(:food) } 
     let(:food_recipe) { FactoryGirl.create(:recipe, name: food.name) } 
     let(:food_meal_plan_recipe) do  

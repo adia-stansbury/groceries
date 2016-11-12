@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ConsumerNutrient, type: :model do
   describe '.daily_rda' do
     it "returns consumer's daily RDA for a nutrient" do
-      nutrient = FactoryGirl.create(:nutrient, name: 'Zinc, Zn')
+      nutrient = FactoryGirl.create(:nutrient)
       consumer = FactoryGirl.create(:consumer)
       consumer_nutrient = FactoryGirl.create(
         :consumer_nutrient, 
@@ -11,7 +11,7 @@ RSpec.describe ConsumerNutrient, type: :model do
         nutrient_id: nutrient.id,
         daily_rda: 8
       )
-      consumer_rdas = Consumer.rda_hash(consumer.name)
+      consumer_rdas = consumer.rda_hash
 
       results = ConsumerNutrient.daily_rda(
         nutrient.name, 

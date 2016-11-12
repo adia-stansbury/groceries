@@ -15,14 +15,14 @@ FactoryGirl.define do
     name 'Soylent'
   end 
 
-  factory :food_nutrient
-
   factory :food_source do
     id 2
     name 'plant'
   end 
 
-  factory :ingredient
+  factory :ingredient do
+    name 'kale' 
+  end 
 
   factory :ingredient_nutrient
 
@@ -39,9 +39,12 @@ FactoryGirl.define do
 
   factory :meal_plan_recipe
 
-  factory :nutrient
+  factory :nutrient do
+    name 'Zinc, Zn'
+  end 
 
   factory :recipe do
+    name 'Grilled Veggies'
     number_of_servings 1.0
   end 
 

@@ -35,11 +35,11 @@
               <td><%= nutrient_name %></td>
               <td><%= record['amt_consumed_unit'] %></td>
               <td><%= intake = record['amt_consumed'].to_f.round(2) %></td>
-              <% ['Mick', 'Adia'].each do |consumer_name| %>
+              <% @consumers.each do |consumer| %>
                 <td>
                   <%= daily_rda = ConsumerNutrient.daily_rda(
                         nutrient_name, 
-                        Consumer.rda_hash(consumer_name)
+                        consumer.rda_hash
                       ) 
                   %> 
                 </td>

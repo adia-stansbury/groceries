@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Recipe, type: :model do
-  describe '.nutrient_intake' do
+  describe '#nutrient_intake' do
     let(:recipe) { FactoryGirl.create(:recipe, name: 'Buttery Apple Banana') } 
     let(:recipe2) { FactoryGirl.create(:recipe, name: 'Black Bean Soup') } 
     let(:zinc) { FactoryGirl.create(:nutrient, name: 'Zinc, Zn') } 
@@ -48,34 +48,47 @@ RSpec.describe Recipe, type: :model do
       )
     end
 
+    before do
+      unit
+      location
+    end 
+
     context 'recipe with one ingredient' do
       it 'returns total nutrient intake for recipe' do
-        unit
-        location
-        zinc_in_apple
-        grams_of_apple_in_recipe
+        expected = (zinc_in_apple.value * grams_of_apple_in_recipe.amount_in_grams)/100
 
         results = recipe.nutrient_intake
         total_zinc = results.first['amt_consumed']
-        
-        expect(total_zinc).to eq('0.0728')
+
+        expect(total_zinc).to eq(expected.to_s)
       end 
     end 
 
     context 'recipe with two different ingredients' do
       it 'returns total nutrient intake for recipe' do
-        unit
-        location
-        zinc_in_apple
-        grams_of_apple_in_recipe
-        zinc_in_peanut_butter
-        grams_of_peanut_butter_in_recipe
+        zinc_from_apple = (
+          zinc_in_apple.value * grams_of_apple_in_recipe.amount_in_grams
+        )/100
+        zinc_from_pb = (
+          zinc_in_peanut_butter.value * grams_of_peanut_butter_in_recipe.amount_in_grams
+        )/100
+
+        expected = (zinc_from_apple + zinc_from_pb).round(3).to_s
 
         results = recipe.nutrient_intake
         total_zinc = results.first['amt_consumed']
         
-        expect(total_zinc).to eq('1.852')
+        expect(total_zinc).to eq(expected)
       end 
+    end 
+  end 
+
+  describe '#capitalize_recipe_name!' do
+    it 'returns capitalized name' do
+      recipe = FactoryGirl.build(:recipe, name: 'grilled veggies')
+      recipe.save
+
+      expect(recipe.reload.name).to eq('Grilled Veggies')
     end 
   end 
 end

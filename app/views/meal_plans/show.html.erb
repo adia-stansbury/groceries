@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="page-header">
-    <h3>Meal Plan for <%= @consumer %> for <%= @week %></h3>
+    <h3>Meal Plan for <%= @consumer.name %> for <%= @week %></h3>
   </div>
   <% if @meal_plan.meal_plan_recipes.present? %>
     <div class="jumbotron">

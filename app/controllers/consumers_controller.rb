@@ -1,6 +1,6 @@
 class ConsumersController < ApplicationController
   def index 
-    @consumers = Consumer.all.order('UPPER(name)')
+    @consumers = Consumer.order('UPPER(name)')
   end 
 
   def show

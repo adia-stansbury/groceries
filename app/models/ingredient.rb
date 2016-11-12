@@ -16,7 +16,7 @@ class Ingredient < ActiveRecord::Base
   private
 
   def create_ingredient_nutrient_records
-    if self.ndbno.present?
+    if ndbno.present?
       ndbno = format_ndbno
       new_rows = []
       nutrients = fetch_nutrients

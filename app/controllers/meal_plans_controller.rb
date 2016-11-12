@@ -1,29 +1,26 @@
 class MealPlansController < ApplicationController
   def index
-    @meal_plans = MealPlan.all.order(created_at: :desc).limit(2)
+    @meal_plans = MealPlan.order(created_at: :desc).limit(2)
   end 
 
   def show
     @meal_plan = MealPlan.find(params[:id])
-    @recipes = Recipe.all.order(:name)
-    @consumer = @meal_plan.consumer.name 
+    @recipes = Recipe.order(:name)
+    @consumer = @meal_plan.consumer 
     @week = @meal_plan.created_at
     if @meal_plan.recipes.present?
       @aggregate_nutrient_intake = @meal_plan.nutrient_intake
-      @groups = NutrientGroup.all.order(:name)
+      @groups = NutrientGroup.order(:name)
       @mealsquare = Food.find_by(name: 'Mealsquare')
       @soylent = Food.find_by(name: 'Soylent')
-      @nutrients_upper_limit = Nutrient.where.not(upper_limit: nil).pluck(
-        :name, 
-        :upper_limit
-      ).to_h
-      @consumer_rdas = Consumer.rda_hash(@consumer) 
+      @nutrients_upper_limit = Nutrient.upper_limit_hash      
+      @consumer_rdas = @consumer.rda_hash 
     end 
   end 
   
   def new 
-    @consumers = Consumer.all.order(:name)
-    @recipes = Recipe.all.order(:name)
+    @consumers = Consumer.order(:name)
+    @recipes = Recipe.order(:name)
     @meal_plan = MealPlan.new
     @consumer = Consumer.new
     if params[:consumer].present?
@@ -35,7 +32,7 @@ class MealPlansController < ApplicationController
 
   def create
     @meal_plan = MealPlan.new(meal_plan_params)     
-    @recipes = Recipe.all.order(:name)
+    @recipes = Recipe.order(:name)
     
     if @meal_plan.save
       render 'show'

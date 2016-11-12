@@ -1,6 +1,6 @@
 class MealPlanRecipesController < ApplicationController
   def create
-    @recipes = Recipe.all.order(:name)
+    @recipes = Recipe.order(:name)
     @meal_plan = MealPlan.find(params[:meal_plan_id])
     params[:meal_plan_recipe][:number_of_recipes].to_i.times do
       @meal_plan.meal_plan_recipes.create(
@@ -15,7 +15,7 @@ class MealPlanRecipesController < ApplicationController
   def destroy
     @meal_plan_recipe = MealPlanRecipe.find(params[:id])
     @meal_plan_recipe.destroy
-    @meal_plans = MealPlan.all.order(created_at: :desc).limit(2)
+    @meal_plans = MealPlan.order(created_at: :desc).limit(2)
 
     render 'meal_plans/index'
   end 

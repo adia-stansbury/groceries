@@ -22,8 +22,8 @@
             <th>Nutrient</th>
             <th>Unit</th>
             <th>Consumed</th>
-            <th><%= @consumer %>'s RDA</th>
-            <th>% <%= @consumer %>'s</th>
+            <th><%= @consumer.name %>'s RDA</th>
+            <th>% <%= @consumer.name %>'s</th>
             <th>UL</th>
           </tr> 
         <% @aggregate_nutrient_intake.each do |record| %>

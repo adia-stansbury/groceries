@@ -11,10 +11,8 @@ class RecipesController < ApplicationController
       :ingredient).order('ingredients.name')
     @groups = NutrientGroup.order(:name)
     @aggregate_nutrient_intake = @recipe.nutrient_intake      
-    @nutrients_upper_limit = Nutrient.where.not(upper_limit: nil).pluck(
-      :name, 
-      :upper_limit
-    ).to_h
+    @nutrients_upper_limit = Nutrient.upper_limit_hash   
+    @consumers = Consumer.where(name: ['Mick', 'Adia'])
   end 
 
   def new

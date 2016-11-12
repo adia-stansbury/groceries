@@ -1,24 +1,24 @@
 class IngredientsController < ApplicationController
   def index 
-    @ingredients = Ingredient.all.order('LOWER(name)')
+    @ingredients = Ingredient.order('LOWER(name)')
   end 
 
   def show
     @ingredient = Ingredient.find(params[:id])
     @ndbno = @ingredient.try(:ndbno)
     @unit = @ingredient.unit.try(:name)
-    @groups = NutrientGroup.all.order(:name)
+    @groups = NutrientGroup.order(:name)
   end 
 
   def new
     @ingredient = Ingredient.new
-    @locations = Location.all.order(:name)
-    @units = Unit.all.order(:name)
+    @locations = Location.order(:name)
+    @units = Unit.order(:name)
   end 
 
   def create
     @ingredient = Ingredient.new(ingredient_params)
-    @groups = NutrientGroup.all.order(:name)
+    @groups = NutrientGroup.order(:name)
 
     if @ingredient.save
       render 'show'
@@ -29,8 +29,8 @@ class IngredientsController < ApplicationController
 
   def edit
     @ingredient = Ingredient.find(params[:id])
-    @locations = Location.all.order(:ordering)
-    @units = Unit.all.order(:name)
+    @locations = Location.order(:ordering)
+    @units = Unit.order(:name)
   end 
 
   def update

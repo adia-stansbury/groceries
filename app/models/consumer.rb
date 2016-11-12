@@ -1,6 +1,5 @@
 class Consumer < ActiveRecord::Base
   include CleanUpUserInput
-  include StoreDataInHash
 
   has_many :consumer_recipes, dependent: :destroy
   has_many :recipes, through: :consumer_recipes
@@ -11,11 +10,7 @@ class Consumer < ActiveRecord::Base
   validates :name, uniqueness: true, presence: true
   validates :weight_in_lbs, presence: true
 
-  def self.rda_hash(consumer_name)
-    where(name: consumer_name).first.nutrients.pluck(:name, :daily_rda).to_h
-  end 
-
-  def self.create_meal_plan(consumer_name)
-    Consumer.where(name: consumer_name).first.meal_plans.create()      
+  def rda_hash
+    nutrients.pluck(:name, :daily_rda).to_h
   end 
 end 

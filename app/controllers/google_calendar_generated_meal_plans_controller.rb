@@ -5,8 +5,8 @@ require 'fileutils'
 
 class GoogleCalendarGeneratedMealPlansController < ApplicationController
   def new
-    adia_meal_plan = Consumer.create_meal_plan('Adia')
-    mick_meal_plan = Consumer.create_meal_plan('Mick')
+    adia_meal_plan = Consumer.find_by(name: 'Adia').meal_plans.create
+    mick_meal_plan = Consumer.find_by(name: 'Mick').meal_plans.create
 
     adia_recipe_names = GoogleCalendarApi.get_recipe_names_from_calendar(ENV['ADIA_CALENDAR_ID'])
     mick_recipe_names = GoogleCalendarApi.get_recipe_names_from_calendar(ENV['MICK_CALENDAR_ID'])

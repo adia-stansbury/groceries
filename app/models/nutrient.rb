@@ -1,6 +1,5 @@
 class Nutrient < ActiveRecord::Base
   include CleanUpUserInput
-  include StoreDataInHash
 
   has_many :ingredient_nutrients, dependent: :destroy
   has_many :ingredients, through: :ingredient_nutrients
@@ -15,6 +14,10 @@ class Nutrient < ActiveRecord::Base
 
   def self.nutrient_name(record)
     record['name']
+  end
+
+  def self.upper_limit_hash
+    where.not(upper_limit: nil).pluck(:name, :upper_limit).to_h
   end
 
   def self.upper_limit(nutrients_upper_limit, nutrient_name)
