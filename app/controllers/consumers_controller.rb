@@ -23,7 +23,7 @@ class ConsumersController < ApplicationController
 
   def edit
     @consumer = Consumer.find(params[:id])
-    @recipes = Recipe.all.order(:name) 
+    @recipes = Recipe.order(:name) 
   end 
 
   def update
