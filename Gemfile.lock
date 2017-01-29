@@ -224,7 +224,7 @@ GEM
       jwt (~> 1.5)
       multi_json (~> 1.10)
     slop (3.6.0)
-    spring (2.0.0)
+    spring (2.0.1)
       activesupport (>= 4.2)
     sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
