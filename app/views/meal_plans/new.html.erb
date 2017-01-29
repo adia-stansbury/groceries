@@ -1,29 +1,23 @@
-<div class="container-fluid">
-  <div class="page-header">
-    <h3>Create MealPlan</h3>
-  </div>
-  <div class="jumbotron">
-    <h4>Option 1</h4> 
-    <div>
-      Create meal plans for Mick and Adia populated with recipes found in our Google Calendar and those found in template meal plan.
+<form action="/google_calendar_generated_meal_plans/new" method="get">
+  <div class="container-fluid">
+    <div class="page-header">
+      <h3>Create MealPlan</h3>
     </div>
-    <p>
-      <%= button_to 'Generate Meal Plans from Google Calendar', 
-        { 
-          controller: :google_calendar_generated_meal_plans,
-          action: 'new' 
-        },
-        method: :get,
-        class: "btn btn-success" 
-      %>
-      </p>
-  </div>
-  <div class="jumbotron">
-    <h4>Option 2</h4> 
-    <div>
-      Create an empty meal plan (has no recipes) and then manually add recipes to it.
+    <div class="jumbotron">
+      <h4>Option 1: Import meal plans in Google Calendar</h4>
+      <h5>Select meal plan start date</h5>
+      <div id="js-datepicker-start"></div>
+      <input type="hidden" id="js-start_date" name="start_date"/>
+      <br/>
+      <button type="submit" class="btn btn-success" id="js-import-google-cal-events">
+        Generate Meal Plans from Google Calendar
+      </button>
     </div>
-    <p><%= render partial: 'form' %></p>
-    <p><%= render partial: 'consumers/form' %></p>
+    <div class="jumbotron">
+      <h4>Option 2: Create meal plan</h4>
+      <p><%= render partial: 'form' %></p>
+      <h5>Add new consumer:</h5>
+      <p><%= render partial: 'consumers/form' %></p>
+    </div>
   </div>
-</div>
+</form>
