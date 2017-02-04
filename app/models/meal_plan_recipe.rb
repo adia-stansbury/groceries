@@ -2,56 +2,42 @@ class MealPlanRecipe < ActiveRecord::Base
   belongs_to :recipe
   belongs_to :meal_plan
 
+  # number_of_recipes attribute is dead code at the moment.
   ADIA_TEMPLATE = [
     # yogurts
-    {
-      recipe_id: 7,
-      number_of_recipes: 1
-    },
+    { recipe_id: 7, number_of_recipes: 1 },
+    # fried eggs
+    { recipe_id: 80, number_of_recipes: 1 },
+    { recipe_id: 80, number_of_recipes: 1 },
     # hot chocolate
-    {
-      recipe_id: 52,
-      number_of_recipes: 1
-    }
+    { recipe_id: 52, number_of_recipes: 1 },
+    # grapefruits
+    { recipe_id: 45, number_of_recipes: 1 },
+    { recipe_id: 45, number_of_recipes: 1 },
+    { recipe_id: 45, number_of_recipes: 1 },
+    { recipe_id: 45, number_of_recipes: 1 },
+    { recipe_id: 45, number_of_recipes: 1 },
+    { recipe_id: 45, number_of_recipes: 1 },
+    { recipe_id: 45, number_of_recipes: 1 },
+    { recipe_id: 45, number_of_recipes: 1 },
+    # roasted veggies
+    { recipe_id: 69, number_of_recipes: 1 },
+    { recipe_id: 69, number_of_recipes: 1 },
   ]
 
   MICK_TEMPLATE = [
     #yogurts
-    {
-      recipe_id: 13,
-      number_of_recipes: 1
-    },
+    { recipe_id: 13, number_of_recipes: 1 },
     # hot chocolate
-    {
-      recipe_id: 52,
-      number_of_recipes: 1
-    },
+    { recipe_id: 52, number_of_recipes: 1 },
     # 3 apples
-    {
-      recipe_id: 44,
-      number_of_recipes: 1
-    },
-    {
-      recipe_id: 44,
-      number_of_recipes: 1
-    },
-    {
-      recipe_id: 44,
-      number_of_recipes: 1
-    },
+    { recipe_id: 44, number_of_recipes: 1 },
+    { recipe_id: 44, number_of_recipes: 1 },
+    { recipe_id: 44, number_of_recipes: 1 },
     # 3 carbonated waters
-    {
-      recipe_id: 21,
-      number_of_recipes: 1
-    },
-    {
-      recipe_id: 21,
-      number_of_recipes: 1
-    },
-    {
-      recipe_id: 21,
-      number_of_recipes: 1
-    }
+    { recipe_id: 21, number_of_recipes: 1 },
+    { recipe_id: 21, number_of_recipes: 1 },
+    { recipe_id: 21, number_of_recipes: 1 }
   ]
 
   # Recipe.where({name: recipe_names}).pluck(:id).each do |recipe_id|
