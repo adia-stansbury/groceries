@@ -98,10 +98,15 @@ RSpec.describe MealPlan, type: :model do
   end
 
   describe '.shopping_list' do
-    it 'returns contents of shopping list' do
+    it 'returns contents of shopping list and for which recipe' do
       grams_of_apple_in_recipe
       grams_of_peanut_butter_in_recipe
       grams_of_black_beans_in_recipe
+      FactoryGirl.create(
+        :recipe_ingredient,
+        recipe_id: recipe2.id,
+        ingredient_id: apple.id
+      )
       meal_plan_recipe
       meal_plan_recipe2
 
@@ -110,12 +115,13 @@ RSpec.describe MealPlan, type: :model do
       results = MealPlan.shopping_list(sql_meal_plan_ids)
 
       expected = [
-        [1, "fruit", "apple"],
-        [1, "fruit", "black_beans"],
-        [1, "fruit", "peanut butter"]
+        [1.0, "fruit", "apple", 'Buttery Apple Banana'],
+        [1.0, "fruit", "apple", 'Black Bean Soup'],
+        [1.0, "fruit", "black_beans", 'Black Bean Soup'],
+        [1.0, "fruit", "peanut butter", 'Buttery Apple Banana']
       ]
 
-      expect(results.rows).to eq(expected)
+      expect(results.rows).to match_array(expected)
     end
   end
 

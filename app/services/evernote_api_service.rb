@@ -1,7 +1,7 @@
 require "digest/md5"
 require 'evernote-thrift'
 
-module EvernoteApi
+module EvernoteApiService
   NOTE_TITLE = 'Grocery List'
   NOTE_NOTEBOOK = 'Shopping List'
   EVERNOTE_HOST = "www.evernote.com"
@@ -30,16 +30,16 @@ module EvernoteApi
       if notebook.name == note_notebook
         return notebook.guid
       end
-    end 
-  end 
+    end
+  end
 
   def self.make_note_body(results)
     list = ''
     results.each do |row|
-      list += "<en-todo/>#{row['total_quantity']} #{row['unit']} #{row['name']}<br/>"
-    end 
+      list += "<en-todo/>#{row['total_quantity']} #{row['unit']} #{row['name']} (#{row['recipe_name']})<br/>"
+    end
     list
-  end 
+  end
 
   def self.make_note(note_store, note_title, note_body, auth_token, note_notebook_guid)
     n_body = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -49,7 +49,7 @@ module EvernoteApi
     our_note = Evernote::EDAM::Type::Note.new
     our_note.title = note_title
     our_note.content = n_body
-    our_note.notebookGuid = note_notebook_guid 
+    our_note.notebookGuid = note_notebook_guid
 
     begin
       note = note_store.createNote(auth_token, our_note)
@@ -63,4 +63,4 @@ module EvernoteApi
 
     note
   end
-end 
+end
