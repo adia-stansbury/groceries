@@ -17,7 +17,14 @@ module EvernoteApiService
               Evernote::EDAM::UserStore::EDAM_VERSION_MINOR)
     puts "Is my Evernote API version up to date? #{version_ok}"
     exit(1) unless version_ok
-    note_store_url = user_store.getNoteStoreUrl(auth_token)
+    begin
+      note_store_url = user_store.getNoteStoreUrl(auth_token)
+    rescue Evernote::EDAM::Error::EDAMUserException => edue
+      ## See EDAMErrorCode enumeration for error code explanation
+      ## http://dev.evernote.com/documentation/reference/Errors.html#Enum_EDAMErrorCode
+      Rails.logger.error "Evernote didn't authenticate b/c: #{edue.parameter}"
+    raise
+    end
     note_store_transport = Thrift::HTTPClientTransport.new(note_store_url)
     note_store_protocol = Thrift::BinaryProtocol.new(note_store_transport)
 
