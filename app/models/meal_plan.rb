@@ -5,11 +5,9 @@ class MealPlan < ActiveRecord::Base
 
   def self.shopping_list(sql_meal_plan_ids)
     RecipeIngredient.connection.select_all(
-      "SELECT SUM(quantity) AS total_quantity, units.name AS unit, ingredients.name, recipes.name AS recipe_name
+      "SELECT SUM(quantity) AS total_quantity, units.name AS unit, ingredients.name
         FROM recipe_ingredients
-        JOIN recipes
-        ON recipe_ingredients.recipe_id = recipes.id
-        JOIN ingredients
+        JOIN ingredients 
         ON recipe_ingredients.ingredient_id = ingredients.id
         JOIN locations
         ON ingredients.location_id = locations.id
@@ -18,18 +16,18 @@ class MealPlan < ActiveRecord::Base
         JOIN meal_plan_recipes
         ON recipe_ingredients.recipe_id = meal_plan_recipes.recipe_id
         WHERE meal_plan_recipes.meal_plan_id IN (#{sql_meal_plan_ids})
-        GROUP BY locations.ordering, ingredients.name, units.name, recipes.name
+        GROUP BY locations.ordering, ingredients.name, units.name
         ORDER BY locations.ordering
       "
     )
-  end
+  end 
 
   def nutrient_intake
     IngredientNutrient.connection.select_all(
-      "SELECT nutrients.id, nutrients.name, ingredient_nutrients.unit AS amt_consumed_unit, sum((value/100)*amount_in_grams) AS amt_consumed
-        FROM ingredient_nutrients
-        JOIN recipe_ingredients
-        ON recipe_ingredients.ingredient_id = ingredient_nutrients.ingredient_id
+      "SELECT nutrients.id, nutrients.name, ingredient_nutrients.unit AS amt_consumed_unit, sum((value/100)*amount_in_grams) AS amt_consumed 
+        FROM ingredient_nutrients 
+        JOIN recipe_ingredients 
+        ON recipe_ingredients.ingredient_id = ingredient_nutrients.ingredient_id 
         JOIN nutrients
         ON nutrients.id = ingredient_nutrients.nutrient_id
         JOIN meal_plan_recipes
@@ -38,18 +36,18 @@ class MealPlan < ActiveRecord::Base
         GROUP BY nutrients.id, nutrients.name, amt_consumed_unit
         ORDER BY nutrients.name
       "
-    )
-  end
+    ) 
+  end  
 
   def nutrient_intake_from_custom_food(food, nutrient_name)
     if recipes.pluck(:name).include?(food.name)
       if food.nutrition[nutrient_name].present?
         return food.nutrition[nutrient_name]
-      else
+      else 
         return 0
-      end
-    else
+      end 
+    else 
       return 0
-    end
-  end
-end
+    end 
+  end 
+end 
