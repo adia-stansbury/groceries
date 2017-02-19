@@ -15,7 +15,7 @@ RSpec.describe MealPlan, type: :model do
     FactoryGirl.create(:ingredient, name: 'peanut butter', location_id: location.id)
   end
   let(:black_beans) do
-    FactoryGirl.create(:ingredient, name: 'black_beans', location_id: location.id)
+    FactoryGirl.create(:ingredient, name: 'black beans', location_id: location.id)
   end
   let(:zinc_in_apple) do
     FactoryGirl.create(
@@ -103,19 +103,25 @@ RSpec.describe MealPlan, type: :model do
       grams_of_peanut_butter_in_recipe
       grams_of_black_beans_in_recipe
       meal_plan_recipe
+      meal_plan_recipe_dup
       meal_plan_recipe2
+      FactoryGirl.create(
+        :recipe_ingredient,
+        recipe_id: recipe2.id,
+        ingredient_id: apple.id
+      )
 
       sql_meal_plan_ids = SqlFormatter.sql_ids([meal_plan.id])
 
       results = MealPlan.shopping_list(sql_meal_plan_ids)
 
       expected = [
-        [1, "fruit", "apple"],
-        [1, "fruit", "black_beans"],
-        [1, "fruit", "peanut butter"]
+        [3.0, "fruit", "apple", "Black Bean Soup, Buttery Apple Banana"],
+        [1.0, "fruit", "black beans", "Black Bean Soup"],
+        [2.0, "fruit", "peanut butter", "Buttery Apple Banana"]
       ]
 
-      expect(results.rows).to eq(expected)
+      expect(results.rows).to match_array(expected)
     end
   end
 
