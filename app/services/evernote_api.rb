@@ -40,10 +40,15 @@ module EvernoteApi
     end
   end
 
-  def self.make_note_body(results)
+  def self.make_note_body(results, first_day_recipes)
     list = ''
     results.each do |row|
-      list += "<en-todo/>#{row['total_quantity']} #{row['unit']} #{row['name']} <i>(#{row['recipe_names']})</i><br/>"
+      shared_recipes = row['recipe_names'].split('; ') & first_day_recipes
+      if shared_recipes.empty?
+        list += "<en-todo/>#{row['total_quantity']} #{row['unit']} #{row['name']} <i>(#{row['recipe_names']})</i><br/>"
+      else
+        list += "<en-todo/><strong>#{row['total_quantity']} #{row['unit']} #{row['name']}</strong> <i>(#{row['recipe_names']})</i><br/>"
+      end
     end
     list
   end

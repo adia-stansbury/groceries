@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161028013917) do
+ActiveRecord::Schema.define(version: 20170225190507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,10 +19,9 @@ ActiveRecord::Schema.define(version: 20161028013917) do
     t.float   "daily_rda"
     t.integer "consumer_id"
     t.integer "nutrient_id"
+    t.index ["consumer_id"], name: "index_consumer_nutrients_on_consumer_id", using: :btree
+    t.index ["nutrient_id"], name: "index_consumer_nutrients_on_nutrient_id", using: :btree
   end
-
-  add_index "consumer_nutrients", ["consumer_id"], name: "index_consumer_nutrients_on_consumer_id", using: :btree
-  add_index "consumer_nutrients", ["nutrient_id"], name: "index_consumer_nutrients_on_nutrient_id", using: :btree
 
   create_table "consumer_recipes", force: :cascade do |t|
     t.integer "consumer_id", null: false
@@ -39,10 +37,9 @@ ActiveRecord::Schema.define(version: 20161028013917) do
     t.integer "food_id",         null: false
     t.integer "nutrient_id",     null: false
     t.float   "nutrient_amount", null: false
+    t.index ["food_id"], name: "index_food_nutrients_on_food_id", using: :btree
+    t.index ["nutrient_id"], name: "index_food_nutrients_on_nutrient_id", using: :btree
   end
-
-  add_index "food_nutrients", ["food_id"], name: "index_food_nutrients_on_food_id", using: :btree
-  add_index "food_nutrients", ["nutrient_id"], name: "index_food_nutrients_on_nutrient_id", using: :btree
 
   create_table "food_sources", force: :cascade do |t|
     t.string "name", null: false
@@ -57,10 +54,9 @@ ActiveRecord::Schema.define(version: 20161028013917) do
     t.string  "unit",          null: false
     t.integer "nutrient_id",   null: false
     t.integer "ingredient_id", null: false
+    t.index ["ingredient_id"], name: "index_ingredient_nutrients_on_ingredient_id", using: :btree
+    t.index ["nutrient_id"], name: "index_ingredient_nutrients_on_nutrient_id", using: :btree
   end
-
-  add_index "ingredient_nutrients", ["ingredient_id"], name: "index_ingredient_nutrients_on_ingredient_id", using: :btree
-  add_index "ingredient_nutrients", ["nutrient_id"], name: "index_ingredient_nutrients_on_nutrient_id", using: :btree
 
   create_table "ingredients", force: :cascade do |t|
     t.string  "name",                             limit: 1000, null: false
@@ -71,23 +67,22 @@ ActiveRecord::Schema.define(version: 20161028013917) do
     t.float   "num_of_grams_in_measuring_amount"
     t.integer "unit_id"
     t.text    "note"
+    t.index ["name"], name: "ingredients_name_key", unique: true, using: :btree
   end
-
-  add_index "ingredients", ["name"], name: "ingredients_name_key", unique: true, using: :btree
 
   create_table "locations", force: :cascade do |t|
     t.string  "name",        limit: 1000, null: false
     t.integer "ordering",                 null: false
     t.text    "description"
+    t.index ["name"], name: "locations_name_key", unique: true, using: :btree
+    t.index ["ordering"], name: "locations_aisle_key", unique: true, using: :btree
   end
-
-  add_index "locations", ["name"], name: "locations_name_key", unique: true, using: :btree
-  add_index "locations", ["ordering"], name: "locations_aisle_key", unique: true, using: :btree
 
   create_table "meal_plan_recipes", force: :cascade do |t|
     t.integer "recipe_id"
     t.integer "meal_plan_id"
     t.float   "number_of_recipes"
+    t.boolean "first_day_recipe",  default: false
   end
 
   create_table "meal_plans", force: :cascade do |t|
@@ -104,9 +99,8 @@ ActiveRecord::Schema.define(version: 20161028013917) do
     t.integer "nutrient_group_id"
     t.float   "upper_limit"
     t.integer "unit_id"
+    t.index ["unit_id"], name: "index_nutrients_on_unit_id", using: :btree
   end
-
-  add_index "nutrients", ["unit_id"], name: "index_nutrients_on_unit_id", using: :btree
 
   create_table "recipe_ingredients", force: :cascade do |t|
     t.integer "recipe_id"
@@ -120,9 +114,8 @@ ActiveRecord::Schema.define(version: 20161028013917) do
     t.string "name",               limit: 1000, null: false
     t.float  "number_of_servings"
     t.text   "note"
+    t.index ["name"], name: "recipes_name_key", unique: true, using: :btree
   end
-
-  add_index "recipes", ["name"], name: "recipes_name_key", unique: true, using: :btree
 
   create_table "units", force: :cascade do |t|
     t.string "name"
@@ -141,10 +134,9 @@ ActiveRecord::Schema.define(version: 20161028013917) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "consumer_nutrients", "consumers"
   add_foreign_key "consumer_nutrients", "nutrients"

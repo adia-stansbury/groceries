@@ -116,7 +116,7 @@ RSpec.describe MealPlan, type: :model do
       results = MealPlan.shopping_list(sql_meal_plan_ids)
 
       expected = [
-        [3.0, "fruit", "apple", "Black Bean Soup, Buttery Apple Banana"],
+        [3.0, "fruit", "apple", "Black Bean Soup; Buttery Apple Banana"],
         [1.0, "fruit", "black beans", "Black Bean Soup"],
         [2.0, "fruit", "peanut butter", "Buttery Apple Banana"]
       ]
