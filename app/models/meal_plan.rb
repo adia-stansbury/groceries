@@ -5,7 +5,7 @@ class MealPlan < ActiveRecord::Base
 
   def self.shopping_list(sql_meal_plan_ids)
     RecipeIngredient.connection.select_all(
-      "SELECT SUM(quantity) AS total_quantity, units.name AS unit, ingredients.name, STRING_AGG(distinct(recipes.name), ', ') AS recipe_names
+      "SELECT SUM(quantity) AS total_quantity, units.name AS unit, ingredients.name, STRING_AGG(distinct(recipes.name), '; ') AS recipe_names
         FROM recipe_ingredients
         JOIN recipes
         ON recipe_ingredients.recipe_id = recipes.id

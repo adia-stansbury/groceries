@@ -1,7 +1,7 @@
 class GroceryListsController < ApplicationController
   def new
-    note_title = EvernoteApi::NOTE_TITLE  
-    note_notebook = EvernoteApi::NOTE_NOTEBOOK 
+    note_title = EvernoteApi::NOTE_TITLE
+    note_notebook = EvernoteApi::NOTE_NOTEBOOK
     auth_token = ENV['PROD_AUTH_TOKEN']
     evernote_host = EvernoteApi::EVERNOTE_HOST
     # auth_token = ENV['SANDBOX_AUTH_TOKEN']
@@ -11,7 +11,8 @@ class GroceryListsController < ApplicationController
 
     note_store = EvernoteApi.create_note_store(auth_token, evernote_host)
     note_notebook_guid = EvernoteApi.create_note_notebook_guid(note_notebook, auth_token, note_store)
-    note_body = EvernoteApi.make_note_body(shopping_list) 
+    first_day_recipes = MealPlanRecipe.fetch_first_day_recipe_names(params['meal_plan_ids'])
+    note_body = EvernoteApi.make_note_body(shopping_list, first_day_recipes)
 
     EvernoteApi.make_note(note_store, note_title, note_body, auth_token, note_notebook_guid)
   end
