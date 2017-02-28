@@ -13,10 +13,16 @@ module GoogleCalendarApi
   # @return [Google::Auth::UserRefreshCredentials] OAuth2 credentials
 
   def self.get_mealplan_from_calendar(calendar_id, start_date)
-    mealplan = []
+    mealplan = {}
     get_calendar_events(calendar_id, start_date).items.each do | event |
       event.start.date.to_date == start_date.to_date ? flag = true : flag = false
-      mealplan << { recipe_name: event.summary, first_day_recipe: flag }
+      if mealplan.has_key?(event.summary)
+        mealplan[event.summary][:number_of_recipes] += 1
+      else
+        mealplan[event.summary] = {}
+        mealplan[event.summary][:first_day_recipe] = flag
+        mealplan[event.summary][:number_of_recipes] = 1
+      end
     end
     mealplan
   end

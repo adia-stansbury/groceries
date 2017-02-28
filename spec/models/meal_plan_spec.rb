@@ -72,21 +72,16 @@ RSpec.describe MealPlan, type: :model do
     FactoryGirl.create(
       :meal_plan_recipe,
       recipe_id: recipe.id,
-      meal_plan_id: meal_plan.id
-    )
-  end
-  let(:meal_plan_recipe_dup) do
-    FactoryGirl.create(
-      :meal_plan_recipe,
-      recipe_id: recipe.id,
-      meal_plan_id: meal_plan.id
+      meal_plan_id: meal_plan.id,
+      number_of_recipes: 2
     )
   end
   let(:meal_plan_recipe2) do
     FactoryGirl.create(
       :meal_plan_recipe,
       recipe_id: recipe2.id,
-      meal_plan_id: meal_plan.id
+      meal_plan_id: meal_plan.id,
+      number_of_recipes: 1
     )
   end
 
@@ -103,7 +98,6 @@ RSpec.describe MealPlan, type: :model do
       grams_of_peanut_butter_in_recipe
       grams_of_black_beans_in_recipe
       meal_plan_recipe
-      meal_plan_recipe_dup
       meal_plan_recipe2
       FactoryGirl.create(
         :recipe_ingredient,
@@ -141,24 +135,7 @@ RSpec.describe MealPlan, type: :model do
         results = meal_plan.nutrient_intake
         total_zinc = results.first['amt_consumed']
 
-        expect(total_zinc).to eq(6.442)
-      end
-    end
-
-    context 'meal plan with recipe duplicates' do
-      it 'returns total nutrient intake' do
-        zinc_in_apple
-        zinc_in_peanut_butter
-        grams_of_apple_in_recipe
-        grams_of_peanut_butter_in_recipe
-
-        meal_plan_recipe
-        meal_plan_recipe_dup
-
-        results = meal_plan.nutrient_intake
-        total_zinc = results.first['amt_consumed']
-
-        expect(total_zinc).to eq(3.704)
+        expect(total_zinc).to eq(8.294)
       end
     end
   end
@@ -170,7 +147,8 @@ RSpec.describe MealPlan, type: :model do
       FactoryGirl.create(
         :meal_plan_recipe,
         recipe_id: food_recipe.id,
-        meal_plan_id: meal_plan.id
+        meal_plan_id: meal_plan.id,
+        number_of_recipes: 1
       )
     end
 

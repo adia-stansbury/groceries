@@ -5,7 +5,7 @@ class MealPlan < ActiveRecord::Base
 
   def self.shopping_list(sql_meal_plan_ids)
     RecipeIngredient.connection.select_all(
-      "SELECT SUM(quantity) AS total_quantity, units.name AS unit, ingredients.name, STRING_AGG(distinct(recipes.name), '; ') AS recipe_names
+      "SELECT SUM(quantity*meal_plan_recipes.number_of_recipes) AS total_quantity, units.name AS unit, ingredients.name, STRING_AGG(distinct(recipes.name), '; ') AS recipe_names
         FROM recipe_ingredients
         JOIN recipes
         ON recipe_ingredients.recipe_id = recipes.id
@@ -26,7 +26,7 @@ class MealPlan < ActiveRecord::Base
 
   def nutrient_intake
     IngredientNutrient.connection.select_all(
-      "SELECT nutrients.id, nutrients.name, ingredient_nutrients.unit AS amt_consumed_unit, sum((value/100)*amount_in_grams) AS amt_consumed
+      "SELECT nutrients.id, nutrients.name, ingredient_nutrients.unit AS amt_consumed_unit, sum((value/100)*amount_in_grams*meal_plan_recipes.number_of_recipes) AS amt_consumed
         FROM ingredient_nutrients
         JOIN recipe_ingredients
         ON recipe_ingredients.ingredient_id = ingredient_nutrients.ingredient_id
