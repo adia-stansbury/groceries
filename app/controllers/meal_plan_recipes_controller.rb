@@ -4,24 +4,47 @@ class MealPlanRecipesController < ApplicationController
     @meal_plan = MealPlan.find(params[:meal_plan_id])
     @meal_plan.meal_plan_recipes.create(
       recipe_id: params[:meal_plan_recipe][:recipe_id],
-      number_of_recipes: params[:meal_plan_recipe][:number_of_recipes]
+      number_of_recipes: params[:meal_plan_recipe][:number_of_recipes],
+      first_day_recipe: params[:meal_plan_recipe][:first_day_recipe]
     )
 
     redirect_to meal_plan_path(@meal_plan)
   end
 
+  def edit
+    @meal_plan_recipe = MealPlanRecipe.find(params[:id])
+    @meal_plan = MealPlan.find(@meal_plan_recipe.meal_plan_id)
+    @recipe = Recipe.find(@meal_plan_recipe.recipe_id)
+  end
+
+  def update
+    @meal_plan_recipe = MealPlanRecipe.find(params[:id])
+
+    if @meal_plan_recipe.update(meal_plan_recipe_params)
+      @meal_plan = MealPlan.find(@meal_plan_recipe.meal_plan_id)
+      redirect_to meal_plan_path(@meal_plan)
+    else
+      render 'edit'
+    end
+  end
+
   def destroy
     @meal_plan_recipe = MealPlanRecipe.find(params[:id])
     @meal_plan_recipe.destroy
-    @meal_plans = MealPlan.order(created_at: :desc).limit(2)
+    @meal_plan = MealPlan.find(@meal_plan_recipe.meal_plan_id)
 
-    render 'meal_plans/index'
+    redirect_to meal_plan_path(@meal_plan)
   end
 
   private
 
   def meal_plan_recipe_params
-    params.require(:meal_plan_recipe).permit(:number_of_recipes, :recipe_id)
+    params.require(:meal_plan_recipe).permit(
+      :first_day_recipe,
+      :meal_plan_id,
+      :number_of_recipes,
+      :recipe_id,
+    )
   end
 end
 
