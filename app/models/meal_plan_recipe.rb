@@ -2,53 +2,35 @@ class MealPlanRecipe < ActiveRecord::Base
   belongs_to :recipe
   belongs_to :meal_plan
 
-  # number_of_recipes attribute is dead code at the moment.
   ADIA_TEMPLATE = [
     # yogurts
     { recipe_id: 7, number_of_recipes: 1 },
     # fried eggs
-    { recipe_id: 80, number_of_recipes: 1, first_day_recipe: true },
-    { recipe_id: 80, number_of_recipes: 1 },
+    { recipe_id: 80, number_of_recipes: 2, first_day_recipe: true },
     # hot chocolate
     { recipe_id: 52, number_of_recipes: 1 },
     # grapefruits
-    { recipe_id: 45, number_of_recipes: 1, first_day_recipe: true },
-    { recipe_id: 45, number_of_recipes: 1 },
-    { recipe_id: 45, number_of_recipes: 1 },
-    { recipe_id: 45, number_of_recipes: 1 },
-    { recipe_id: 45, number_of_recipes: 1 },
-    { recipe_id: 45, number_of_recipes: 1 },
-    { recipe_id: 45, number_of_recipes: 1 },
-    { recipe_id: 45, number_of_recipes: 1 },
+    { recipe_id: 45, number_of_recipes: 8, first_day_recipe: true },
     # roasted veggies
-    { recipe_id: 69, number_of_recipes: 1, first_day_recipe: true },
-    { recipe_id: 69, number_of_recipes: 1 },
+    { recipe_id: 69, number_of_recipes: 2, first_day_recipe: true },
   ]
 
   MICK_TEMPLATE = [
-    #yogurts
+    # yogurts
     { recipe_id: 13, number_of_recipes: 1 },
     # hot chocolate
     { recipe_id: 52, number_of_recipes: 1 },
-    # 3 apples
-    { recipe_id: 44, number_of_recipes: 1 },
-    { recipe_id: 44, number_of_recipes: 1 },
-    { recipe_id: 44, number_of_recipes: 1 },
-    # 3 carbonated waters
-    { recipe_id: 21, number_of_recipes: 1 },
-    { recipe_id: 21, number_of_recipes: 1 },
-    { recipe_id: 21, number_of_recipes: 1 }
+    # apples
+    { recipe_id: 44, number_of_recipes: 3 },
+    # carbonated waters
+    { recipe_id: 21, number_of_recipes: 3 },
   ]
 
-  def self.fetch_recipe_ids_with_flag(mealplan)
-    recipe_ids_with_flag = []
-    mealplan.each do |row|
-      recipe_ids_with_flag << {
-        recipe_id: Recipe.where(name: row[:recipe_name]).first.id,
-        first_day_recipe: row[:first_day_recipe]
-      }
+  def self.add_recipe_ids_to_mealplan(mealplan)
+    mealplan.keys.map do |key|
+      mealplan[key][:recipe_id] = Recipe.where(name: key).first.id
     end
-    recipe_ids_with_flag
+    mealplan
   end
 
   def self.fetch_first_day_recipe_names(mealplan_ids)
@@ -57,17 +39,10 @@ class MealPlanRecipe < ActiveRecord::Base
     ).pluck(:name)
   end
 
-  # Recipe.where({name: recipe_names}).pluck(:id).each do |recipe_id|
-    # I had to get rid of this optimization b/c it was calling unique on
-    #  recipe names
-  def self.new_rows(recipe_ids_with_flag)
+  def self.new_rows(mealplan_with_recipe_ids)
     meal_plan_recipe_rows = []
-    recipe_ids_with_flag.each do |row|
-      meal_plan_recipe_rows << {
-        recipe_id: row[:recipe_id],
-        number_of_recipes: 1,
-        first_day_recipe: row[:first_day_recipe]
-      }
+    mealplan_with_recipe_ids.each do |_, value|
+      meal_plan_recipe_rows << value
     end
     meal_plan_recipe_rows
   end

@@ -12,10 +12,10 @@ class GoogleCalendarGeneratedMealPlansController < ApplicationController
     mick_mealplan = GoogleCalendarApi.get_mealplan_from_calendar(ENV['MICK_CALENDAR_ID'], params['start_date'].to_time.iso8601)
 
     adia_new_rows = MealPlanRecipe.new_rows(
-      MealPlanRecipe.fetch_recipe_ids_with_flag(adia_mealplan)
+      MealPlanRecipe.add_recipe_ids_to_mealplan(adia_mealplan)
     ) + MealPlanRecipe::ADIA_TEMPLATE
     mick_new_rows = MealPlanRecipe.new_rows(
-      MealPlanRecipe.fetch_recipe_ids_with_flag(mick_mealplan)
+      MealPlanRecipe.add_recipe_ids_to_mealplan(mick_mealplan)
     ) + MealPlanRecipe::MICK_TEMPLATE
 
     adia_meal_plan.meal_plan_recipes.create(adia_new_rows)

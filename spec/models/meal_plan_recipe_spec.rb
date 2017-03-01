@@ -1,26 +1,32 @@
 require 'rails_helper'
 
 RSpec.describe MealPlanRecipe, type: :model do
-  describe '.fetch_recipe_ids_with_flag' do
-    it 'returns array of hashes of recipe id with flag' do
+  describe '.add_recipe_ids_to_mealplan' do
+    it 'returns mealplan with recipe ids' do
       recipe = FactoryGirl.create(:recipe)
-      mealplan = [{ recipe_name: recipe.name, first_day_recipe: true }]
+      mealplan = { recipe.name => { number_of_recipes: 2, first_day_recipe: true }}
+      expected =
+        { recipe.name =>
+         { number_of_recipes: 2, first_day_recipe: true, recipe_id: recipe.id }
+        }
 
-      expected = [{ recipe_id: recipe.id, first_day_recipe: true }]
-      results = MealPlanRecipe.fetch_recipe_ids_with_flag(mealplan)
+      results = MealPlanRecipe.add_recipe_ids_to_mealplan(mealplan)
 
-      expect(results).to match_array(expected)
+      expect(results).to eq(expected)
     end
   end
 
   describe '.new_rows' do
     it 'returns rows to create' do
-      recipe_ids_with_flag = [{ recipe_id: 2, first_day_recipe: true }]
+      mealplan_with_recipe_ids =
+        { 'Roasted Veggies' =>
+         { number_of_recipes: 2, first_day_recipe: true, recipe_id: 5 }
+        }
 
-      expected = [{ recipe_id: 2, number_of_recipes: 1, first_day_recipe: true }]
-      results = MealPlanRecipe.new_rows(recipe_ids_with_flag)
+      expected = [{ recipe_id: 5, number_of_recipes: 2, first_day_recipe: true }]
+      results = MealPlanRecipe.new_rows(mealplan_with_recipe_ids)
 
-      expect(results).to match_array(expected)
+      expect(results).to eq(expected)
     end
   end
 end
