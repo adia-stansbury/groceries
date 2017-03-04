@@ -2,6 +2,11 @@ class MealPlanRecipe < ActiveRecord::Base
   belongs_to :recipe
   belongs_to :meal_plan
 
+  validates :recipe_id, uniqueness: { scope: :meal_plan_id, message: 'This mealplan already has this recipe. Instead of creating another record for this same recipe, edit the existing recipe for this mealplan'}
+  validates :recipe_id, :meal_plan_id, :number_of_recipes, presence: true
+  validates :first_day_recipe, inclusion: { in: [true, false] }
+  validates :first_day_recipe, exclusion: { in: [nil] }
+
   ADIA_TEMPLATE = [
     # yogurts
     { recipe_id: 7, number_of_recipes: 1 },
