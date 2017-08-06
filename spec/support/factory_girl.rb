@@ -5,24 +5,24 @@ FactoryGirl.define do
     id 1
     name 'Adia'
     weight_in_lbs 124
-  end 
+  end
 
   factory :consumer_nutrient do
     id 1
-  end 
+  end
 
   factory :food do
     name 'Soylent'
-  end 
+  end
 
   factory :food_source do
     id 2
     name 'plant'
-  end 
+  end
 
   factory :ingredient do
-    name 'kale' 
-  end 
+    name 'kale'
+  end
 
   factory :ingredient_nutrient
 
@@ -30,28 +30,34 @@ FactoryGirl.define do
     id 1
     name 'produce'
     ordering 100
-  end 
+  end
 
   factory :meal_plan do
     consumer_id 1
     created_at Time.now
-  end 
+  end
 
-  factory :meal_plan_recipe
+  factory :meal_plan_recipe do
+    number_of_recipes 1
+  end
 
   factory :nutrient do
     name 'Zinc, Zn'
-  end 
+  end
+
+  factory :nutrient_group do
+    name 'Minerals'
+  end
 
   factory :recipe do
     name 'Grilled Veggies'
     number_of_servings 1.0
-  end 
+  end
 
   factory :recipe_ingredient do
     unit_id 1
     quantity '1.0'
-  end 
+  end
 
   factory :user do
     sequence(:email) {|n| "user#{n}@example.com" }
@@ -62,5 +68,5 @@ FactoryGirl.define do
   factory :unit do
     id 1
     name 'fruit'
-  end 
+  end
 end

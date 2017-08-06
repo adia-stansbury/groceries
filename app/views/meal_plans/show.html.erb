@@ -2,6 +2,14 @@
   <div class="page-header">
     <h3>Meal Plan for <%= @consumer.name %> for <%= @week %></h3>
   </div>
+  <ul class="nav nav-tabs">
+    <li class="active"><%= link_to 'Weekly', meal_plan_path(@meal_plan) %></li>
+    <% @meal_plan.dates.each do |date| %>
+      <li>
+        <%= link_to(date, meal_plan_meal_plan_recipe_day_path(@meal_plan, date)) %>
+      </li>
+    <% end %>
+  </ul>
   <% if @meal_plan.meal_plan_recipes.present? %>
     <div class="jumbotron">
       <table class="table">

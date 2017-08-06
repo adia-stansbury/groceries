@@ -5,14 +5,14 @@
         <li><strong>
           <% group_name = group.name.parameterize %>
           <%= image_tag(
-            "plus_sign.png", 
+            "plus_sign.png",
             class: "plus-sign js-plus-sign-#{group_name}"
-          ) %> 
+          ) %>
           <%= image_tag(
-            "minus_sign.png", 
-            class: "minus-sign js-minus-sign-#{group_name}", 
+            "minus_sign.png",
+            class: "minus-sign js-minus-sign-#{group_name}",
             style: "display:none"
-          ) %> 
+          ) %>
           <%= group.name %>
         </strong></li>
       </ul>
@@ -27,10 +27,10 @@
             <th>Adia's RDA</th>
             <th>% Adia's</th>
             <th>UL</th>
-          </tr> 
+          </tr>
         <% @aggregate_nutrient_intake.each do |record| %>
-          <% if group.nutrients.ids.include?(record['id'].to_i) %> 
-            <% nutrient_name = Nutrient.nutrient_name(record) %> 
+          <% if group.nutrients.ids.include?(record['id'].to_i) %>
+            <% nutrient_name = Nutrient.nutrient_name(record) %>
             <tr>
               <td><%= nutrient_name %></td>
               <td><%= record['amt_consumed_unit'] %></td>
@@ -38,10 +38,10 @@
               <% @consumers.each do |consumer| %>
                 <td>
                   <%= daily_rda = ConsumerNutrient.daily_rda(
-                        nutrient_name, 
+                        nutrient_name,
                         consumer.rda_hash
-                      ) 
-                  %> 
+                      )
+                  %>
                 </td>
                 <td><%= ConsumerNutrient.percent_rda(intake, daily_rda) %></td>
               <% end %>

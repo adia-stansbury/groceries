@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :meal_plan_recipes, only: [:edit, :update, :destroy]
   resources :meal_plans, only: [:index, :show, :new, :create] do
     resources :meal_plan_recipes, only: :create
+    resources :meal_plan_recipe_days, only: :show
   end
   resources :generate_template_meal_plans, only: :new
   resources :google_calendar_generated_meal_plans, only: :new

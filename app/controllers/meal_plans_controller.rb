@@ -11,7 +11,11 @@ class MealPlansController < ApplicationController
     if @meal_plan.recipes.present?
       meal_plan_recipe_ids = @meal_plan.recipes.pluck('recipes.id')
       @recipes = Recipe.where.not(id: meal_plan_recipe_ids).order(:name)
-      @aggregate_nutrient_intake = @meal_plan.nutrient_intake
+      @aggregate_nutrient_intake = @meal_plan.nutrient_intake(
+        @meal_plan.dates.first,
+        @meal_plan.dates.last
+      )
+
       @groups = NutrientGroup.order(:name)
       @mealsquare = Food.find_by(name: 'Mealsquare')
       @soylent = Food.find_by(name: 'Soylent')

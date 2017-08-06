@@ -1,6 +1,7 @@
 class MealPlanRecipe < ActiveRecord::Base
   belongs_to :recipe
   belongs_to :meal_plan
+  has_many :meal_plan_recipe_days
 
   validates :recipe_id, uniqueness: { scope: :meal_plan_id, message: 'This mealplan already has this recipe. Instead of creating another record for this same recipe, edit the existing recipe for this mealplan'}
   validates :recipe_id, :meal_plan_id, :number_of_recipes, presence: true
@@ -31,11 +32,8 @@ class MealPlanRecipe < ActiveRecord::Base
     { recipe_id: 21, number_of_recipes: 3 },
   ]
 
-  def self.add_recipe_ids_to_mealplan(mealplan)
-    mealplan.keys.map do |key|
-      mealplan[key][:recipe_id] = Recipe.where(name: key).first.id
-    end
-    mealplan
+  def self.is_first_day_recipe(recipe_date, start_date)
+    recipe_date == start_date.to_date
   end
 
   def self.fetch_first_day_recipe_names(mealplan_ids)
@@ -44,9 +42,9 @@ class MealPlanRecipe < ActiveRecord::Base
     ).pluck(:name)
   end
 
-  def self.new_rows(mealplan_with_recipe_ids)
+  def self.new_rows(meal_plan_recipes_info)
     meal_plan_recipe_rows = []
-    mealplan_with_recipe_ids.each do |_, value|
+    meal_plan_recipes_info.each do |_, value|
       meal_plan_recipe_rows << value
     end
     meal_plan_recipe_rows

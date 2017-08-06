@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170225190507) do
+ActiveRecord::Schema.define(version: 20170712001445) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,12 @@ ActiveRecord::Schema.define(version: 20170225190507) do
     t.text    "description"
     t.index ["name"], name: "locations_name_key", unique: true, using: :btree
     t.index ["ordering"], name: "locations_aisle_key", unique: true, using: :btree
+  end
+
+  create_table "meal_plan_recipe_days", force: :cascade do |t|
+    t.date    "date"
+    t.integer "meal_plan_recipe_id"
+    t.index ["meal_plan_recipe_id"], name: "index_meal_plan_recipe_days_on_meal_plan_recipe_id", using: :btree
   end
 
   create_table "meal_plan_recipes", force: :cascade do |t|
@@ -145,6 +151,7 @@ ActiveRecord::Schema.define(version: 20170225190507) do
   add_foreign_key "ingredients", "food_sources"
   add_foreign_key "ingredients", "locations", name: "ingredients_location_id_fkey"
   add_foreign_key "ingredients", "units"
+  add_foreign_key "meal_plan_recipe_days", "meal_plan_recipes"
   add_foreign_key "nutrients", "units"
   add_foreign_key "recipe_ingredients", "ingredients", name: "recipe_ingredients_ingredient_id_fkey"
   add_foreign_key "recipe_ingredients", "recipes", name: "recipe_ingredients_recipe_id_fkey"

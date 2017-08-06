@@ -84,12 +84,39 @@ RSpec.describe MealPlan, type: :model do
       number_of_recipes: 1
     )
   end
+  let(:meal_plan_recipe_1_day) do
+    MealPlanRecipeDay.create(
+      meal_plan_recipe_id: meal_plan_recipe.id,
+      date: Date.yesterday
+    )
+  end
+  let(:meal_plan_recipe_2_day) do
+    MealPlanRecipeDay.create(
+      meal_plan_recipe_id: meal_plan_recipe2.id,
+      date: Date.today
+    )
+  end
 
   before do
     consumer
     location
     meal_plan
     unit
+  end
+
+  describe '.add_recipe_ids_to_build' do
+    it 'returns mealplan with recipe ids' do
+      mealplan = { recipe.name => { number_of_recipes: 2, first_day_recipe: true }}
+      expected =
+        {
+          recipe.name =>
+           { number_of_recipes: 2, first_day_recipe: true, recipe_id: recipe.id }
+        }
+
+      results = MealPlan.add_recipe_ids_to_build(mealplan)
+
+      expect(results).to eq(expected)
+    end
   end
 
   describe '.shopping_list' do
@@ -120,7 +147,7 @@ RSpec.describe MealPlan, type: :model do
   end
 
   describe '#nutrient_intake' do
-    context 'meal plan with multiple recipes' do
+    context 'all recipes in meal plan with multiple recipes' do
       it 'returns total nutrient intake' do
         zinc_in_apple
         zinc_in_peanut_butter
@@ -128,11 +155,16 @@ RSpec.describe MealPlan, type: :model do
         grams_of_apple_in_recipe
         grams_of_peanut_butter_in_recipe
         grams_of_black_beans_in_recipe
-
         meal_plan_recipe
         meal_plan_recipe2
+        meal_plan_recipe_1_day
+        meal_plan_recipe_2_day
 
-        results = meal_plan.nutrient_intake
+        results = meal_plan.nutrient_intake(
+          meal_plan.dates.first,
+          meal_plan.dates.last
+        )
+
         total_zinc = results.first['amt_consumed']
 
         expect(total_zinc).to eq(8.294)
