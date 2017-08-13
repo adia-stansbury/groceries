@@ -12,6 +12,10 @@ class Recipe < ActiveRecord::Base
 
   validates :name, uniqueness: true, presence: true
 
+  def self.get_id(name)
+    pluck(:name, :id).to_h[name]
+  end
+
   def nutrient_intake
     IngredientNutrient.connection.select_all(
       "SELECT nutrients.id, nutrients.name, ingredient_nutrients.unit AS amt_consumed_unit, sum((value/100)*amount_in_grams) AS amt_consumed

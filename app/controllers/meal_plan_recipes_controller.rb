@@ -4,7 +4,7 @@ class MealPlanRecipesController < ApplicationController
     @meal_plan = MealPlan.find(params[:meal_plan_id])
     @meal_plan.meal_plan_recipes.create(
       recipe_id: params[:meal_plan_recipe][:recipe_id],
-      number_of_recipes: params[:meal_plan_recipe][:number_of_recipes],
+      date: params[:meal_plan_recipe][:date],
       first_day_recipe: params[:meal_plan_recipe][:first_day_recipe]
     )
 
@@ -42,7 +42,7 @@ class MealPlanRecipesController < ApplicationController
     params.require(:meal_plan_recipe).permit(
       :first_day_recipe,
       :meal_plan_id,
-      :number_of_recipes,
+      :date,
       :recipe_id,
     )
   end

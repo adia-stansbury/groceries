@@ -9,7 +9,7 @@
           <th>Recipe</th>
           <th>Actions</th>
         </tr>
-        <% @meal_plan.meal_plan_recipes.each do |mpr| %>
+        <% @meal_plan_recipes.each do |mpr| %>
           <% if mpr.recipe.present? %>
             <tr>
               <td><%= link_to mpr.recipe.name, recipe_path(mpr.recipe.id) %></td>

@@ -28,47 +28,14 @@ class GoogleCalendarGeneratedMealPlansController < ApplicationController
      start_date
     )
 
-    adia_mealplan_info_sans_dates = MealPlan.fetch_mealplan_info_sans_dates(adia_mealplan_info)
-    mick_mealplan_info_sans_dates = MealPlan.fetch_mealplan_info_sans_dates(mick_mealplan_info)
-
-    adia_new_rows = MealPlanRecipe.new_rows(
-      MealPlan.add_recipe_ids_to_build(adia_mealplan_info_sans_dates)
-    ) + MealPlanRecipe::ADIA_TEMPLATE
-
-    mick_new_rows = MealPlanRecipe.new_rows(
-      MealPlan.add_recipe_ids_to_build(mick_mealplan_info_sans_dates)
-    ) + MealPlanRecipe::MICK_TEMPLATE
+    adia_new_rows = adia_mealplan_info
+    mick_new_rows = mick_mealplan_info
 
     adia_meal_plan_recipes = adia_meal_plan.meal_plan_recipes
     mick_meal_plan_recipes = mick_meal_plan.meal_plan_recipes
 
     adia_meal_plan_recipes.create(adia_new_rows)
     mick_meal_plan_recipes.create(mick_new_rows)
-
-    adia_mealplan_dates = MealPlanRecipeDay.fetch_just_mealplan_dates(adia_mealplan_info)
-    mick_mealplan_dates = MealPlanRecipeDay.fetch_just_mealplan_dates(mick_mealplan_info)
-
-    adia_mealplan_recipe_ids_dates = MealPlan.add_recipe_ids_to_build(adia_mealplan_dates)
-    mick_mealplan_recipe_ids_dates = MealPlan.add_recipe_ids_to_build(mick_mealplan_dates)
-
-    adia_recipe_ids_dates = MealPlanRecipeDay.fetch_recipe_ids_date_hash(
-      adia_mealplan_recipe_ids_dates
-    )
-    mick_recipe_ids_dates = MealPlanRecipeDay.fetch_recipe_ids_date_hash(
-      mick_mealplan_recipe_ids_dates
-    )
-
-    adia_meal_plan_recipe_day_rows = MealPlanRecipeDay.build(
-      adia_meal_plan_recipes,
-      adia_recipe_ids_dates
-    )
-    mick_meal_plan_recipe_day_rows = MealPlanRecipeDay.build(
-      mick_meal_plan_recipes,
-      mick_recipe_ids_dates
-    )
-
-    MealPlanRecipeDay.create(adia_meal_plan_recipe_day_rows)
-    MealPlanRecipeDay.create(mick_meal_plan_recipe_day_rows)
 
     redirect_to meal_plans_path
   end

@@ -73,7 +73,15 @@ RSpec.describe MealPlan, type: :model do
       :meal_plan_recipe,
       recipe_id: recipe.id,
       meal_plan_id: meal_plan.id,
-      number_of_recipes: 2
+      date: Date.today
+    )
+  end
+  let(:meal_plan_recipe_dup) do
+    FactoryGirl.create(
+      :meal_plan_recipe,
+      recipe_id: recipe.id,
+      meal_plan_id: meal_plan.id,
+      date: Date.tomorrow
     )
   end
   let(:meal_plan_recipe2) do
@@ -81,19 +89,7 @@ RSpec.describe MealPlan, type: :model do
       :meal_plan_recipe,
       recipe_id: recipe2.id,
       meal_plan_id: meal_plan.id,
-      number_of_recipes: 1
-    )
-  end
-  let(:meal_plan_recipe_1_day) do
-    MealPlanRecipeDay.create(
-      meal_plan_recipe_id: meal_plan_recipe.id,
       date: Date.yesterday
-    )
-  end
-  let(:meal_plan_recipe_2_day) do
-    MealPlanRecipeDay.create(
-      meal_plan_recipe_id: meal_plan_recipe2.id,
-      date: Date.today
     )
   end
 
@@ -104,27 +100,13 @@ RSpec.describe MealPlan, type: :model do
     unit
   end
 
-  describe '.add_recipe_ids_to_build' do
-    it 'returns mealplan with recipe ids' do
-      mealplan = { recipe.name => { number_of_recipes: 2, first_day_recipe: true }}
-      expected =
-        {
-          recipe.name =>
-           { number_of_recipes: 2, first_day_recipe: true, recipe_id: recipe.id }
-        }
-
-      results = MealPlan.add_recipe_ids_to_build(mealplan)
-
-      expect(results).to eq(expected)
-    end
-  end
-
   describe '.shopping_list' do
     it 'returns contents of shopping list' do
       grams_of_apple_in_recipe
       grams_of_peanut_butter_in_recipe
       grams_of_black_beans_in_recipe
       meal_plan_recipe
+      meal_plan_recipe_dup
       meal_plan_recipe2
       FactoryGirl.create(
         :recipe_ingredient,
@@ -156,9 +138,8 @@ RSpec.describe MealPlan, type: :model do
         grams_of_peanut_butter_in_recipe
         grams_of_black_beans_in_recipe
         meal_plan_recipe
+        meal_plan_recipe_dup
         meal_plan_recipe2
-        meal_plan_recipe_1_day
-        meal_plan_recipe_2_day
 
         results = meal_plan.nutrient_intake(
           meal_plan.dates.first,
@@ -179,8 +160,7 @@ RSpec.describe MealPlan, type: :model do
       FactoryGirl.create(
         :meal_plan_recipe,
         recipe_id: food_recipe.id,
-        meal_plan_id: meal_plan.id,
-        number_of_recipes: 1
+        meal_plan_id: meal_plan.id
       )
     end
 

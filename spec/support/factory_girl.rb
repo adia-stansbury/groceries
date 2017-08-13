@@ -38,7 +38,7 @@ FactoryGirl.define do
   end
 
   factory :meal_plan_recipe do
-    number_of_recipes 1
+    date Date.today
   end
 
   factory :nutrient do
