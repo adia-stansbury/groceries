@@ -2,61 +2,65 @@ require 'factory_girl'
 
 FactoryGirl.define do
   factory :consumer do
-    id 1
-    name 'Adia'
+    sequence(:name) {|n| "Name#{n}"}
     weight_in_lbs 124
   end
 
-  factory :consumer_nutrient do
-    id 1
+  factory :food_mealsquare, class: Food do
+    name 'Mealsquare'
   end
 
-  factory :food do
+  factory :food_soylent, class: Food do
     name 'Soylent'
   end
 
-  factory :food_source do
-    id 2
-    name 'plant'
-  end
-
   factory :ingredient do
-    name 'kale'
+    sequence(:name) {|n| "ingredient#{n}"}
+    location
   end
 
-  factory :ingredient_nutrient
+  factory :ingredient_nutrient do
+    value 1
+    unit 'mg'
+    nutrient
+    ingredient
+  end
 
   factory :location do
-    id 1
-    name 'produce'
+    sequence(:name) {|n| "Produce#{n}"}
     ordering 100
   end
 
   factory :meal_plan do
-    consumer_id 1
+    consumer
     created_at Time.now
   end
 
   factory :meal_plan_recipe do
-    date Date.today
+    meal_plan
+    recipe
+    sequence(:date) {|n| Date.today + n}
   end
 
   factory :nutrient do
-    name 'Zinc, Zn'
+    sequence(:name) {|n| "Zinc#{n}"}
   end
 
   factory :nutrient_group do
-    name 'Minerals'
+    sequence(:name) {|n| "Nutrient Group #{n}"}
   end
 
   factory :recipe do
-    name 'Grilled Veggies'
-    number_of_servings 1.0
+    sequence(:name) {|n| "recipe#{n}" }
+    number_of_servings 1
   end
 
   factory :recipe_ingredient do
-    unit_id 1
-    quantity '1.0'
+    recipe
+    ingredient
+    quantity '2'
+    unit
+    amount_in_grams 100
   end
 
   factory :user do
@@ -66,7 +70,6 @@ FactoryGirl.define do
   end
 
   factory :unit do
-    id 1
-    name 'fruit'
+    sequence(:name) {|n| "Unit#{n}"}
   end
 end

@@ -4,7 +4,6 @@ class RecipeIngredient < ActiveRecord::Base
   belongs_to :location
   belongs_to :unit
 
-  validates :recipe_id, presence: true
-  validates :ingredient_id, presence: true
+  validates :recipe_id, :ingredient_id, presence: true
 end
 

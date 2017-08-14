@@ -3,6 +3,8 @@ class MealPlan < ActiveRecord::Base
   has_many :recipes, through: :meal_plan_recipes
   belongs_to :consumer
 
+  validates :consumer, presence: true
+
   def self.shopping_list(sql_meal_plan_ids)
     RecipeIngredient.connection.select_all(
       "SELECT
