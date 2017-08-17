@@ -2,7 +2,7 @@ class MealPlanRecipesController < ApplicationController
   def create
     @recipes = Recipe.order(:name)
     @meal_plan = MealPlan.find(params[:meal_plan_id])
-    @meal_plan.meal_plan_recipes.create(
+    @meal_plan.meal_plan_recipes.create!(
       recipe_id: params[:meal_plan_recipe][:recipe_id],
       date: params[:meal_plan_recipe][:date],
       first_day_recipe: params[:meal_plan_recipe][:first_day_recipe]

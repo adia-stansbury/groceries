@@ -2,6 +2,8 @@
   <div class="page-header">
     <h3>Daily Meal Plan for <%= @consumer.name %> for <%= @date %></h3>
   </div>
+  <%= render 'meal_plan_recipes/form',
+    locals: { meal_plan: @meal_plan, recipes: @recipes, date: @date } %>
   <% if @meal_plan.meal_plan_recipes.present? %>
     <div class="jumbotron">
       <table class="table">

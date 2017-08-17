@@ -1,6 +1,7 @@
 <div class="jumbotron">
   <h3>Add new recipe to meal plan</h3>
   <%= form_for([@meal_plan, @meal_plan.meal_plan_recipes.build]) do |f| %>
+    <%= f.hidden_field(:date, value: @date) %>
     <div class="form-group">
       <%= f.label(:recipe_id) %>
       <%= f.collection_select(:recipe_id, @recipes, :id, :name, { prompt: true },

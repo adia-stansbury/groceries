@@ -6,6 +6,7 @@ class MealPlanDaysController < ApplicationController
     @consumer = @meal_plan.consumer
     @date = params[:id]
     @meal_plan_recipes = @meal_plan.meal_plan_recipes.for_date(@date)
+    @recipes = Recipe.order(:name)
     @groups = NutrientGroup.order(:name)
     @mealsquare = Food.find_by(name: 'Mealsquare')
     @soylent = Food.find_by(name: 'Soylent')
