@@ -24,6 +24,35 @@ class MealPlansController < ApplicationController
     end
   end
 
-  def new
+  def create
+    start_date = params['start_date'].to_time.iso8601
+
+    adia_calendar_events_items = GoogleCalendarApi.get_calendar_events_items(
+      ENV['ADIA_CALENDAR_ID'],
+      start_date
+    )
+    mick_calendar_events_items = GoogleCalendarApi.get_calendar_events_items(
+      ENV['MICK_CALENDAR_ID'],
+      start_date
+    )
+
+    adia_mealplan_info = MealPlan.fetch_info_from_calendar(
+      adia_calendar_events_items,
+      start_date
+    )
+    mick_mealplan_info = MealPlan.fetch_info_from_calendar(
+      mick_calendar_events_items,
+     start_date
+    )
+
+    mick_meal_plan = Consumer.find_by(name: 'Mick').meal_plans.create
+    adia_meal_plan = Consumer.find_by(name: 'Adia').meal_plans.create
+
+    adia_meal_plan.meal_plan_recipes.create(adia_mealplan_info)
+    mick_meal_plan.meal_plan_recipes.create(mick_mealplan_info)
+
+    @meal_plans = [adia_meal_plan, mick_meal_plan]
+
+    render 'index'
   end
 end
