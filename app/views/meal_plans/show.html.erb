@@ -40,7 +40,6 @@
       </table>
     </div>
   <% end %>
-  <%= render 'meal_plan_recipes/form' %>
   <% if @meal_plan.recipes.present? %>
     <%= render 'ingredient_nutrients/weekly_rda', locals: {
       consumer: @consumer,

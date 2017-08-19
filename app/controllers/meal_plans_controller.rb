@@ -25,34 +25,5 @@ class MealPlansController < ApplicationController
   end
 
   def new
-    @consumers = Consumer.order(:name)
-    @recipes = Recipe.order(:name)
-    @meal_plan = MealPlan.new
-    @consumer = Consumer.new
-    if params[:consumer].present?
-      @consumer = Consumer.new(consumer_params)
-      @consumer.save
-      render 'new'
-    end
-  end
-
-  def create
-    @meal_plan = MealPlan.new(meal_plan_params)
-    @recipes = Recipe.order(:name)
-
-    if @meal_plan.save
-      render 'show'
-    else
-      render 'new'
-    end
-  end
-
-  private
-  def meal_plan_params
-    params.require(:meal_plan).permit(:consumer_id)
-  end
-
-  def consumer_params
-    params.require(:consumer).permit(:name)
   end
 end

@@ -63,12 +63,6 @@ FactoryGirl.define do
     amount_in_grams 100
   end
 
-  factory :user do
-    sequence(:email) {|n| "user#{n}@example.com" }
-    password 'password'
-    password_confirmation 'password'
-  end
-
   factory :unit do
     sequence(:name) {|n| "Unit#{n}"}
   end

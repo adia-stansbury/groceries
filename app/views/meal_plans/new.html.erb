@@ -4,7 +4,7 @@
       <h3>Create MealPlan</h3>
     </div>
     <div class="jumbotron">
-      <h4>Option 1: Import meal plans in Google Calendar</h4>
+      <h4>Import meal plans in Google Calendar</h4>
       <h5>Select meal plan start date</h5>
       <div id="js-datepicker-start"></div>
       <input type="hidden" id="js-start_date" name="start_date"/>
@@ -12,12 +12,6 @@
       <button type="submit" class="btn btn-success" id="js-import-google-cal-events">
         Generate Meal Plans from Google Calendar
       </button>
-    </div>
-    <div class="jumbotron">
-      <h4>Option 2: Create meal plan</h4>
-      <p><%= render partial: 'form' %></p>
-      <h5>Add new consumer:</h5>
-      <p><%= render partial: 'consumers/form' %></p>
     </div>
   </div>
 </form>
