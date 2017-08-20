@@ -1,5 +1,3 @@
-require 'factory_girl'
-
 FactoryGirl.define do
   factory :consumer do
     sequence(:name) {|n| "Name#{n}"}

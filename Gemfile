@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.3.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.0.1.rc2'
+gem 'rails'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
@@ -42,6 +42,8 @@ gem 'httparty', '~> 0.13.7'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'factory_girl'
+  gem 'minitest'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
@@ -55,10 +57,6 @@ group :development do
 end
 
 
-gem 'rspec-rails', group: [:development, :test]
 gem 'capybara', group: [:development, :test]
 gem 'launchy', group: [:development, :test]
-gem 'factory_girl', group: [:development, :test]
-gem 'valid_attribute', group: [:development, :test]
-gem 'shoulda-matchers', group: [:development, :test], require: false
 gem 'foundation-rails'
