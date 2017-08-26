@@ -72,8 +72,6 @@ GEM
     erubis (2.7.0)
     evernote-thrift (1.25.2)
     execjs (2.7.0)
-    factory_girl (4.8.0)
-      activesupport (>= 3.0.0)
     faraday (0.12.1)
       multipart-post (>= 1.2, < 3)
     foundation-rails (6.4.1.0)
@@ -236,7 +234,6 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 4.1.0)
   evernote-thrift
-  factory_girl
   foundation-rails
   google-api-client
   httparty (~> 0.13.7)

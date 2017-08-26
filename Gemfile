@@ -42,7 +42,6 @@ gem 'httparty', '~> 0.13.7'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'factory_girl'
   gem 'minitest'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
@@ -55,7 +54,6 @@ group :development do
   # fix console not opening b/c of conflict with RVM
   gem 'rb-readline', '~> 0.5.3'
 end
-
 
 gem 'capybara', group: [:development, :test]
 gem 'launchy', group: [:development, :test]

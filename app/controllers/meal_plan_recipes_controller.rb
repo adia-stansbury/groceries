@@ -1,3 +1,4 @@
+# TODO: namespace to MealPlan
 class MealPlanRecipesController < ApplicationController
   def create
     @recipes = Recipe.order(:name)

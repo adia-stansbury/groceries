@@ -1,7 +1,7 @@
 class RecipesController < ApplicationController
   def index
-    @recipes = Recipe.all.order(:name) 
-  end 
+    @recipes = Recipe.all.order(:name)
+  end
 
   def show
     @recipe = Recipe.find(params[:id])
@@ -10,32 +10,28 @@ class RecipesController < ApplicationController
     @recipe_ingredients = @recipe.recipe_ingredients.includes(
       :ingredient).order('ingredients.name')
     @groups = NutrientGroup.order(:name)
-    @aggregate_nutrient_intake = @recipe.nutrient_intake      
-    @nutrients_upper_limit = Nutrient.upper_limit_hash   
+    @aggregate_nutrient_intake = @recipe.nutrient_intake
+    @nutrients_upper_limit = Nutrient.upper_limit_hash
     @consumers = Consumer.where(name: ['Mick', 'Adia'])
-  end 
+  end
 
   def new
     @recipe = Recipe.new
-  end 
+  end
 
   def edit
     @recipe = Recipe.find(params[:id])
-  end 
+  end
 
   def create
     @recipe = Recipe.new(recipe_params)
-    @ingredients = Ingredient.order(:name)
-    @units = Unit.order(:name)
-    @recipe_ingredients = @recipe.recipe_ingredients.includes(
-      :ingredient).order('ingredients.name')
 
     if @recipe.save
-      render 'show'
+      redirect_to @recipe
     else
       render 'new'
-    end 
-  end 
+    end
+  end
 
   def update
     @recipe = Recipe.find(params[:id])
@@ -44,18 +40,18 @@ class RecipesController < ApplicationController
       redirect_to @recipe
     else
       render 'edit'
-    end 
-  end 
+    end
+  end
 
   def destroy
     @recipe = Recipe.find(params[:id])
     @recipe.destroy
 
     redirect_to recipes_path
-  end 
+  end
 
   private
     def recipe_params
       params.require(:recipe).permit(:name, :note, :number_of_servings)
-    end 
+    end
 end

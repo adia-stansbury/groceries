@@ -1,6 +1,8 @@
 class MealPlansController < ApplicationController
   def index
     @meal_plans = MealPlan.order(created_at: :desc).limit(2)
+
+    render 'new' unless @meal_plans
   end
 
   def show

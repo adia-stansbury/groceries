@@ -1,0 +1,4 @@
+meal_plan_recipe:
+  meal_plan: meal_plan
+  recipe: recipe
+  date: <%= Date.today %>
