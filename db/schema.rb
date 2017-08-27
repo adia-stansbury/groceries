@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170819132922) do
+ActiveRecord::Schema.define(version: 20170827023453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 20170819132922) do
     t.integer "meal_plan_id",                     null: false
     t.boolean "first_day_recipe", default: false
     t.date    "date",                             null: false
+    t.index ["meal_plan_id", "date", "recipe_id"], name: "index_meal_plan_recipes_on_meal_plan_id_and_date_and_recipe_id", using: :btree
   end
 
   create_table "meal_plans", force: :cascade do |t|

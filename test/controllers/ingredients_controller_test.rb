@@ -21,7 +21,7 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
       post ingredients_url, params: { ingredient: @ingredient_params }
     end
 
-    assert_response :success
+    assert_redirected_to ingredient_url(Ingredient.last)
   end
 
   test "should show ingredient" do

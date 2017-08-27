@@ -12,29 +12,12 @@ class MealPlanRecipesController < ApplicationController
     redirect_to meal_plan_path(@meal_plan)
   end
 
-  def edit
-    @meal_plan_recipe = MealPlanRecipe.find(params[:id])
-    @meal_plan = MealPlan.find(@meal_plan_recipe.meal_plan_id)
-    @recipe = Recipe.find(@meal_plan_recipe.recipe_id)
-  end
-
-  def update
-    @meal_plan_recipe = MealPlanRecipe.find(params[:id])
-
-    if @meal_plan_recipe.update(meal_plan_recipe_params)
-      @meal_plan = MealPlan.find(@meal_plan_recipe.meal_plan_id)
-      redirect_to meal_plan_path(@meal_plan)
-    else
-      render 'edit'
-    end
-  end
-
   def destroy
-    @meal_plan_recipe = MealPlanRecipe.find(params[:id])
-    @meal_plan_recipe.destroy
-    @meal_plan = MealPlan.find(@meal_plan_recipe.meal_plan_id)
+    meal_plan_recipe = MealPlanRecipe.includes(:meal_plan).find(params[:id])
+    meal_plan = meal_plan_recipe.meal_plan
+    meal_plan_recipe.destroy
 
-    redirect_to meal_plan_path(@meal_plan)
+    redirect_to meal_plan_path(meal_plan)
   end
 
   private

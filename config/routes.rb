@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :ingredients
   resources :locations
   resources :consumers, only: [:index, :show]
-  resources :meal_plan_recipes, only: [:edit, :update, :destroy]
+  resources :meal_plan_recipes, only: :destroy
   resources :meal_plans, only: [:index, :show, :new, :create] do
     resources :meal_plan_recipes, only: :create
     resources :meal_plan_days, only: :show

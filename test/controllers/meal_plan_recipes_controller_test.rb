@@ -23,19 +23,6 @@ class MealPlanRecipesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to meal_plan_url(meal_plan.id)
   end
 
-  test "should get edit" do
-    get edit_meal_plan_recipe_url(@meal_plan_recipe)
-    assert_response :success
-  end
-
-  test "should update meal_plan_recipe" do
-    patch meal_plan_recipe_url(@meal_plan_recipe), params: {
-      meal_plan_recipe: @meal_plan_recipe_params
-    }
-
-    assert_redirected_to meal_plan_url(@meal_plan_recipe.meal_plan)
-  end
-
   test "should destroy meal_plan_recipe" do
     assert_difference('MealPlanRecipe.count', -1) do
       delete meal_plan_recipe_url(@meal_plan_recipe)

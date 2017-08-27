@@ -4,10 +4,10 @@ class IngredientsController < ApplicationController
   end
 
   def show
-    @ingredient = Ingredient.find(params[:id])
+    @ingredient = Ingredient.includes(:unit).find(params[:id])
     @ndbno = @ingredient.try(:ndbno)
     @unit = @ingredient.unit.try(:name)
-    @groups = NutrientGroup.order(:name)
+    @groups = NutrientGroup.includes(:nutrients).order(:name)
   end
 
   def new
@@ -18,10 +18,9 @@ class IngredientsController < ApplicationController
 
   def create
     @ingredient = Ingredient.new(ingredient_params)
-    @groups = NutrientGroup.order(:name)
 
     if @ingredient.save
-      render 'show'
+      redirect_to @ingredient
     else
       render 'new'
     end

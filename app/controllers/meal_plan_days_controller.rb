@@ -2,12 +2,13 @@ class MealPlanDaysController < ApplicationController
   # TODO either move this method to mealplanrecipe controller, or have it
   # namespaced to mealplan
   def show
-    @meal_plan = MealPlan.find(params[:meal_plan_id])
+    @meal_plan = MealPlan.includes(:consumer, :meal_plan_recipes, :recipes).
+      find(params[:meal_plan_id])
     @consumer = @meal_plan.consumer
-    @date = params[:id]
-    @meal_plan_recipes = @meal_plan.meal_plan_recipes.for_date(@date)
+    @date = params[:id].to_time.iso8601
+    @meal_plan_recipes = @meal_plan.meal_plan_recipes.where(date: @date)
     @recipes = Recipe.order(:name)
-    @groups = NutrientGroup.order(:name)
+    @groups = NutrientGroup.includes(:nutrients).order(:name)
     @mealsquare = Food.find_by(name: 'Mealsquare')
     @soylent = Food.find_by(name: 'Soylent')
     @nutrients_upper_limit = Nutrient.upper_limit_hash

@@ -7,9 +7,9 @@ class RecipesController < ApplicationController
     @recipe = Recipe.find(params[:id])
     @ingredients = Ingredient.order(:name)
     @units = Unit.order(:name)
-    @recipe_ingredients = @recipe.recipe_ingredients.includes(
-      :ingredient).order('ingredients.name')
-    @groups = NutrientGroup.order(:name)
+    @recipe_ingredients = @recipe.recipe_ingredients.includes(:ingredient, :unit).
+      order('ingredients.name')
+    @groups = NutrientGroup.includes(:nutrients).order(:name)
     @aggregate_nutrient_intake = @recipe.nutrient_intake
     @nutrients_upper_limit = Nutrient.upper_limit_hash
     @consumers = Consumer.where(name: ['Mick', 'Adia'])

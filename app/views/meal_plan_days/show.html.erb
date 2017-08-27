@@ -4,7 +4,7 @@
   </div>
   <%= render 'meal_plan_recipes/form',
     locals: { meal_plan: @meal_plan, recipes: @recipes, date: @date } %>
-  <% if @meal_plan.meal_plan_recipes.present? %>
+  <% if @meal_plan_recipes %>
     <div class="jumbotron">
       <table class="table">
         <tr>
@@ -12,11 +12,10 @@
           <th>Actions</th>
         </tr>
         <% @meal_plan_recipes.each do |mpr| %>
-          <% if mpr.recipe.present? %>
+          <% if mpr.recipe %>
             <tr>
-              <td><%= link_to mpr.recipe.name, recipe_path(mpr.recipe.id) %></td>
+              <td><%= link_to mpr.recipe.name, recipe_path(mpr.recipe) %></td>
               <td>
-                <%= link_to 'Edit', edit_meal_plan_recipe_path(mpr) %>
                 <%= link_to(
                   'Delete',
                   meal_plan_recipe_path(mpr),

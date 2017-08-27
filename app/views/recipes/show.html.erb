@@ -3,19 +3,19 @@
     <h3><%= @recipe.name %></h3>
     <h4><%= @recipe.number_of_servings %> Servings</h4>
     <h4><%= @recipe.note %></h4>
-    <small> 
+    <small>
       <%= link_to 'Edit', edit_recipe_path(@recipe) %>
       <%= link_to(
-        'Delete', 
-        recipe_path(@recipe), 
-        method: :delete, 
-        data: { confirm: 'Are you sure?' } 
+        'Delete',
+        recipe_path(@recipe),
+        method: :delete,
+        data: { confirm: 'Are you sure?' }
       )%>
     </small>
   </div>
   <%= render 'recipe_ingredients/recipe_ingredient' %>
   <%= render 'recipe_ingredients/form' %>
-  <% if @recipe.ingredients.present? %>
+  <% if @recipe_ingredients %>
     <%= render 'ingredient_nutrients/daily_rda' %>
   <% end %>
 </div>
