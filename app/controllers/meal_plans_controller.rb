@@ -1,6 +1,6 @@
 class MealPlansController < ApplicationController
   def index
-    @meal_plans = MealPlan.includes(:consumer, :meal_plan_recipes, :recipes).order(created_at: :desc).limit(2)
+    @meal_plans = MealPlan.includes(:consumer, :meal_plan_recipes, :recipes).order(created_at: :desc).limit(8)
 
     render 'new' unless @meal_plans
   end
@@ -9,7 +9,7 @@ class MealPlansController < ApplicationController
     @meal_plan = MealPlan.includes(:consumer, :meal_plan_recipes, :recipes).
       find(params[:id])
     @consumer = @meal_plan.consumer
-    @week = @meal_plan.created_at
+    @week = @meal_plan.dates.first
     if @meal_plan.meal_plan_recipes
       @aggregate_nutrient_intake = @meal_plan.nutrient_intake(
         @meal_plan.dates.first,

@@ -9,8 +9,10 @@
       <div class="jumbotron">
         <div class="page-header">
           <%= check_box_tag('meal_plan_ids[]', meal_plan.id, checked = true) %>
-          <%= label_tag('meal_plan_id[meal_plan.id]', ( link_to meal_plan.created_at, meal_plan_path(meal_plan)
-          )) %>
+          <%= label_tag(
+            'meal_plan_id[meal_plan.id]',
+            (link_to meal_plan.dates.first, meal_plan_path(meal_plan))
+          ) %>
           <%= meal_plan.consumer.name %>
         </div>
         <table class="table">
