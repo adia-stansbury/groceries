@@ -8,7 +8,7 @@
     <% @meal_plans.each do |meal_plan| %>
       <div class="jumbotron">
         <div class="page-header">
-          <%= check_box_tag('meal_plan_ids[]', meal_plan.id, checked = true) %>
+          <%= check_box_tag('meal_plan_ids[]', meal_plan.id, checked = false) %>
           <%= label_tag(
             'meal_plan_id[meal_plan.id]',
             (link_to meal_plan.dates.first, meal_plan_path(meal_plan))
