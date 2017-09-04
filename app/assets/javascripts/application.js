@@ -11,10 +11,11 @@
 // about supported directives.
 //
 //= require jquery
+//= require popper
+//= require bootstrap-sprockets
 //= require jquery_ujs
-//= require jquery-ui/widgets/datepicker
 //= require('bootstrap')
 //= require select2
-//= require nutrient-display
+//= require bootstrap-datepicker
 //= require_tree .
 

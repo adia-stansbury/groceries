@@ -4,83 +4,44 @@
   <title>Grocery List</title>
   <%= stylesheet_link_tag 'application', media: 'all' %>
   <%= csrf_meta_tags %>
-  <!-- Latest compiled and minified CSS -->
-  <link
-    rel="stylesheet"
-    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-    integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
-    crossorigin="anonymous"
-  >
-
-  <!-- Optional theme -->
-  <link
-    rel="stylesheet"
-    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
-    integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
-    crossorigin="anonymous"
-  >
 </head>
 <body id="adia-body">
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script
-      src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
-  </script>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"></script>
-  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-  <!-- Latest compiled and minified JavaScript -->
-  <script
-    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
-    integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
-    crossorigin="anonymous">
-  </script>
-
   <%- flash.each do |key, value| -%>
     <div class="flash flash-<%= key %>">
       <%= value %>
     </div>
   <%- end -%>
-
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/recipes"><%= image_tag "cookbook.png" %></a>
-      </div>
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li><a href="/recipes/new"><%= image_tag "book.png" %></a></li>
-          <li class="dropdown">
-            <a href="#"
-              class="dropdown-toggle"
-              data-toggle="dropdown"
-              role="button"
-              aria-haspopup="true"
-              aria-expanded="false"
-              ><%= image_tag "fruit.png" %><span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="/ingredients">Ingredient List</a></li>
-              <li><a href="/ingredients/new">Add Ingredient</a></li>
-            </ul>
-          </li>
-          <li class="dropdown">
-            <a href="#"
-              class="dropdown-toggle"
-              data-toggle="dropdown"
-              role="button"
-              aria-haspopup="true"
-              aria-expanded="false"
-              ><%= image_tag "consumer.png" %><span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="/consumers">Consumers</a></li>
-              <li><a href="/meal_plans">Meal plans</a></li>
-              <li><a href="/meal_plans/new">Create meal plan</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
+  <nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="navbar-link dropdown-toggle" data-toggle="dropdown">
+            Recipes
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/recipes">View</a>
+            <a class="dropdown-item" href="/recipes/new">Add</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="navbar-link dropdown-toggle" data-toggle="dropdown">
+            Ingredients
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/ingredients">View</a>
+            <a class="dropdown-item" href="/ingredients/new">Add</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="navbar-link dropdown-toggle" data-toggle="dropdown">
+            MealPlans
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/meal_plans">View</a>
+            <a class="dropdown-item" href="/meal_plans/new">Add</a>
+          </div>
+        </li>
+      </ul>
     </div>
   </nav>
 
