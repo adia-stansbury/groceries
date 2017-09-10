@@ -13,9 +13,129 @@
       )%>
     </small>
   </div>
-  <%= render 'recipe_ingredients/recipe_ingredient' %>
-  <%= render 'recipe_ingredients/form' %>
+  <div class="jumbotron">
+    <div class="page-header"><h3>Ingredients</h3></div>
+    <table class="table">
+      <tr>
+        <th>Amount</th>
+        <th>Name</th>
+        <th>Amount in grams</th>
+        <th>Ndbno</th>
+        <th>Action</th>
+      </tr>
+    <% @recipe_ingredients.each do |row| %>
+      <tr>
+        <td><%= row.quantity %> <%= row.unit.try(:name) %></td>
+        <td>
+          <%= link_to row.ingredient.name, ingredient_path(row.ingredient.id) %>
+        </td>
+        <td><%= row.amount_in_grams %></td>
+        <td><%= row.ingredient.ndbno %></td>
+        <td>
+          <%= link_to 'Edit', edit_recipe_ingredient_path(row.id) %>
+          <%= link_to(
+            'Delete',
+            recipe_ingredient_path(row.id),
+            method: :delete,
+            data: { confirm: 'Are you sure?' }
+          ) %>
+        </td>
+      </tr>
+    <% end %></table>
+  </div>
+  <div class="jumbotron">
+    <div class="page-header"><h3>Add ingredients</h3></div>
+    <%= form_for([@recipe, @recipe.recipe_ingredients.build]) do |f| %>
+      <form class="form-inline">
+        <div class="form-group">
+          <%= f.label(:ingredient_id) %>
+          <%= f.collection_select(
+            :ingredient_id,
+            @ingredients,
+            :id,
+            :name,
+            { prompt: true },
+            { class:"js-dropdown form-control" }
+          ) %>
+        </div>
+        <div class="form-group">
+          <%= f.label(:quantity) %>
+          <%= f.text_field(:quantity, class:"form-control") %>
+        </div>
+        <div class="form-group">
+          <%= f.label(:unit_id) %>
+          <%= f.collection_select(
+            :unit_id,
+            @units,
+            :id,
+            :name,
+            { prompt: true },
+            { class:"js-dropdown form-control" }
+          ) %>
+        </div>
+        <div class="form-group">
+          <%= f.label(:amount_in_grams) %>
+          <%= f.text_field(:amount_in_grams, class:"form-control") %>
+        </div>
+        <%= f.submit(class:"btn btn-success") %>
+      </form>
+    <% end %>
+  </div>
   <% if @recipe_ingredients %>
-    <%= render 'ingredient_nutrients/daily_rda' %>
+    <div class="jumbotron">
+      <div class="page-header"><h3>Daily RDA Nutrient Report</h3></div>
+        <% @groups.each do |group| %>
+          <ul style="list-style-type:none">
+            <li><strong>
+              <% group_name = group.name.parameterize %>
+              <%= image_tag(
+                "plus_sign.png",
+                class: "plus-sign js-plus-sign-#{group_name}"
+              ) %>
+              <%= image_tag(
+                "minus_sign.png",
+                class: "minus-sign js-minus-sign-#{group_name}",
+                style: "display:none"
+              ) %>
+              <%= group.name %>
+            </strong></li>
+          </ul>
+          <div class="js-nutrient-info-<%= group_name %>" style="display:none">
+            <table class="table">
+              <tr>
+                <th>Nutrient</th>
+                <th>Unit</th>
+                <th>Amount</th>
+                <th>Mick's RDA</th>
+                <th>% Mick's</th>
+                <th>Adia's RDA</th>
+                <th>% Adia's</th>
+                <th>UL</th>
+              </tr>
+            <% @aggregate_nutrient_intake.each do |record| %>
+              <% if group.nutrients.ids.include?(record['id'].to_i) %>
+                <% nutrient_name = Nutrient.nutrient_name(record) %>
+                <tr>
+                  <td><%= nutrient_name %></td>
+                  <td><%= record['amt_consumed_unit'] %></td>
+                  <td><%= intake = record['amt_consumed'].to_f.round(2) %></td>
+                  <% @consumers.each do |consumer| %>
+                    <td>
+                      <%= daily_rda = ConsumerNutrient.daily_rda(
+                            nutrient_name,
+                            consumer.rda_hash
+                          )
+                      %>
+                    </td>
+                    <td><%= ConsumerNutrient.percent_rda(intake, daily_rda) %></td>
+                  <% end %>
+                  <td><%= Nutrient.upper_limit(@nutrients_upper_limit, nutrient_name) %></td>
+                </tr>
+              <% end %>
+            <% end %></table>
+          </div>
+        <% end %>
+      </div>
+    </div>
   <% end %>
 </div>
