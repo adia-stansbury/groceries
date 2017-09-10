@@ -2,6 +2,25 @@
   <div class="page-header">
     <h3>Daily Meal Plan for <%= @consumer.name %> for <%= @date %></h3>
   </div>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <%= link_to('Weekly', meal_plan_path(@meal_plan), class: "nav-link") %>
+    </li>
+    <% @meal_plan.dates.each do |date| %>
+      <% if date == @date %>
+        <% nav_class = "nav-link active" %>
+      <% else %>
+        <% nav_class = "nav-link" %>
+      <% end %>
+      <li class="nav-item">
+        <%= link_to(
+          date,
+          meal_plan_meal_plan_day_path(@meal_plan, date),
+          class: nav_class
+        ) %>
+      </li>
+    <% end %>
+  </ul>
   <%= render 'meal_plan_recipes/form',
     locals: { meal_plan: @meal_plan, recipes: @recipes, date: @date } %>
   <% if @meal_plan_recipes %>

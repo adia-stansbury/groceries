@@ -3,10 +3,16 @@
     <h3>Meal Plan for <%= @consumer.name %> for <%= @week %></h3>
   </div>
   <ul class="nav nav-tabs">
-    <li class="active"><%= link_to 'Weekly', meal_plan_path(@meal_plan) %></li>
+    <li class="nav-item">
+      <%= link_to('Weekly', meal_plan_path(@meal_plan), class: "nav-link active") %>
+    </li>
     <% @meal_plan.dates.each do |date| %>
-      <li>
-        <%= link_to(date, meal_plan_meal_plan_day_path(@meal_plan, date)) %>
+      <li class="nav-item">
+        <%= link_to(
+          date,
+          meal_plan_meal_plan_day_path(@meal_plan, date),
+          class: "nav-link"
+        ) %>
       </li>
     <% end %>
   </ul>

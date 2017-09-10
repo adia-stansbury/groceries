@@ -5,7 +5,7 @@ class MealPlanDaysController < ApplicationController
     @meal_plan = MealPlan.includes(:consumer, :meal_plan_recipes, :recipes).
       find(params[:meal_plan_id])
     @consumer = @meal_plan.consumer
-    @date = params[:id].to_time.iso8601
+    @date = params[:id].to_date
     @meal_plan_recipes = @meal_plan.meal_plan_recipes.includes(:recipe)
       .where(date: @date).order('recipes.name')
     @recipes = Recipe.order(:name)
