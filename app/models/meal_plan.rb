@@ -37,7 +37,7 @@ class MealPlan < ActiveRecord::Base
       is_for_first_day = MealPlanRecipe.is_first_day_recipe(recipe_date, start_date)
       # TODO: don't call get_id in loop
       meal_plan_recipe_rows << {
-        recipe_id: Recipe.get_id(event.summary),
+        recipe_id: Recipe.get_id(event.summary.strip),
         first_day_recipe: is_for_first_day,
         date: recipe_date
       }
