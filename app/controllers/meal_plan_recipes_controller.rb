@@ -15,7 +15,7 @@ class MealPlanRecipesController < ApplicationController
   def destroy
     meal_plan_recipe = MealPlanRecipe.includes(:meal_plan).find(params[:id])
     meal_plan = meal_plan_recipe.meal_plan
-    meal_plan_recipe.destroy
+    meal_plan_recipe.destroy!
 
     redirect_to meal_plan_path(meal_plan)
   end

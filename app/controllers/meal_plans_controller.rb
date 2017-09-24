@@ -27,32 +27,35 @@ class MealPlansController < ApplicationController
   def create
     start_date = params['start_date'].to_time.iso8601
 
-    adia_calendar_events_items = GoogleCalendarApi.get_calendar_events_items(
-      ENV['ADIA_CALENDAR_ID'],
-      start_date
-    )
-    mick_calendar_events_items = GoogleCalendarApi.get_calendar_events_items(
-      ENV['MICK_CALENDAR_ID'],
-      start_date
-    )
+    ['Adia', 'Mick'].each do |consumer|
+      meal_plan = create_meal_plan(consumer)
 
-    adia_mealplan_info = MealPlan.fetch_info_from_calendar(
-      adia_calendar_events_items,
-      start_date
-    )
-    mick_mealplan_info = MealPlan.fetch_info_from_calendar(
-      mick_calendar_events_items,
-     start_date
-    )
+      # TODO: keep ENV?
+      calendar_id = "#{consumer.upcase}_CALENDAR_ID"
+      calendar_events_items = GoogleCalendarApi.get_calendar_events_items(
+        ENV[calendar_id],
+        start_date
+      )
 
-    mick_meal_plan = Consumer.find_by(name: 'Mick').meal_plans.create
-    adia_meal_plan = Consumer.find_by(name: 'Adia').meal_plans.create
+      create_meal_plan_recipes(calendar_events_items, start_date, meal_plan)
+    end
 
-    adia_meal_plan.meal_plan_recipes.create(adia_mealplan_info)
-    mick_meal_plan.meal_plan_recipes.create(mick_mealplan_info)
-
-    @meal_plans = [adia_meal_plan, mick_meal_plan]
-
-    render 'index'
+    redirect_to meal_plans_path
   end
+
+  private
+    def create_meal_plan(name)
+      Consumer.find_by(name: name).meal_plans.create!
+    end
+
+    def create_meal_plan_recipes(calendar_events_items, start_date, meal_plan)
+      if calendar_events_items
+        mealplan_info = MealPlan.fetch_info_from_calendar(
+          calendar_events_items,
+          start_date
+        )
+
+        meal_plan.meal_plan_recipes.create!(mealplan_info)
+      end
+    end
 end

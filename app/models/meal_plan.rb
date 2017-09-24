@@ -46,7 +46,7 @@ class MealPlan < ActiveRecord::Base
   end
 
   def dates
-    meal_plan_recipes.order(:date).uniq.pluck(:date)
+    meal_plan_recipes.order(:date).distinct.pluck(:date)
   end
 
   def nutrient_intake(start_date, end_date)
