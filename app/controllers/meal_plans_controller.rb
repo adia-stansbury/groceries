@@ -31,9 +31,8 @@ class MealPlansController < ApplicationController
       meal_plan = create_meal_plan(consumer)
 
       # TODO: keep ENV?
-      calendar_id = "#{consumer.upcase}_CALENDAR_ID"
       calendar_events_items = GoogleCalendarApi.get_calendar_events_items(
-        ENV[calendar_id],
+        ENV["#{consumer.upcase}_CALENDAR_ID"],
         start_date
       )
 

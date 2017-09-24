@@ -14,8 +14,9 @@ gem 'select2-rails'
 gem 'jquery-rails'
 gem 'bootstrap-datepicker-rails'
 
-group :development, :test do
+group :test do
   gem 'minitest'
+  gem 'webmock'
 end
 
 group :development do
