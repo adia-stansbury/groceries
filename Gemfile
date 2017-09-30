@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.3'
+ruby '2.4.2'
 
 gem 'rails'
 gem 'pg'
@@ -21,7 +21,6 @@ end
 
 group :development do
   gem 'web-console', '~> 2.0' # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'rb-readline', '~> 0.5.3' # added to fix console not opening b/c of conflict with RVM
   # gem 'rack-mini-profiler'
   # gem 'flamegraph'
   # gem 'stackprof' # needed for flamegraph
