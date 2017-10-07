@@ -17,6 +17,7 @@ gem 'bootstrap-datepicker-rails'
 group :test do
   gem 'minitest'
   gem 'webmock'
+  gem 'simplecov', require: false
 end
 
 group :development do

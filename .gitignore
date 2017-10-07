@@ -13,3 +13,4 @@
 /tmp
 /config/secrets.yml
 /config/client_secret.json
+/coverage
