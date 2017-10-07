@@ -1,6 +1,7 @@
 == README
 CircleCI Build Status:
-[![CircleCI](https://circleci.com/gh/adia-stansbury/groceries.svg?style=svg)](https://circleci.com/gh/adia-stansbury/groceries)
+{<img
+src="https://circleci.com/gh/adia-stansbury/groceries.svg?style=svg&circle-token=#{ENV["STATUS_BADGE"]} alt="CircleCI" />}[https://circleci.com/gh/adia-stansbury/groceries]
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
