@@ -19,16 +19,5 @@ class MealPlanRecipesController < ApplicationController
 
     redirect_to meal_plan_path(meal_plan)
   end
-
-  private
-
-  def meal_plan_recipe_params
-    params.require(:meal_plan_recipe).permit(
-      :first_day_recipe,
-      :meal_plan_id,
-      :date,
-      :recipe_id,
-    )
-  end
 end
 

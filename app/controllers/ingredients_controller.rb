@@ -22,7 +22,7 @@ class IngredientsController < ApplicationController
     if @ingredient.save
       redirect_to @ingredient
     else
-      render 'new'
+      redirect_to new_ingredient_path
     end
   end
 
@@ -38,7 +38,7 @@ class IngredientsController < ApplicationController
     if @ingredient.update(ingredient_params)
       redirect_to @ingredient
     else
-      render 'edit'
+      redirect_to edit_ingredient_path(@ingredient)
     end
   end
 
