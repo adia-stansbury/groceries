@@ -20,11 +20,9 @@ class MealPlanRecipe < ActiveRecord::Base
     new_records = []
     info.each do | row |
       recipe_name = row[:recipe_name]
-      new_records << {
-        recipe_id: dictionary_name_id[recipe_name],
-        first_day_recipe: row[:first_day_recipe] ,
-        date: row[:recipe_date],
-      }
+      swap_name_for_id = { recipe_id: dictionary_name_id[recipe_name] }
+      unchanged_info = row.select { | key, _ | key != :recipe_name }
+      new_records << swap_name_for_id.merge(unchanged_info)
     end
 
     new_records
