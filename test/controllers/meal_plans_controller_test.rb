@@ -12,7 +12,7 @@ class MealPlansControllerTest < ActionDispatch::IntegrationTest
   test "should create meal_plan" do
     consumers(:adia, :mick)
 
-    GoogleCalendarApi.stub :get_calendar_events_items, {} do
+    GoogleCalendarApi.stub :events_items, {} do
       assert_difference('MealPlan.count', 2 ) do
         post meal_plans_url, params: { 'start_date' => Date.new(2018,9,19) }
       end

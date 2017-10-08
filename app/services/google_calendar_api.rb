@@ -17,8 +17,8 @@ module GoogleCalendarApi
   #
   # @return [Google::Auth::UserRefreshCredentials] OAuth2 credentials
 
-  def self.get_calendar_events_items(calendar_id, start_date)
-    get_calendar_events(calendar_id, start_date).items
+  def self.events_items(calendar_id, start_date)
+    events(calendar_id, start_date).items
   end
 
   private
@@ -45,7 +45,7 @@ module GoogleCalendarApi
     credentials
   end
 
-  def self.get_calendar_events(calendar_id, start_date)
+  def self.events(calendar_id, start_date)
     #initialize api
     service = Google::Apis::CalendarV3::CalendarService.new
     service.client_options.application_name = APPLICATION_NAME

@@ -12,8 +12,8 @@ class Recipe < ActiveRecord::Base
 
   validates :name, uniqueness: true, presence: true
 
-  def self.get_id(name)
-    pluck(:name, :id).to_h[name]
+  def self.dictionary_name_id(names)
+    where(name: names).pluck(:name, :id).to_h
   end
 
   def nutrient_intake

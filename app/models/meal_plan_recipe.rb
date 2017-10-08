@@ -15,4 +15,18 @@ class MealPlanRecipe < ActiveRecord::Base
       meal_plan_id: mealplan_ids, first_day_recipe: true
     ).pluck(:name)
   end
+
+  def self.new_records(info, dictionary_name_id)
+    new_records = []
+    info.each do | row |
+      recipe_name = row[:recipe_name]
+      new_records << {
+        recipe_id: dictionary_name_id[recipe_name],
+        first_day_recipe: row[:first_day_recipe] ,
+        date: row[:recipe_date],
+      }
+    end
+
+    new_records
+  end
 end

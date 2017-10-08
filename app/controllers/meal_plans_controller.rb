@@ -31,12 +31,12 @@ class MealPlansController < ApplicationController
       meal_plan = create_meal_plan(consumer)
 
       # TODO: keep ENV?
-      calendar_events_items = GoogleCalendarApi.get_calendar_events_items(
+      events_items = GoogleCalendarApi.events_items(
         ENV["#{consumer.upcase}_CALENDAR_ID"],
         start_date
       )
 
-      create_meal_plan_recipes(calendar_events_items, start_date, meal_plan)
+      create_meal_plan_recipes(events_items, start_date, meal_plan)
     end
 
     redirect_to meal_plans_path
@@ -47,14 +47,17 @@ class MealPlansController < ApplicationController
       Consumer.find_by(name: name).meal_plans.create!
     end
 
-    def create_meal_plan_recipes(calendar_events_items, start_date, meal_plan)
-      if calendar_events_items
-        mealplan_info = MealPlan.fetch_info_from_calendar(
-          calendar_events_items,
+    def create_meal_plan_recipes(events_items, start_date, meal_plan)
+      if events_items
+        mealplan_info = MealPlan.info_from_calendar(
+          events_items,
           start_date
         )
+        recipe_names = MealPlan.recipe_names(mealplan_info)
+        dictionary_name_id = Recipe.dictionary_name_id(recipe_names)
+        new_records = MealPlanRecipe.new_records(mealplan_info, dictionary_name_id)
 
-        meal_plan.meal_plan_recipes.create!(mealplan_info)
+        meal_plan.meal_plan_recipes.create!(new_records)
       end
     end
 end

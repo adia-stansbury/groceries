@@ -30,19 +30,28 @@ class MealPlan < ActiveRecord::Base
     )
   end
 
-  def self.fetch_info_from_calendar(calendar_events_items, start_date)
-    meal_plan_recipe_rows = []
-    calendar_events_items.each do |event|
+  def self.info_from_calendar(events_items, start_date)
+    info = []
+    events_items.each do |event|
       recipe_date = event.start.date.to_date
       is_for_first_day = MealPlanRecipe.is_first_day_recipe(recipe_date, start_date)
-      # TODO: don't call get_id in loop
-      meal_plan_recipe_rows << {
-        recipe_id: Recipe.get_id(event.summary.strip),
+      info << {
+        recipe_name: event.summary.strip,
         first_day_recipe: is_for_first_day,
         date: recipe_date
       }
     end
-    meal_plan_recipe_rows
+    info
+  end
+
+  def self.recipe_names(mealplan_info)
+    recipe_names = []
+
+    mealplan_info.each do | row |
+      recipe_names << row[recipe_name]
+    end
+
+    recipe_names
   end
 
   def dates
