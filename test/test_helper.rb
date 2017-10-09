@@ -10,6 +10,7 @@ if ENV['CIRCLE_ARTIFACTS']
   SimpleCov.coverage_dir(dir)
 end
 
+SimpleCov.coverage_dir('coverage')
 SimpleCov.start
 
 ActiveRecord::Migration.maintain_test_schema!
