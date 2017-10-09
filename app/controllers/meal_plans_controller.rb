@@ -55,6 +55,11 @@ class MealPlansController < ApplicationController
           start_date
         )
         recipe_names = MealPlan.recipe_names(mealplan_info)
+        missing_recipe_names = Recipe.recipes_to_create(recipe_names)
+        if missing_recipe_names.present?
+          flash[:alert] = "These newly created recipes need their ingredients added: #{missing_recipe_names}"
+        end
+        Recipe.create_missing_recipes(missing_recipe_names)
         dictionary_name_id = Recipe.dictionary_name_id(recipe_names)
         new_records = MealPlanRecipe.new_records(mealplan_info, dictionary_name_id)
 

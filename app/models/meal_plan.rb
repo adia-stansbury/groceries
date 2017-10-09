@@ -35,7 +35,7 @@ class MealPlan < ActiveRecord::Base
     events_items.each do |event|
       recipe_date = event.start.date.to_date
       info << {
-        recipe_name: event.summary.strip,
+        recipe_name: Recipe.format_recipe_name_input(event.summary),
         first_day_recipe: recipe_date == start_date,
         date: recipe_date
       }

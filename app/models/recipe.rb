@@ -16,6 +16,16 @@ class Recipe < ActiveRecord::Base
     where(name: names).pluck(:name, :id).to_h
   end
 
+  def self.recipes_to_create(names)
+    names.reject { |name| Recipe.exists?(name: name) }
+  end
+
+  def self.create_missing_recipes(names)
+    formatted_rows_to_create = []
+    names.each { |name| formatted_rows_to_create << { name: name } }
+    Recipe.create(formatted_rows_to_create)
+  end
+
   def nutrient_intake
     IngredientNutrient.connection.select_all(
       "SELECT nutrients.id, nutrients.name, ingredient_nutrients.unit AS amt_consumed_unit, sum((value/100)*amount_in_grams) AS amt_consumed
@@ -29,6 +39,12 @@ class Recipe < ActiveRecord::Base
         ORDER BY nutrients.name
       "
     )
+  end
+
+  def self.format_recipe_name_input(name)
+    name_trimmed = name.strip
+    word_array = name_trimmed.split.each { |word| word.capitalize! }
+    word_array.join(' ')
   end
 
   private
