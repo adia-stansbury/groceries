@@ -25,7 +25,8 @@ class MealPlansController < ApplicationController
   end
 
   def create
-    start_date = params['start_date'].to_time.iso8601
+    start_datetime = params['start_date'].to_time.iso8601
+    start_date = start_datetime.to_date
 
     ['Adia', 'Mick'].each do |consumer|
       meal_plan = create_meal_plan(consumer)
@@ -33,7 +34,7 @@ class MealPlansController < ApplicationController
       # TODO: keep ENV?
       events_items = GoogleCalendarApi.events_items(
         ENV["#{consumer.upcase}_CALENDAR_ID"],
-        start_date
+        start_datetime,
       )
 
       create_meal_plan_recipes(events_items, start_date, meal_plan)

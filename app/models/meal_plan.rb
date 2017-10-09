@@ -34,10 +34,9 @@ class MealPlan < ActiveRecord::Base
     info = []
     events_items.each do |event|
       recipe_date = event.start.date.to_date
-      is_for_first_day = MealPlanRecipe.is_first_day_recipe(recipe_date, start_date)
       info << {
         recipe_name: event.summary.strip,
-        first_day_recipe: is_for_first_day,
+        first_day_recipe: recipe_date == start_date,
         date: recipe_date
       }
     end
@@ -48,7 +47,7 @@ class MealPlan < ActiveRecord::Base
     recipe_names = []
 
     mealplan_info.each do | row |
-      recipe_names << row[recipe_name]
+      recipe_names << row[:recipe_name]
     end
 
     recipe_names

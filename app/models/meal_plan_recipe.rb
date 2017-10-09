@@ -6,10 +6,6 @@ class MealPlanRecipe < ActiveRecord::Base
   validates :first_day_recipe, inclusion: { in: [true, false] }
   validates :first_day_recipe, exclusion: { in: [nil] }
 
-  def self.is_first_day_recipe(recipe_date, start_date)
-    recipe_date == start_date.to_date
-  end
-
   def self.fetch_first_day_recipe_names(mealplan_ids)
     self.eager_load(:recipe).where(
       meal_plan_id: mealplan_ids, first_day_recipe: true

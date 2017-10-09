@@ -21,6 +21,24 @@ class MealPlansControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to meal_plans_url
   end
 
+  test "should create meal plan's associated records" do
+    consumers(:adia, :mick)
+    items = [
+      OpenStruct.new(
+        start: OpenStruct.new(date: "2017-10-07"),
+        summary: Recipe.first.name,
+      )
+    ]
+
+    GoogleCalendarApi.stub :events_items, items do
+      assert_difference('MealPlanRecipe.count', 2) do
+        post meal_plans_url, params: { 'start_date' => Date.new(2017,10,07) }
+      end
+    end
+
+    assert_redirected_to meal_plans_url
+  end
+
   test "should show meal_plan" do
     meal_plan = meal_plans(:meal_plan)
 
