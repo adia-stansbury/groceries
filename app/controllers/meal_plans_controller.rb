@@ -37,7 +37,9 @@ class MealPlansController < ApplicationController
         start_datetime,
       )
 
-      create_meal_plan_recipes(events_items, start_date, meal_plan)
+      if events_items
+        create_meal_plan_recipes(events_items, start_date, meal_plan)
+      end
     end
 
     redirect_to meal_plans_path
@@ -49,21 +51,20 @@ class MealPlansController < ApplicationController
     end
 
     def create_meal_plan_recipes(events_items, start_date, meal_plan)
-      if events_items
-        mealplan_info = MealPlan.info_from_calendar(
-          events_items,
-          start_date
-        )
-        recipe_names = MealPlan.recipe_names(mealplan_info)
-        missing_recipe_names = Recipe.recipes_to_create(recipe_names)
-        if missing_recipe_names.present?
-          flash[:alert] = "These newly created recipes need their ingredients added: #{missing_recipe_names}"
-        end
-        Recipe.create_missing_recipes(missing_recipe_names)
-        dictionary_name_id = Recipe.dictionary_name_id(recipe_names)
-        new_records = MealPlanRecipe.new_records(mealplan_info, dictionary_name_id)
+      mealplan_info = MealPlan.info_from_calendar(
+        events_items,
+        start_date
+      )
 
-        meal_plan.meal_plan_recipes.create!(new_records)
+      meal_plan.meal_plan_recipes.create!(mealplan_info[:info_valid])
+
+      invalid_mealplan_info_alert(mealplan_info)
+    end
+
+    def invalid_mealplan_info_alert(mealplan_info)
+      recipe_names_not_in_db = mealplan_info[:recipe_names_not_in_db]
+      if recipe_names_not_in_db.present?
+        flash[:alert] = "These recipe names were not found: #{recipe_names_not_in_db}"
       end
     end
 end

@@ -11,16 +11,4 @@ class MealPlanRecipe < ActiveRecord::Base
       meal_plan_id: mealplan_ids, first_day_recipe: true
     ).pluck(:name)
   end
-
-  def self.new_records(info, dictionary_name_id)
-    new_records = []
-    info.each do | row |
-      recipe_name = row[:recipe_name]
-      swap_name_for_id = { recipe_id: dictionary_name_id[recipe_name] }
-      unchanged_info = row.select { | key, _ | key != :recipe_name }
-      new_records << swap_name_for_id.merge(unchanged_info)
-    end
-
-    new_records
-  end
 end

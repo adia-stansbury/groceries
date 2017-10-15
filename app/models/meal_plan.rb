@@ -31,26 +31,22 @@ class MealPlan < ActiveRecord::Base
   end
 
   def self.info_from_calendar(events_items, start_date)
-    info = []
+    info = { info_valid: [], recipe_names_not_in_db: [] }
     events_items.each do |event|
       recipe_date = event.start.date.to_date
-      info << {
-        recipe_name: Recipe.format_recipe_name_input(event.summary),
-        first_day_recipe: recipe_date == start_date,
-        date: recipe_date
-      }
+      recipe_name = event.summary.strip.titleize
+      recipe = Recipe.find_by(name: recipe_name)
+      if recipe
+        info[:info_valid] << {
+          recipe_id: recipe.id,
+          first_day_recipe: recipe_date == start_date,
+          date: recipe_date
+        }
+      else
+        info[:recipe_names_not_in_db] << recipe_name
+      end
     end
     info
-  end
-
-  def self.recipe_names(mealplan_info)
-    recipe_names = []
-
-    mealplan_info.each do | row |
-      recipe_names << row[:recipe_name]
-    end
-
-    recipe_names
   end
 
   def dates

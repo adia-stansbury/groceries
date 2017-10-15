@@ -39,17 +39,17 @@ class MealPlansControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to meal_plans_url
   end
 
-  test "should create any recipes mentioned in mealplan that don't exist" do
+  test "does not create a MealPlanRecipe for recipe name not in database" do
     consumers(:adia, :mick)
     items = [
       OpenStruct.new(
         start: OpenStruct.new(date: "2017-10-07"),
-        summary: 'non existant recipe',
+        summary: 'non existent recipe',
       )
     ]
 
     GoogleCalendarApi.stub :events_items, items do
-      assert_difference('Recipe.count', 1) do
+      assert_difference('MealPlanRecipe.count', 0) do
         post meal_plans_url, params: { 'start_date' => Date.new(2017,10,07) }
       end
     end
