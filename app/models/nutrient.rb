@@ -12,6 +12,10 @@ class Nutrient < ActiveRecord::Base
 
   validates :name, uniqueness: true, presence: true
 
+  def self.name_id_dictionary
+    pluck(:name, :id).to_h
+  end
+
   def self.nutrient_name(record)
     record['name']
   end
@@ -22,9 +26,9 @@ class Nutrient < ActiveRecord::Base
 
   def self.upper_limit(nutrients_upper_limit, nutrient_name)
     nutrients_upper_limit[nutrient_name]
-  end 
+  end
 
   def self.weekly_upper_limit(upper_limit)
-    upper_limit.present? ? (upper_limit * 7) : ''  
-  end 
-end 
+    upper_limit.present? ? (upper_limit * 7) : ''
+  end
+end

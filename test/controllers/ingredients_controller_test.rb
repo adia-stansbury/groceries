@@ -4,7 +4,6 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @ingredient = ingredients(:ingredient)
     @ingredient_params = { location_id: @ingredient.location.id , name: 'salt' }
-    @ingredient_params_invalid = { location_id: nil, name: 'salt' }
   end
 
   test "should get index" do
@@ -25,9 +24,25 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to ingredient_url(Ingredient.last)
   end
 
+  test "creates IngredientNutrients if new ingredient has ndbno" do
+    nutrient = nutrients(:nutrient)
+    nutrition = [{ 'name' => nutrient.name, 'value' => 10, 'unit' => 'mg' }]
+
+    Nutrition.stub :for_ingredient, nutrition do
+      assert_difference('IngredientNutrient.count') do
+        post(
+          ingredients_url,
+          params: { ingredient: @ingredient_params.merge({ ndbno: '123'}) }
+        )
+      end
+    end
+  end
+
   test "does not create invalid ingredient" do
+    ingredient_params_invalid = { location_id: nil, name: 'salt' }
+
     assert_difference('Ingredient.count', 0) do
-      post ingredients_url, params: { ingredient: @ingredient_params_invalid }
+      post ingredients_url, params: { ingredient: ingredient_params_invalid }
     end
 
     assert_redirected_to new_ingredient_url
@@ -48,10 +63,25 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to ingredient_url(@ingredient)
   end
 
+  test "creates IngredientNutrients if updated ingredient has new ndbno" do
+    nutrient = nutrients(:nutrient)
+    nutrition = [{ 'name' => nutrient.name, 'value' => 10, 'unit' => 'mg' }]
+
+    Nutrition.stub :for_ingredient, nutrition do
+      assert_difference('IngredientNutrient.count') do
+        patch(
+          ingredient_url(@ingredient),
+          params: { ingredient: @ingredient_params.merge({ ndbno: '123'}) }
+        )
+      end
+    end
+  end
+
   test "redirects to edit if updating invalid ingredient" do
+    ingredient_params_invalid = { location_id: nil, name: 'salt' }
     patch(
       ingredient_url(@ingredient),
-      params: { ingredient: @ingredient_params_invalid }
+      params: { ingredient: ingredient_params_invalid }
     )
 
     assert_redirected_to edit_ingredient_url(@ingredient)
