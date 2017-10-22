@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170827023453) do
+ActiveRecord::Schema.define(version: 20171022134156) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,10 +41,6 @@ ActiveRecord::Schema.define(version: 20170827023453) do
     t.index ["nutrient_id"], name: "index_food_nutrients_on_nutrient_id", using: :btree
   end
 
-  create_table "food_sources", force: :cascade do |t|
-    t.string "name", null: false
-  end
-
   create_table "foods", force: :cascade do |t|
     t.string "name", null: false
   end
@@ -62,7 +58,6 @@ ActiveRecord::Schema.define(version: 20170827023453) do
     t.string  "name",                             limit: 1000, null: false
     t.integer "location_id",                                   null: false
     t.string  "ndbno"
-    t.integer "food_source_id"
     t.float   "measuring_amount"
     t.float   "num_of_grams_in_measuring_amount"
     t.integer "unit_id"
@@ -127,7 +122,6 @@ ActiveRecord::Schema.define(version: 20170827023453) do
   add_foreign_key "consumer_nutrients", "nutrients"
   add_foreign_key "ingredient_nutrients", "ingredients"
   add_foreign_key "ingredient_nutrients", "nutrients"
-  add_foreign_key "ingredients", "food_sources"
   add_foreign_key "ingredients", "locations", name: "ingredients_location_id_fkey"
   add_foreign_key "ingredients", "units"
   add_foreign_key "nutrients", "units"
