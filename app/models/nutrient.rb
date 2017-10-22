@@ -1,6 +1,4 @@
 class Nutrient < ActiveRecord::Base
-  include CleanUpUserInput
-
   has_many :ingredient_nutrients, dependent: :destroy
   has_many :ingredients, through: :ingredient_nutrients
   has_many :consumer_nutrients, dependent: :destroy
@@ -11,6 +9,8 @@ class Nutrient < ActiveRecord::Base
   belongs_to :unit
 
   validates :name, uniqueness: true, presence: true
+
+  before_save StripUserInputCallback.new(['name'])
 
   def self.name_id_dictionary
     pluck(:name, :id).to_h

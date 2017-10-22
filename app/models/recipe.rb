@@ -1,6 +1,4 @@
 class Recipe < ActiveRecord::Base
-  include CleanUpUserInput
-
   has_many :recipe_ingredients, dependent: :destroy
   has_many :ingredients, through: :recipe_ingredients
   has_many :consumer_recipes, dependent: :destroy
@@ -8,6 +6,7 @@ class Recipe < ActiveRecord::Base
   has_many :meal_plans, through: :meal_plan_recipes
   has_many :consumers, through: :consumer_recipes
 
+  before_save StripUserInputCallback.new(['name'])
   before_save :name_titleized
 
   validates :name, uniqueness: true, presence: true

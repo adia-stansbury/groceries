@@ -4,7 +4,9 @@ class Food < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: true
 
+  before_save StripUserInputCallback.new(['name'])
+
   def nutrition
-    nutrients.pluck(:name, :nutrient_amount).to_h 
-  end 
-end  
+    nutrients.pluck(:name, :nutrient_amount).to_h
+  end
+end
