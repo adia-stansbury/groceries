@@ -32,10 +32,10 @@
       </div>
       <div class="form-group">
         <h4>Plan to have this recipe on first day of mealplan?</h4>
-        <%= f.radio_button :first_day_recipe, 'true' %>
-        <%= f.label :first_day_recipe_true, 'true' %>
-        <%= f.radio_button :first_day_recipe, 'false' %>
-        <%= f.label :first_day_recipe_true, 'false' %>
+        <% [true, false].each do |value| %>
+          <%= f.radio_button :first_day_recipe, value.to_s  %>
+          <%= f.label "first_day_recipe_#{value}".to_sym, value.to_s  %>
+        <% end %>
       </div>
       <%= f.submit('Add Recipe', class:"btn btn-success") %>
     <% end %>
