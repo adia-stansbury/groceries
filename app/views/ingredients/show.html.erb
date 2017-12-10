@@ -29,7 +29,7 @@
       data: { confirm: 'Are you sure?' }
     ) %>
   </div>
-  <%= render partial: 'meal_plans/nutrient_report', locals: {
+  <%= render partial: '/nutrient_report', locals: {
     consumer: Consumer.find_by(name: 'Adia'),
     meal_plan: nil,
     number_of_days: 1,

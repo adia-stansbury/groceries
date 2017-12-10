@@ -20,7 +20,7 @@
   </ul>
   <div class="tab-content">
     <div class="tab-pane fade in active" id="weekly" role="tabpanel">
-      <%= render partial: 'nutrient_report', locals: {
+      <%= render partial: '/nutrient_report', locals: {
         consumer: @meal_plan.consumer,
         meal_plan: @meal_plan,
         number_of_days: @meal_plan.dates.last - @meal_plan.dates.first,
@@ -77,7 +77,7 @@
             <% end %>
           </table>
         </div>
-        <%= render partial: 'nutrient_report', locals: {
+        <%= render partial: '/nutrient_report', locals: {
           consumer: @meal_plan.consumer,
           meal_plan: @meal_plan,
           number_of_days: 1,

@@ -79,7 +79,7 @@
       </form>
     <% end %>
   </div>
-  <%= render partial: 'meal_plans/nutrient_report', locals: {
+  <%= render partial: '/nutrient_report', locals: {
     meal_plan: nil,
     consumer: Consumer.find_by(name: 'Adia'),
     number_of_days: 1,
