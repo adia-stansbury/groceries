@@ -1,36 +1,38 @@
-<div class="jumbotron">
-  <%= form_for @ingredient do |f| %>
-    <div class="form-group">
-      <%= f.label(:name) %>
-      <%= f.text_field(:name, class:"form-control") %>
-    </div>
-    <div class="form-group">
-      <%= f.label(:ndbno, 'Nutrient Database Number (Ndbno)') %>
-<a href="https://ndb.nal.usda.gov/ndb/foods" target="_blank">Look up Ndbno</a>
-      <%= f.text_field(:ndbno, class:"form-control") %>
-    </div>
-    <div class="form-group">
-      <%= f.label(:measuring_amount) %>
-      <%= f.text_field(:measuring_amount, class:"form-control") %>
-    </div>
-    <div class="form-group">
-      <%= f.label(:unit_id) %>
-      <%= f.collection_select(:unit_id, @units, :id, :name, { include_blank: true },
-                              class:"js-dropdown form-control") %>
-    </div>
-    <div class="form-group">
-      <%= f.label(:num_of_grams_in_measuring_amount) %>
-      <%= f.text_field(:num_of_grams_in_measuring_amount, class:"form-control") %>
-    </div>
-    <div class="form-group">
-      <%= f.label(:note) %>
-      <%= f.text_area(:note, class:"form-control") %>
-    </div>
-    <div class="form-group">
-      <%= f.label(:location_id) %>
-      <%= f.collection_select(:location_id, @locations, :id, :name, { prompt: true },
-                              class:"form-control js-dropdown") %>
-    </div>
-    <div><%= f.submit(class:"btn btn-success") %></div>
-  <% end %>
+<div class="container-fluid">
+  <div class="jumbotron">
+    <%= form_for @ingredient do |f| %>
+      <div class="form-group">
+        <%= f.label(:name) %>
+        <%= f.text_field(:name, class:"form-control") %>
+      </div>
+      <div class="form-group">
+        <%= f.label(:ndbno, 'Nutrient Database Number (Ndbno)') %>
+  <a href="https://ndb.nal.usda.gov/ndb/foods" target="_blank">Look up Ndbno</a>
+        <%= f.text_field(:ndbno, class:"form-control") %>
+      </div>
+      <div class="form-group">
+        <%= f.label(:measuring_amount) %>
+        <%= f.text_field(:measuring_amount, class:"form-control") %>
+      </div>
+      <div class="form-group">
+        <%= f.label(:unit_id) %>
+        <%= f.collection_select(:unit_id, @units, :id, :name, { include_blank: true },
+                                class:"js-dropdown form-control") %>
+      </div>
+      <div class="form-group">
+        <%= f.label(:num_of_grams_in_measuring_amount) %>
+        <%= f.text_field(:num_of_grams_in_measuring_amount, class:"form-control") %>
+      </div>
+      <div class="form-group">
+        <%= f.label(:note) %>
+        <%= f.text_area(:note, class:"form-control") %>
+      </div>
+      <div class="form-group">
+        <%= f.label(:location_id) %>
+        <%= f.collection_select(:location_id, @locations, :id, :name, { prompt: true },
+                                class:"form-control js-dropdown") %>
+      </div>
+      <div><%= f.submit(class:"btn btn-success") %></div>
+    <% end %>
+  </div>
 </div>
