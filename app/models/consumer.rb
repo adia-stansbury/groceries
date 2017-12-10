@@ -9,8 +9,4 @@ class Consumer < ActiveRecord::Base
   validates :weight_in_lbs, presence: true
 
   before_save StripUserInputCallback.new(['name'])
-
-  def rda_hash
-    nutrients.pluck(:name, :daily_rda).to_h
-  end
 end

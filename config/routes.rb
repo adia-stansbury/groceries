@@ -12,6 +12,5 @@ Rails.application.routes.draw do
   resources :meal_plan_recipes, only: :destroy
   resources :meal_plans, only: [:index, :show, :new, :create] do
     resources :meal_plan_recipes, only: :create
-    resources :meal_plan_days, only: :show
   end
 end

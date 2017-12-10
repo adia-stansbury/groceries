@@ -1,64 +1,38 @@
 <div class="container-fluid">
-  <div class="page-header">
-    <h2><%= @ingredient.name.capitalize! %></h2>
-    <h5>
-      NDB Number: <%= @ndbno %>
-      <a href="https://ndb.nal.usda.gov/ndb/foods" target="_blank">Look up Ndbno</a>
-      <% if @ingredient.measuring_amount.present? %>
-        <div>
-          Package size:
-          <%= @ingredient.measuring_amount %> <%= @unit %>, 
-          <%= @ingredient.num_of_grams_in_measuring_amount %> grams
-        </div>
-      <% end %>
-      <div><%= @ingredient.note %></div>
-      <div>
-        <%= link_to 'Edit', edit_ingredient_path(@ingredient) %>
-        <%= link_to(
-          'Delete', 
-          ingredient_path(@ingredient), 
-          method: :delete, 
-          data: { confirm: 'Are you sure?' } 
-        ) %>
-      </div>
-    </h5>
-  </div>
   <div class="jumbotron">
-    <div class="page-header"><h3>Nutrient Report</h3></div>
-    <% if @ndbno.present? %>
-      <% @groups.each do |group| %>
-        <ul style="list-style-type:none">
-          <li><strong>
-            <% group_name = group.name.parameterize %>
-            <%= image_tag(
-              "plus_sign.png", 
-              class: "plus-sign js-plus-sign-#{group_name}"
-            ) %> 
-            <%= image_tag(
-              "minus_sign.png", 
-              class: "minus-sign js-minus-sign-#{group_name}", 
-              style: "display:none"
-            ) %> 
-            <%= group.name %>
-          </strong></li>
-        </ul>
-        <div class="js-nutrient-info-<%= group_name %>" style="display:none">
-          <table class="table">
-            <tr>
-              <th>Nutrient</th>
-              <th>per 100g</th>
-            </tr>
-          <% IngredientNutrient.nutrition(
-            @ingredient.id, 
-            group.nutrients.ids
-          ).each do |row| %>
-            <tr>
-              <td><%= row.nutrient.name %></td> 
-              <td><%= row.value %> <%= row.unit %></td>
-            </tr>
-          <% end %></table>
-        </div>
-      <% end %>
-    <% end %>
+    <p><strong><%= @ingredient.name.capitalize! %></strong></p>
+    <div>
+      NDB Number: <%= @ingredient.ndbno %>
+      <small>
+        <a href="https://ndb.nal.usda.gov/ndb/foods" target="_blank">Look up Ndbno</a>
+      </small>
+    </div>
+    <table>
+      <tr>
+        <th>Amount</th>
+        <th>Grams</th>
+      </tr>
+      <tr>
+        <td>
+          <%= @ingredient.measuring_amount || 'N/A' %>
+          <%= @ingredient.unit&.name %>
+        </td>
+        <td><%= @ingredient.num_of_grams_in_measuring_amount || 'N/A' %></td>
+      </tr>
+    </table>
+    <div><%= @ingredient.note %></div>
+    <%= link_to 'Edit', edit_ingredient_path(@ingredient) %>
+    <%= link_to(
+      'Delete',
+      ingredient_path(@ingredient),
+      method: :delete,
+      data: { confirm: 'Are you sure?' }
+    ) %>
   </div>
+  <%= render partial: 'meal_plans/nutrient_report', locals: {
+    consumer: Consumer.find_by(name: 'Adia'),
+    meal_plan: nil,
+    number_of_days: 1,
+    nutrition_standard_foods: @ingredient.nutrition,
+  } %>
 </div>

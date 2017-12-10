@@ -4,4 +4,6 @@ class NutrientGroup < ActiveRecord::Base
   validates :name, uniqueness: true, presence: true
 
   before_save StripUserInputCallback.new(['name'])
+
+  scope :includes_nutrients, -> { includes(:nutrients).order(:name) }
 end

@@ -6,22 +6,8 @@ class MealPlansController < ApplicationController
   end
 
   def show
-    @meal_plan = MealPlan.includes(:consumer, :meal_plan_recipes, :recipes).
-      find(params[:id])
-    @consumer = @meal_plan.consumer
-    @week = @meal_plan.dates.first
-    if @meal_plan.meal_plan_recipes
-      @aggregate_nutrient_intake = @meal_plan.nutrient_intake(
-        @meal_plan.dates.first,
-        @meal_plan.dates.last
-      )
-
-      @groups = NutrientGroup.includes(:nutrients).order(:name)
-      @mealsquare = Food.find_by(name: 'Mealsquare')
-      @soylent = Food.find_by(name: 'Soylent')
-      @nutrients_upper_limit = Nutrient.upper_limit_hash
-      @consumer_rdas = @consumer.rda_hash
-    end
+    @meal_plan = MealPlan.includes(:consumer, :meal_plan_recipes, :recipes)
+      .find(params[:id])
   end
 
   def create

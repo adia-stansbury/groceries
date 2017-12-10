@@ -1,117 +1,89 @@
 <div class="container-fluid">
-  <div class="page-header">
-    <h3>Meal Plan for <%= @consumer.name %> for <%= @week %></h3>
-  </div>
-  <ul class="nav nav-tabs">
+  <div><%= @meal_plan.consumer.name %>'s mealplan</div>
+  <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
-      <%= link_to('Weekly', meal_plan_path(@meal_plan), class: "nav-link active") %>
+      <%= link_to(
+        'Weekly',
+        '#weekly',
+        { class: "nav-link active", "data-toggle": "tab", role: "tab" },
+      ) %>
     </li>
     <% @meal_plan.dates.each do |date| %>
       <li class="nav-item">
         <%= link_to(
           date,
-          meal_plan_meal_plan_day_path(@meal_plan, date),
-          class: "nav-link"
+          "##{date}",
+          { class: "nav-link", "data-toggle": "tab", role: "tab" },
         ) %>
       </li>
     <% end %>
   </ul>
-  <% if @meal_plan.meal_plan_recipes.present? %>
-    <div class="jumbotron">
-      <table class="table">
-        <tr>
-          <th>Recipe</th>
-          <th>Date</th>
-          <th>For First Day?</th>
-          <th>Actions</th>
-        </tr>
-        <% @meal_plan.meal_plan_recipes.each do |mpr| %>
-          <% if mpr.recipe.present? %>
-            <tr>
-              <td><%= link_to mpr.recipe.name, recipe_path(mpr.recipe.id) %></td>
-              <td><%= mpr.date %></td>
-              <td><%= mpr.first_day_recipe %></td>
-              <td>
-                <%= link_to(
-                  'Delete',
-                  meal_plan_recipe_path(mpr),
-                  method: :delete,
-                  data: { confirm: 'Are you sure?' }
-                ) %>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
-      </table>
+  <div class="tab-content">
+    <div class="tab-pane fade in active" id="weekly" role="tabpanel">
+      <%= render partial: 'nutrient_report', locals: {
+        consumer: @meal_plan.consumer,
+        meal_plan: @meal_plan,
+        number_of_days: @meal_plan.dates.last - @meal_plan.dates.first,
+        nutrition_standard_foods: @meal_plan.nutrient_intake(
+          @meal_plan.dates.first,
+          @meal_plan.dates.last,
+        ),
+      } %>
     </div>
-  <% end %>
-  <% if @meal_plan.recipes.present? %>
-    <div class="jumbotron">
-      <div class="page-header"><h3>Weekly RDA Nutrient Report</h3></div>
-        <% @groups.each do |group| %>
-          <ul style="list-style-type:none">
-            <li><strong>
-              <% group_name = group.name.parameterize %>
-              <%= image_tag(
-                "plus_sign.png",
-                class: "plus-sign js-plus-sign-#{group_name}"
+    <% @meal_plan.dates.each do |date| %>
+      <div class="tab-pane fade" id="<%= date %>" role="tabpanel">
+        <div class="jumbotron">
+          <%= form_for([@meal_plan, @meal_plan.meal_plan_recipes.build]) do |f| %>
+            <%= f.hidden_field(:date, value: date) %>
+            <div class="form-group">
+              <%= f.label(:recipe_id, 'Add recipe to mealplan') %>
+              <%= f.collection_select(
+                :recipe_id,
+                Recipe.order(:name),
+                :id,
+                :name,
+                { prompt: true },
+                class: 'js-dropdown form-control'
               ) %>
-              <%= image_tag(
-                "minus_sign.png",
-                class: "minus-sign js-minus-sign-#{group_name}",
-                style: "display:none"
-              ) %>
-              <%= group.name %>
-            </strong></li>
-          </ul>
-          <div class="js-nutrient-info-<%= group_name %>" style="display:none">
-            <table class="table">
-              <tr>
-                <th>Nutrient</th>
-                <th>Unit</th>
-                <th>Consumed</th>
-                <th><%= @consumer.name %>'s RDA</th>
-                <th>% <%= @consumer.name %>'s</th>
-                <th>UL</th>
-              </tr>
-            <% @aggregate_nutrient_intake.each do |record| %>
-              <% if group.nutrients.ids.include?(record['id'].to_i) %>
-                <tr>
-                  <td><%= nutrient_name = Nutrient.nutrient_name(record) %></td>
-                  <td><%= record['amt_consumed_unit'] %></td>
-                  <td>
-                    <%= nutrition = (
-                      record['amt_consumed'].to_f +
-                      @meal_plan.nutrient_intake_from_custom_food(
-                        @mealsquare,
-                        nutrient_name
-                      ) + @meal_plan.nutrient_intake_from_custom_food(
-                        @soylent,
-                        nutrient_name
-                      )
-                    ).round(2) %>
-                  </td>
-                  <td>
-                    <% daily_rda =
-                      ConsumerNutrient.daily_rda(nutrient_name, @consumer_rdas) %>
-                    <%= weekly_rda = ConsumerNutrient.weekly_rda(daily_rda) %>
-                  </td>
-                  <td>
-                    <%= ConsumerNutrient.percent_rda(nutrition, weekly_rda) %>
-                  </td>
-                  <td>
-                    <% upper_limit = Nutrient.upper_limit(
-                      @nutrients_upper_limit,
-                      nutrient_name
-                    ) %>
-                    <%= Nutrient.weekly_upper_limit(upper_limit) %>
-                  </td>
-                </tr>
+            </div>
+            <div class="form-group">
+              <div>Plan to have this recipe on first day of mealplan?</div>
+              <% [true, false].each do |value| %>
+                <%= f.radio_button :first_day_recipe, value.to_s  %>
+                <%= f.label "first_day_recipe_#{value}".to_sym, value.to_s  %>
               <% end %>
-            <% end %></table>
-          </div>
-        <% end %>
+            </div>
+            <%= f.submit('Add Recipe', class:"btn btn-success") %>
+          <% end %>
+        </div>
+        <div class="jumbotron">
+          <table class="table">
+            <tr>
+              <th>Recipe</th>
+              <th>Actions</th>
+            </tr>
+            <% @meal_plan.recipes_for_date(date).each do |mpr| %>
+              <tr>
+                <td><%= link_to mpr.recipe.name, recipe_path(mpr.recipe) %></td>
+                <td>
+                  <%= link_to(
+                    'Delete',
+                    meal_plan_recipe_path(mpr),
+                    method: :delete,
+                    data: { confirm: 'Are you sure?' }
+                  ) %>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+        <%= render partial: 'nutrient_report', locals: {
+          consumer: @meal_plan.consumer,
+          meal_plan: @meal_plan,
+          number_of_days: 1,
+          nutrition_standard_foods: @meal_plan.nutrient_intake(date, date),
+        } %>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>

@@ -1,20 +1,18 @@
 <div class="container-fluid">
-  <div class="page-header">
-    <h3><%= @recipe.name %></h3>
-    <h4><%= @recipe.number_of_servings %> Servings</h4>
-    <h4><%= @recipe.note %></h4>
-    <small>
-      <%= link_to 'Edit', edit_recipe_path(@recipe) %>
-      <%= link_to(
-        'Delete',
-        recipe_path(@recipe),
-        method: :delete,
-        data: { confirm: 'Are you sure?' }
-      )%>
-    </small>
+  <div class="jumbotron">
+    <p><strong><%= @recipe.name %></strong></p>
+    <div><%= @recipe.number_of_servings %> Servings</div>
+    <div><%= @recipe.note %></div>
+    <%= link_to 'Edit', edit_recipe_path(@recipe) %>
+    <%= link_to(
+      'Delete',
+      recipe_path(@recipe),
+      method: :delete,
+      data: { confirm: 'Are you sure?' }
+    )%>
   </div>
   <div class="jumbotron">
-    <div class="page-header"><h3>Ingredients</h3></div>
+    <div>Ingredients</div>
     <table class="table">
       <tr>
         <th>Amount</th>
@@ -23,7 +21,7 @@
         <th>Ndbno</th>
         <th>Action</th>
       </tr>
-    <% @recipe_ingredients.each do |row| %>
+    <% @recipe.recipe_ingredients.includes_ingredient_unit.each do |row| %>
       <tr>
         <td><%= row.quantity %> <%= row.unit.try(:name) %></td>
         <td>
@@ -44,14 +42,14 @@
     <% end %></table>
   </div>
   <div class="jumbotron">
-    <div class="page-header"><h3>Add ingredients</h3></div>
+    <div>Add ingredients</div>
     <%= form_for([@recipe, @recipe.recipe_ingredients.build]) do |f| %>
       <form class="form-inline">
         <div class="form-group">
-          <%= f.label(:ingredient_id) %>
+          <%= f.label(:ingredient_id)  %>
           <%= f.collection_select(
             :ingredient_id,
-            @ingredients,
+            Ingredient.order(:name),
             :id,
             :name,
             { prompt: true },
@@ -66,7 +64,7 @@
           <%= f.label(:unit_id) %>
           <%= f.collection_select(
             :unit_id,
-            @units,
+            Unit.order(:name),
             :id,
             :name,
             { prompt: true },
@@ -81,61 +79,10 @@
       </form>
     <% end %>
   </div>
-  <% if @recipe_ingredients %>
-    <div class="jumbotron">
-      <div class="page-header"><h3>Daily RDA Nutrient Report</h3></div>
-        <% @groups.each do |group| %>
-          <ul style="list-style-type:none">
-            <li><strong>
-              <% group_name = group.name.parameterize %>
-              <%= image_tag(
-                "plus_sign.png",
-                class: "plus-sign js-plus-sign-#{group_name}"
-              ) %>
-              <%= image_tag(
-                "minus_sign.png",
-                class: "minus-sign js-minus-sign-#{group_name}",
-                style: "display:none"
-              ) %>
-              <%= group.name %>
-            </strong></li>
-          </ul>
-          <div class="js-nutrient-info-<%= group_name %>" style="display:none">
-            <table class="table">
-              <tr>
-                <th>Nutrient</th>
-                <th>Unit</th>
-                <th>Amount</th>
-                <th>Mick's RDA</th>
-                <th>% Mick's</th>
-                <th>Adia's RDA</th>
-                <th>% Adia's</th>
-                <th>UL</th>
-              </tr>
-            <% @aggregate_nutrient_intake.each do |record| %>
-              <% if group.nutrients.ids.include?(record['id'].to_i) %>
-                <% nutrient_name = Nutrient.nutrient_name(record) %>
-                <tr>
-                  <td><%= nutrient_name %></td>
-                  <td><%= record['amt_consumed_unit'] %></td>
-                  <td><%= intake = record['amt_consumed'].to_f.round(2) %></td>
-                  <% @consumers.each do |consumer| %>
-                    <td>
-                      <%= daily_rda = ConsumerNutrient.daily_rda(
-                            nutrient_name,
-                            consumer.rda_hash
-                          )
-                      %>
-                    </td>
-                    <td><%= ConsumerNutrient.percent_rda(intake, daily_rda) %></td>
-                  <% end %>
-                  <td><%= Nutrient.upper_limit(@nutrients_upper_limit, nutrient_name) %></td>
-                </tr>
-              <% end %>
-            <% end %></table>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
+  <%= render partial: 'meal_plans/nutrient_report', locals: {
+    meal_plan: nil,
+    consumer: Consumer.find_by(name: 'Adia'),
+    number_of_days: 1,
+    nutrition_standard_foods: @recipe.nutrition,
+  } %>
 </div>

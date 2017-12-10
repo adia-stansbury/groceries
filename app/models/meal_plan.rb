@@ -53,6 +53,10 @@ class MealPlan < ActiveRecord::Base
     meal_plan_recipes.order(:date).distinct.pluck(:date)
   end
 
+  def recipes_for_date(date)
+    meal_plan_recipes.includes(:recipe).where(date: date).order('recipes.name')
+  end
+
   def nutrient_intake(start_date, end_date)
     IngredientNutrient.connection.select_all(
       "SELECT
