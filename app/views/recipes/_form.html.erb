@@ -1,13 +1,11 @@
-<div class="container-fluid">
-  <div class="jumbotron">
-    <%= form_for @recipe do |f| %>
-      <% [:name, :number_of_servings, :note].each do |column| %>
-        <div class="form-group">
-          <%= f.label(column) %>
-          <%= f.text_field(column, class:"form-control") %>
-        </div>
-      <% end %>
-      <%= f.submit(class:"btn btn-success") %>
+<div class="jumbotron">
+  <%= form_for @recipe do |f| %>
+    <% [:name, :number_of_servings, :note].each do |column| %>
+      <div class="form-group">
+        <%= f.label(column) %>
+        <%= f.text_field(column, class:"form-control") %>
+      </div>
     <% end %>
-  </div>
+    <%= f.submit(class:"btn btn-success") %>
+  <% end %>
 </div>

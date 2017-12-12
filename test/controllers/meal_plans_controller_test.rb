@@ -13,7 +13,7 @@ class MealPlansControllerTest < ActionDispatch::IntegrationTest
     consumers(:adia, :mick)
 
     GoogleCalendarApi.stub :events_items, {} do
-      assert_difference('MealPlan.count', 2 ) do
+      assert_difference('MealPlan.count', 1 ) do
         post meal_plans_url, params: { 'start_date' => Date.new(2018,9,19) }
       end
     end
@@ -31,7 +31,7 @@ class MealPlansControllerTest < ActionDispatch::IntegrationTest
     ]
 
     GoogleCalendarApi.stub :events_items, items do
-      assert_difference('MealPlanRecipe.count', 2) do
+      assert_difference('MealPlanRecipe.count', 1) do
         post meal_plans_url, params: { 'start_date' => Date.new(2017,10,07) }
       end
     end

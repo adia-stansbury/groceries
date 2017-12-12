@@ -1,27 +1,25 @@
-<div class="container-fluid">
+<div class="jumbotron">
   <%= form_tag("/grocery_lists/new", method: "get") do %>
     <% @meal_plans.each do |meal_plan| %>
-      <div class="jumbotron">
-        <div>
-          <%= check_box_tag('meal_plan_ids[]', meal_plan.id, checked = false) %>
-          <%= label_tag(
-            'meal_plan_id[meal_plan.id]',
-            (link_to meal_plan.dates.first, meal_plan_path(meal_plan))
-          ) %>
-          <%= meal_plan.consumer.name %>
-        </div>
-        <table class="table">
-          <tr>
-            <th>Unique Recipes</th>
-            <th>Servings</th>
-          </tr>
-        <% meal_plan.recipes.distinct.each do |recipe| %>
-          <tr>
-            <td><%= link_to recipe.name, recipe_path(recipe) %></td>
-            <td><%= recipe.number_of_servings %></td>
-          </tr>
-        <% end %></table>
+      <div>
+        <%= check_box_tag('meal_plan_ids[]', meal_plan.id, checked = false) %>
+        <%= label_tag(
+          'meal_plan_id[meal_plan.id]',
+          (link_to meal_plan.dates.first, meal_plan_path(meal_plan))
+        ) %>
+        <%= meal_plan.consumer.name %>
       </div>
+      <table class="table">
+        <tr>
+          <th>Unique Recipes</th>
+          <th>Servings</th>
+        </tr>
+      <% meal_plan.recipes.distinct.each do |recipe| %>
+        <tr>
+          <td><%= link_to recipe.name, recipe_path(recipe) %></td>
+          <td><%= recipe.number_of_servings %></td>
+        </tr>
+      <% end %></table>
     <% end %>
     <%= submit_tag("Create Grocery List", class:"btn btn-success") %>
   <% end %>

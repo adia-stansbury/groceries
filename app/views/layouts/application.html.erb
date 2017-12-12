@@ -5,34 +5,30 @@
   <%= stylesheet_link_tag 'application', media: 'all' %>
   <%= csrf_meta_tags %>
 </head>
-<body id="adia-body">
+<body>
   <%- flash.each do |key, value| -%>
     <div class="flash flash-<%= key %>">
       <%= value %>
     </div>
   <%- end -%>
-  <nav class="navbar navbar-expand-sm navbar-light bg-light">
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <% ['Recipes', 'Ingredients', 'MealPlans'].each do |model| %>
-          <% underscored_model = model.underscore %>
-          <li class="nav-item dropdown">
-            <a class="navbar-link dropdown-toggle" data-toggle="dropdown">
-              <%= model %>
-            </a>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="/<%= underscored_model %>">View</a>
-              <a class="dropdown-item" href="/<%= underscored_model %>/new">Add</a>
-            </div>
-          </li>
-        <% end %>
-      </ul>
-    </div>
+  <nav class="navbar navbar-expand navbar-dark fixed-top bg-dark">
+    <div class="navbar-nav">
+      <% ['Recipes', 'Ingredients', 'MealPlans'].each do |model| %>
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+            <%= model %>
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/<%= model.underscore %>">View</a>
+            <a class="dropdown-item" href="/<%= model.underscore %>/new">Add</a>
+          </div>
+        </div>
+      <% end %>
+    </ul>
   </nav>
 
   <%= yield %>
 
   <%= javascript_include_tag 'application' %>
-  <% require 'pry' %>
 </body>
 </html>

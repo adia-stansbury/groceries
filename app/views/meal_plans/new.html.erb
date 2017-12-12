@@ -1,12 +1,10 @@
 <%= form_tag("/meal_plans") do %>
-  <div class="container-fluid">
-    <div class="jumbotron">
-      <div>Select meal plan start date</div>
-      <div id="js-datepicker"</div>
-      <input type="hidden" id="js-start_date" name="start_date"/>
-      <button type="submit" class="btn btn-success">
-        Generate Meal Plans from Google Calendar
-      </button>
-    </div>
+  <div class="jumbotron">
+    <div>Select meal plan start date</div>
+    <div id="js-datepicker"</div>
+    <input type="hidden" id="js-start_date" name="start_date"/>
+    <button type="submit" class="btn btn-success">
+      Generate Meal Plans from Google Calendar
+    </button>
   </div>
 <% end %>

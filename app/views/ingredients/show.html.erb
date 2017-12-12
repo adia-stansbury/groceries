@@ -1,34 +1,32 @@
-<div class="container-fluid">
-  <div class="jumbotron">
-    <p><strong><%= @ingredient.name.capitalize! %></strong></p>
-    <div>
-      NDB Number: <%= @ingredient.ndbno %>
-      <small>
-        <a href="https://ndb.nal.usda.gov/ndb/foods" target="_blank">Look up Ndbno</a>
-      </small>
-    </div>
-    <table>
-      <tr>
-        <th>Amount</th>
-        <th>Grams</th>
-      </tr>
-      <tr>
-        <td>
-          <%= @ingredient.measuring_amount || 'N/A' %>
-          <%= @ingredient.unit&.name %>
-        </td>
-        <td><%= @ingredient.num_of_grams_in_measuring_amount || 'N/A' %></td>
-      </tr>
-    </table>
-    <div><%= @ingredient.note %></div>
-    <%= link_to 'Edit', edit_ingredient_path(@ingredient) %>
-    <%= link_to(
-      'Delete',
-      ingredient_path(@ingredient),
-      method: :delete,
-      data: { confirm: 'Are you sure?' }
-    ) %>
+<div class="jumbotron">
+  <p><strong><%= @ingredient.name.capitalize! %></strong></p>
+  <div>
+    NDB Number: <%= @ingredient.ndbno %>
+    <small>
+      <a href="https://ndb.nal.usda.gov/ndb/foods" target="_blank">Look up Ndbno</a>
+    </small>
   </div>
+  <table>
+    <tr>
+      <th>Amount</th>
+      <th>Grams</th>
+    </tr>
+    <tr>
+      <td>
+        <%= @ingredient.measuring_amount || 'N/A' %>
+        <%= @ingredient.unit&.name %>
+      </td>
+      <td><%= @ingredient.num_of_grams_in_measuring_amount || 'N/A' %></td>
+    </tr>
+  </table>
+  <div><%= @ingredient.note %></div>
+  <%= link_to 'Edit', edit_ingredient_path(@ingredient) %>
+  <%= link_to(
+    'Delete',
+    ingredient_path(@ingredient),
+    method: :delete,
+    data: { confirm: 'Are you sure?' }
+  ) %>
   <%= render partial: '/nutrient_report', locals: {
     consumer: Consumer.find_by(name: 'Adia'),
     meal_plan: nil,

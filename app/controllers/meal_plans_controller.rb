@@ -14,7 +14,7 @@ class MealPlansController < ApplicationController
     start_datetime = params['start_date'].to_time.iso8601
     start_date = start_datetime.to_date
 
-    ['Adia', 'Mick'].each do |consumer|
+    ['Adia'].each do |consumer|
       meal_plan = create_meal_plan(consumer)
 
       # TODO: keep ENV?
@@ -23,6 +23,7 @@ class MealPlansController < ApplicationController
         start_datetime,
       )
 
+      # TODO: save start_date as MealPlan attribute
       if events_items
         create_meal_plan_recipes(events_items, start_date, meal_plan)
       end
