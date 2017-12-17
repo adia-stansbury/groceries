@@ -3,46 +3,72 @@ require 'evernote-thrift'
 
 module EvernoteApi
   NOTE_TITLE = 'Grocery List'
-  NOTE_NOTEBOOK = 'Shopping List'
+  NOTE_NOTEBOOK_NAME = 'Shopping List'
   EVERNOTE_HOST = "www.evernote.com"
-  # evernote_host = "sandbox.evernote.com"
+  AUTH_TOKEN = ENV['PROD_AUTH_TOKEN']
+  # EVERNOTE_HOST = "sandbox.evernote.com"
+  # AUTH_TOKEN = ENV['SANDBOX_AUTH_TOKEN']
 
-  def self.create_note_store(auth_token, evernote_host)
-    user_store_url = "https://#{evernote_host}/edam/user"
-    user_store_transport = Thrift::HTTPClientTransport.new(user_store_url)
-    user_store_protocol = Thrift::BinaryProtocol.new(user_store_transport)
-    user_store = Evernote::EDAM::UserStore::UserStore::Client.new(user_store_protocol)
-    version_ok = user_store.checkVersion("Evernote EDAMTest (Ruby)",
-              Evernote::EDAM::UserStore::EDAM_VERSION_MAJOR,
-              Evernote::EDAM::UserStore::EDAM_VERSION_MINOR)
+  def self.create_note(note_items, first_day_recipes)
+    note_content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+    note_content += "<!DOCTYPE en-note SYSTEM \"http://xml.evernote.com/pub/enml2.dtd\">"
+    note_content += "<en-note>#{note_body(note_items, first_day_recipes)}</en-note>"
+
+    our_note = Evernote::EDAM::Type::Note.new
+    our_note.title = NOTE_TITLE
+    our_note.content = note_content
+    our_note.notebookGuid = notebook.guid
+
+    note_store.createNote(AUTH_TOKEN, our_note)
+
+  rescue Evernote::EDAM::Error::EDAMUserException => edue
+    ## See EDAMErrorCode enumeration for error code explanation
+    ## http://dev.evernote.com/documentation/reference/Errors.html#Enum_EDAMErrorCode
+    puts "EDAMUserException: #{edue}"
+  rescue Evernote::EDAM::Error::EDAMNotFoundException => edue
+    puts "EDAMNotFoundException: Invalid parent notebook GUID"
+  end
+
+  private
+
+  def self.protocol(url)
+    transport = Thrift::HTTPClientTransport.new(url)
+
+    Thrift::BinaryProtocol.new(transport)
+  end
+
+  def self.note_store
+    user_store = Evernote::EDAM::UserStore::UserStore::Client.new(
+      protocol("https://#{EVERNOTE_HOST}/edam/user")
+    )
+    version_ok = user_store.checkVersion(
+      "Evernote EDAMTest (Ruby)",
+      Evernote::EDAM::UserStore::EDAM_VERSION_MAJOR,
+      Evernote::EDAM::UserStore::EDAM_VERSION_MINOR
+    )
     puts "Is my Evernote API version up to date? #{version_ok}"
     exit(1) unless version_ok
-    begin
-      note_store_url = user_store.getNoteStoreUrl(auth_token)
-    rescue Evernote::EDAM::Error::EDAMUserException => edue
-      ## See EDAMErrorCode enumeration for error code explanation
-      ## http://dev.evernote.com/documentation/reference/Errors.html#Enum_EDAMErrorCode
-      Rails.logger.error "Evernote didn't authenticate b/c: #{edue.parameter}"
+
+    Evernote::EDAM::NoteStore::NoteStore::Client.new(
+      protocol(user_store.getNoteStoreUrl(AUTH_TOKEN))
+    )
+
+  rescue Evernote::EDAM::Error::EDAMUserException => edue
+    ## See EDAMErrorCode enumeration for error code explanation
+    ## http://dev.evernote.com/documentation/reference/Errors.html#Enum_EDAMErrorCode
+    Rails.logger.error "Evernote didn't authenticate b/c: #{edue.parameter}"
     raise
-    end
-    note_store_transport = Thrift::HTTPClientTransport.new(note_store_url)
-    note_store_protocol = Thrift::BinaryProtocol.new(note_store_transport)
-
-    Evernote::EDAM::NoteStore::NoteStore::Client.new(note_store_protocol)
   end
 
-  def self.create_note_notebook_guid(note_notebook, auth_token, note_store)
-    notebooks = note_store.listNotebooks(auth_token)
-    notebooks.each do |notebook|
-      if notebook.name == note_notebook
-        return notebook.guid
-      end
+  def self.notebook
+    note_store.listNotebooks(AUTH_TOKEN).find do |notebook|
+      notebook.name == NOTE_NOTEBOOK_NAME
     end
   end
 
-  def self.make_note_body(results, first_day_recipes)
+  def self.note_body(note_items, first_day_recipes)
     list = ''
-    results.each do |row|
+    note_items.each do |row|
       shared_recipes = row['recipe_names'].split('; ') & first_day_recipes
       if shared_recipes.empty?
         list += "<en-todo/>#{row['total_quantity']} #{row['unit']} #{row['name']} <i>(#{row['recipe_names']})</i><br/>"
@@ -51,28 +77,5 @@ module EvernoteApi
       end
     end
     list
-  end
-
-  def self.make_note(note_store, note_title, note_body, auth_token, note_notebook_guid)
-    n_body = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-    n_body += "<!DOCTYPE en-note SYSTEM \"http://xml.evernote.com/pub/enml2.dtd\">"
-    n_body += "<en-note>#{note_body}</en-note>"
-
-    our_note = Evernote::EDAM::Type::Note.new
-    our_note.title = note_title
-    our_note.content = n_body
-    our_note.notebookGuid = note_notebook_guid
-
-    begin
-      note = note_store.createNote(auth_token, our_note)
-    rescue Evernote::EDAM::Error::EDAMUserException => edue
-      ## See EDAMErrorCode enumeration for error code explanation
-      ## http://dev.evernote.com/documentation/reference/Errors.html#Enum_EDAMErrorCode
-      puts "EDAMUserException: #{edue}"
-    rescue Evernote::EDAM::Error::EDAMNotFoundException => edue
-      puts "EDAMNotFoundException: Invalid parent notebook GUID"
-    end
-
-    note
   end
 end

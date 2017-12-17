@@ -1,5 +1,5 @@
 <div class="jumbotron">
-  <%= form_tag("/grocery_lists/new", method: "get") do %>
+  <%= form_tag("grocery_lists/new", method: :get) do %>
     <% @meal_plans.each do |meal_plan| %>
       <div>
         <%= check_box_tag('meal_plan_ids[]', meal_plan.id, checked = false) %>

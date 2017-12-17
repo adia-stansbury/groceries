@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'meal_plans#new'
-  resources :grocery_lists
+  resources :grocery_lists, only: :new
   resources :recipes do
     resources :recipe_ingredients, only: :create
   end
