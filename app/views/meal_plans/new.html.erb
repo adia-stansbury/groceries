@@ -1,5 +1,8 @@
 <%= form_tag("/meal_plans") do %>
   <div class="jumbotron">
+    <% if flash.alert %>
+      <div class="alert alert-danger"><%= flash.alert %></div>
+    <% end %>
     <div>Select meal plan start date</div>
     <div id="js-datepicker"</div>
     <input type="hidden" id="js-start_date" name="start_date"/>

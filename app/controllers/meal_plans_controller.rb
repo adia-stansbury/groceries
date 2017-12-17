@@ -1,4 +1,6 @@
 class MealPlansController < ApplicationController
+  CONSUMERS = ['Adia']
+
   def index
     @meal_plans = MealPlan.includes(:consumer, :meal_plan_recipes, :recipes).order(created_at: :desc).limit(8)
 
@@ -14,22 +16,23 @@ class MealPlansController < ApplicationController
     start_datetime = params['start_date'].to_time.iso8601
     start_date = start_datetime.to_date
 
-    ['Adia'].each do |consumer|
-      meal_plan = create_meal_plan(consumer)
-
-      # TODO: keep ENV?
+    CONSUMERS.each do |consumer|
       events_items = GoogleCalendarApi.events_items(
         ENV["#{consumer.upcase}_CALENDAR_ID"],
         start_datetime,
       )
 
-      # TODO: save start_date as MealPlan attribute
-      if events_items
+      if events_items.present?
+        meal_plan = create_meal_plan(consumer)
         create_meal_plan_recipes(events_items, start_date, meal_plan)
+
+        redirect_to meal_plans_path
+      else
+        flash.alert = 'Calendar has no meal plan for date selected'
+        render 'new'
       end
     end
 
-    redirect_to meal_plans_path
   end
 
   private

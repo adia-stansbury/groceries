@@ -10,9 +10,15 @@ class MealPlansControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create meal_plan" do
-    consumers(:adia, :mick)
+    consumers(:adia)
+    items = [
+      OpenStruct.new(
+        start: OpenStruct.new(date: "2017-10-07"),
+        summary: Recipe.first.name,
+      )
+    ]
 
-    GoogleCalendarApi.stub :events_items, {} do
+    GoogleCalendarApi.stub :events_items, items do
       assert_difference('MealPlan.count', 1 ) do
         post meal_plans_url, params: { 'start_date' => Date.new(2018,9,19) }
       end
@@ -22,7 +28,7 @@ class MealPlansControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create meal plan's associated records" do
-    consumers(:adia, :mick)
+    consumers(:adia)
     items = [
       OpenStruct.new(
         start: OpenStruct.new(date: "2017-10-07"),
@@ -39,8 +45,8 @@ class MealPlansControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to meal_plans_url
   end
 
-  test "does not create a MealPlanRecipe for recipe name not in database" do
-    consumers(:adia, :mick)
+  test "doesn't create a MealPlanRecipe for recipe name not in database" do
+    consumers(:adia)
     items = [
       OpenStruct.new(
         start: OpenStruct.new(date: "2017-10-07"),
@@ -55,6 +61,16 @@ class MealPlansControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to meal_plans_url
+  end
+
+  test "doesn't create mealplan when there isn't a mealplan on calendar" do
+    consumers(:adia)
+
+    GoogleCalendarApi.stub :events_items, {} do
+      assert_difference('MealPlan.count', 0 ) do
+        post meal_plans_url, params: { 'start_date' => Date.new(2018,9,19) }
+      end
+    end
   end
 
   test "should show meal_plan" do
