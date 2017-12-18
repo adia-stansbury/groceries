@@ -15,20 +15,4 @@ class Nutrient < ActiveRecord::Base
   def self.name_id_dictionary
     pluck(:name, :id).to_h
   end
-
-  def self.nutrient_name(record)
-    record['name']
-  end
-
-  def self.upper_limit_hash
-    where.not(upper_limit: nil).pluck(:name, :upper_limit).to_h
-  end
-
-  def self.upper_limit(nutrients_upper_limit, nutrient_name)
-    nutrients_upper_limit[nutrient_name]
-  end
-
-  def self.weekly_upper_limit(upper_limit)
-    upper_limit.present? ? (upper_limit * 7) : ''
-  end
 end
