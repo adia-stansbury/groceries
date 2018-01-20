@@ -23,7 +23,6 @@ default: &default
 
 development:
   <<: *default
-  # database: recipes
   database: recipes_dev
 
   # The specified database role being used to connect to postgres.

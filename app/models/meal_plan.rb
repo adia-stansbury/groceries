@@ -5,32 +5,7 @@ class MealPlan < ActiveRecord::Base
 
   validates :consumer, presence: true
 
-  def self.shopping_list(sql_meal_plan_ids)
-    RecipeIngredient.connection.select_all(
-      "SELECT
-          SUM(quantity) AS total_quantity,
-          units.name AS unit,
-          ingredients.name,
-          STRING_AGG(distinct(recipes.name), '; ') AS recipe_names
-        FROM recipe_ingredients
-        JOIN recipes
-        ON recipe_ingredients.recipe_id = recipes.id
-        JOIN ingredients
-        ON recipe_ingredients.ingredient_id = ingredients.id
-        JOIN locations
-        ON ingredients.location_id = locations.id
-        JOIN units
-        ON recipe_ingredients.unit_id = units.id
-        JOIN meal_plan_recipes
-        ON recipe_ingredients.recipe_id = meal_plan_recipes.recipe_id
-        WHERE meal_plan_recipes.meal_plan_id IN (#{sql_meal_plan_ids})
-        GROUP BY locations.ordering, ingredients.name, units.name
-        ORDER BY locations.ordering
-      "
-    )
-  end
-
-  def self.info_from_calendar(events_items, start_date)
+  def self.info_from_calendar(events_items)
     info = { info_valid: [], recipe_names_not_in_db: [] }
     events_items.each do |event|
       recipe_date = event.start.date.to_date
@@ -39,7 +14,6 @@ class MealPlan < ActiveRecord::Base
       if recipe
         info[:info_valid] << {
           recipe_id: recipe.id,
-          first_day_recipe: recipe_date == start_date,
           date: recipe_date
         }
       else

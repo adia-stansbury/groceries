@@ -5,7 +5,7 @@ class FoodTest < ActiveSupport::TestCase
     @food = foods(:soylent)
   end
 
-  test "strips user input" do
+  test 'strips user input' do
     @food.update(name: ' name ')
 
     assert_equal('name', @food.name)

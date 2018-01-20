@@ -6,7 +6,6 @@ class MealPlanRecipesController < ApplicationController
     @meal_plan.meal_plan_recipes.create!(
       recipe_id: params[:meal_plan_recipe][:recipe_id],
       date: params[:meal_plan_recipe][:date],
-      first_day_recipe: params[:meal_plan_recipe][:first_day_recipe]
     )
 
     redirect_to meal_plan_path(@meal_plan)

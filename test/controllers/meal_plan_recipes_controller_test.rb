@@ -4,11 +4,7 @@ class MealPlanRecipesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @meal_plan_recipe = meal_plan_recipes(:meal_plan_recipe)
     recipe = recipes(:recipe)
-    @meal_plan_recipe_params = {
-      recipe_id: recipe.id,
-      date: Date.today,
-      first_day_recipe: false
-    }
+    @meal_plan_recipe_params = { recipe_id: recipe.id, date: Date.today }
   end
 
   test "should create meal_plan_recipe" do
