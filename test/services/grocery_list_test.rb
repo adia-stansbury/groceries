@@ -21,7 +21,7 @@ class GroceryListTest < ActiveSupport::TestCase
 
     expected = "<en-todo/><strong>2 fruit apple</strong> <i>(Buttery Apple Banana; Yogurt, Blackberry Chocolate)</i><br/><en-todo/><regular>3 fruit banana</regular> <i>(Buttery Apple Banana)</i><br/>"
 
-    RecipeIngredient.connection.stub(:select_all, items) do
+    RecipeIngredient.connection.stub :select_all, items do
       assert_equal(expected, GroceryList.new(nil).create)
     end
   end

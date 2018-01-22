@@ -15,14 +15,14 @@ class MealPlansController < ApplicationController
   def create
 
     CONSUMERS.each do |consumer|
-      events_items = GoogleCalendarApi.events_items(
+      events = GoogleCalendarApi.new(
         ENV["#{consumer.upcase}_CALENDAR_ID"],
         params['start_date'].to_time.iso8601,
-      )
+      ).events
 
-      if events_items.present?
+      if events.present?
         meal_plan = create_meal_plan(consumer)
-        create_meal_plan_recipes(events_items, meal_plan)
+        create_meal_plan_recipes(events, meal_plan)
 
         redirect_to meal_plans_path
       else
@@ -38,8 +38,8 @@ class MealPlansController < ApplicationController
       Consumer.find_by(name: name).meal_plans.create!
     end
 
-    def create_meal_plan_recipes(events_items, meal_plan)
-      mealplan_info = MealPlan.info_from_calendar(events_items)
+    def create_meal_plan_recipes(events, meal_plan)
+      mealplan_info = MealPlan.info_from_calendar(events)
 
       meal_plan.meal_plan_recipes.create!(mealplan_info[:info_valid])
 

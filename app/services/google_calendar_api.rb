@@ -3,7 +3,7 @@ require 'googleauth'
 require 'googleauth/stores/file_token_store'
 require 'fileutils'
 
-module GoogleCalendarApi
+class GoogleCalendarApi
   OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
   APPLICATION_NAME = 'Google Calendar API Ruby Quickstart'
   CLIENT_SECRETS_PATH = 'config/client_secret.json'
@@ -17,13 +17,28 @@ module GoogleCalendarApi
   #
   # @return [Google::Auth::UserRefreshCredentials] OAuth2 credentials
 
-  def self.events_items(calendar_id, start_date)
-    events(calendar_id, start_date).items
+  def initialize(calendar_id, start_date)
+    @calendar_id, @start_date = calendar_id, start_date
+  end
+
+  def events
+    #initialize api
+    service = Google::Apis::CalendarV3::CalendarService.new
+    service.client_options.application_name = APPLICATION_NAME
+    service.authorization = authorize
+
+    service.list_events(
+      @calendar_id,
+      max_results: 106,
+      single_events: true,
+      order_by: 'startTime',
+      time_min: @start_date
+    ).items
   end
 
   private
 
-  def self.authorize
+  def authorize
     FileUtils.mkdir_p(File.dirname(CREDENTIALS_PATH))
 
     client_id = Google::Auth::ClientId.from_file(CLIENT_SECRETS_PATH)
@@ -43,20 +58,5 @@ module GoogleCalendarApi
         user_id: user_id, code: code, base_url: OOB_URI)
     end
     credentials
-  end
-
-  def self.events(calendar_id, start_date)
-    #initialize api
-    service = Google::Apis::CalendarV3::CalendarService.new
-    service.client_options.application_name = APPLICATION_NAME
-    service.authorization = authorize
-
-    service.list_events(
-      calendar_id,
-      max_results: 106,
-      single_events: true,
-      order_by: 'startTime',
-      time_min: start_date
-    )
   end
 end
