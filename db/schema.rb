@@ -33,18 +33,6 @@ ActiveRecord::Schema.define(version: 20180115160213) do
     t.integer "weight_in_lbs"
   end
 
-  create_table "food_nutrients", id: false, force: :cascade do |t|
-    t.integer "food_id", null: false
-    t.integer "nutrient_id", null: false
-    t.float "nutrient_amount", null: false
-    t.index ["food_id"], name: "index_food_nutrients_on_food_id"
-    t.index ["nutrient_id"], name: "index_food_nutrients_on_nutrient_id"
-  end
-
-  create_table "foods", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
-  end
-
   create_table "ingredient_nutrients", id: :serial, force: :cascade do |t|
     t.float "value", null: false
     t.string "unit", null: false

@@ -24,7 +24,7 @@
         consumer: @meal_plan.consumer,
         meal_plan: @meal_plan,
         number_of_days: @meal_plan.dates.last - @meal_plan.dates.first,
-        nutrition_standard_foods: @meal_plan.nutrient_intake(
+        nutrition: @meal_plan.nutrition(
           @meal_plan.dates.first,
           @meal_plan.dates.last,
         ),
@@ -74,7 +74,7 @@
           consumer: @meal_plan.consumer,
           meal_plan: @meal_plan,
           number_of_days: 1,
-          nutrition_standard_foods: @meal_plan.nutrient_intake(date, date),
+          nutrition: @meal_plan.nutrition(date, date),
         } %>
       </div>
     <% end %>

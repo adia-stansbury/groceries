@@ -24,24 +24,13 @@
           <th>Percent of RDA</th>
           <th>UL</th>
         </tr>
-      <% nutrition_standard_foods.each do |record| %>
+      <% nutrition.each do |record| %>
         <% if group.nutrients.ids.include?(record['id'].to_i) %>
           <% nutrient = Nutrient.find_by(name: record['name']) %>
           <tr>
             <td><%= nutrient.name %></td>
             <td><%= record['amt_consumed_unit'] %></td>
-            <td>
-              <%= intake = (
-                  record['amt_consumed'].to_f +
-                  Food.sum do |food|
-                    meal_plan&.nutrient_intake_from_custom_food(
-                      food,
-                      nutrient.name
-                    ) || 0
-                  end
-                ).round(2)
-              %>
-            </td>
+            <td><%= intake = record['amt_consumed'].to_f.round(2) %></td>
             <td>
               <%= consumer.consumer_nutrients.find_by(nutrient_id: nutrient.id)
                 &.percent_rda(intake, number_of_days) || ''

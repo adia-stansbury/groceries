@@ -31,7 +31,7 @@ class MealPlan < ActiveRecord::Base
     meal_plan_recipes.includes(:recipe).where(date: date).order('recipes.name')
   end
 
-  def nutrient_intake(start_date, end_date)
+  def nutrition(start_date, end_date)
     IngredientNutrient.connection.select_all(
       "SELECT
           nutrients.id,
@@ -52,17 +52,5 @@ class MealPlan < ActiveRecord::Base
         ORDER BY nutrients.name
       "
     )
-  end
-
-  def nutrient_intake_from_custom_food(food, nutrient_name)
-    if recipes.pluck(:name).include?(food.name)
-      if food.nutrition[nutrient_name].present?
-        return food.nutrition[nutrient_name]
-      else
-        return 0
-      end
-    else
-      return 0
-    end
   end
 end
