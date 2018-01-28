@@ -7,8 +7,6 @@ Rails.application.routes.draw do
   end
   resources :recipe_ingredients, only: [:edit, :update, :destroy]
   resources :ingredients
-  # TODO: can probably delete this resource
-  resources :locations
   resources :meal_plan_recipes, only: :destroy
   resources :meal_plans, only: [:index, :show, :new, :create] do
     resources :meal_plan_recipes, only: :create
