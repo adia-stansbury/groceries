@@ -9,8 +9,8 @@ class EvernoteApi
   # EVERNOTE_HOST = "sandbox.evernote.com"
   # AUTH_TOKEN = ENV['SANDBOX_AUTH_TOKEN']
 
-  def initialize(list_body)
-    @list_body = list_body
+  def initialize(items)
+    @items = items
   end
 
   def create_note
@@ -61,10 +61,20 @@ class EvernoteApi
     end
   end
 
+  def note_body
+    body = ''
+    @items.each do |row|
+      font_weight = row['is_for_first_day'] ? 'strong' : 'regular'
+      body += "<en-todo/><#{font_weight}>#{row['total_quantity']} #{row['unit']} #{row['name']}</#{font_weight}> <i>(#{row['recipe_names']})</i><br/>"
+    end
+
+    body
+  end
+
   def note_content
     content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
     content += "<!DOCTYPE en-note SYSTEM \"http://xml.evernote.com/pub/enml2.dtd\">"
-    content += "<en-note>#{@list_body}</en-note>"
+    content += "<en-note>#{note_body}</en-note>"
 
     content
   end

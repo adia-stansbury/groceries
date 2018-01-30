@@ -4,18 +4,6 @@ class GroceryList
   end
 
   def create
-    body = ''
-    items.each do |row|
-      font_weight = row['is_for_first_day'] ? 'strong' : 'regular'
-      body += "<en-todo/><#{font_weight}>#{row['total_quantity']} #{row['unit']} #{row['name']}</#{font_weight}> <i>(#{row['recipe_names']})</i><br/>"
-    end
-
-    body
-  end
-
-  private
-
-  def items
     RecipeIngredient.connection.select_all(
       "SELECT
           SUM(quantity) AS total_quantity,
