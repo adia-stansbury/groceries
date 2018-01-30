@@ -11,6 +11,7 @@
       <%= value %>
     </div>
   <%- end -%>
+
   <nav class="navbar navbar-expand navbar-dark fixed-top bg-dark">
     <div class="navbar-nav">
       <% ['Recipes', 'Ingredients', 'MealPlans'].each do |model| %>
@@ -27,7 +28,9 @@
     </ul>
   </nav>
 
-  <%= yield %>
+  <div class="container">
+    <%= yield %>
+  </div>
 
   <%= javascript_include_tag 'application' %>
 </body>

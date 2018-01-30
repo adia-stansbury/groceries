@@ -1,82 +1,80 @@
-<div class="container">
-  <h5><%= @recipe.name %></h5>
-  <div class="small"><%= @recipe.number_of_servings %> Servings</div>
-  <div class="small"><%= @recipe.note %></div>
-  <small>
-    <%= link_to 'Edit', edit_recipe_path(@recipe) %>
-    <%= link_to(
-      'Delete',
-      recipe_path(@recipe),
-      method: :delete,
-      data: { confirm: 'Are you sure?' },
+<h5><%= @recipe.name %></h5>
+<div class="small"><%= @recipe.number_of_servings %> Servings</div>
+<div class="small"><%= @recipe.note %></div>
+<small>
+  <%= link_to 'Edit', edit_recipe_path(@recipe) %>
+  <%= link_to(
+    'Delete',
+    recipe_path(@recipe),
+    method: :delete,
+    data: { confirm: 'Are you sure?' },
+  ) %>
+</small>
+<table class="table table-bordered mt-5">
+  <caption>Ingredients in Recipe</caption>
+  <tr>
+    <th>Name</th>
+    <th>Amount to buy</th>
+    <th>Amount in grams</th>
+    <th>Ndbno</th>
+    <th>Action</th>
+  </tr>
+<% @recipe.recipe_ingredients.includes_ingredient_unit.each do |row| %>
+  <tr>
+    <td>
+      <%= link_to row.ingredient.name, ingredient_path(row.ingredient.id) %>
+    </td>
+    <td><%= row.quantity %> <%= row.unit.try(:name) %></td>
+    <td><%= row.amount_in_grams %></td>
+    <td><%= row.ingredient.ndbno %></td>
+    <td>
+      <%= link_to 'Edit', edit_recipe_ingredient_path(row.id) %>
+      <%= link_to(
+        'Delete',
+        recipe_ingredient_path(row.id),
+        method: :delete,
+        data: { confirm: 'Are you sure?' }
+      ) %>
+    </td>
+  </tr>
+<% end %></table>
+<h5 class="mt-5">Add ingredients</h5>
+<%= form_for([@recipe, @recipe.recipe_ingredients.build]) do |f| %>
+  <div class="form-group">
+    <%= f.label :ingredient_id, 'Select Ingredient to add to recipe' %>
+    <%= f.collection_select(
+      :ingredient_id,
+      Ingredient.order(:name),
+      :id,
+      :name,
+      { prompt: 'Select Ingredient' },
+      { class:"js-dropdown form-control" }
     ) %>
-  </small>
-  <table class="table table-bordered mt-5">
-    <caption>Ingredients in Recipe</caption>
-    <tr>
-      <th>Name</th>
-      <th>Amount to buy</th>
-      <th>Amount in grams</th>
-      <th>Ndbno</th>
-      <th>Action</th>
-    </tr>
-  <% @recipe.recipe_ingredients.includes_ingredient_unit.each do |row| %>
-    <tr>
-      <td>
-        <%= link_to row.ingredient.name, ingredient_path(row.ingredient.id) %>
-      </td>
-      <td><%= row.quantity %> <%= row.unit.try(:name) %></td>
-      <td><%= row.amount_in_grams %></td>
-      <td><%= row.ingredient.ndbno %></td>
-      <td>
-        <%= link_to 'Edit', edit_recipe_ingredient_path(row.id) %>
-        <%= link_to(
-          'Delete',
-          recipe_ingredient_path(row.id),
-          method: :delete,
-          data: { confirm: 'Are you sure?' }
-        ) %>
-      </td>
-    </tr>
-  <% end %></table>
-  <h5 class="mt-5">Add ingredients</h5>
-  <%= form_for([@recipe, @recipe.recipe_ingredients.build]) do |f| %>
-    <div class="form-group">
-      <%= f.label :ingredient_id, 'Select Ingredient to add to recipe' %>
-      <%= f.collection_select(
-        :ingredient_id,
-        Ingredient.order(:name),
-        :id,
-        :name,
-        { prompt: 'Select Ingredient' },
-        { class:"js-dropdown form-control" }
-      ) %>
-    </div>
-    <div class="form-group">
-      <%= f.label :quantity, 'Amount to buy' %>
-      <%= f.number_field(:quantity, class: "form-control") %>
-    </div>
-    <div class="form-group">
-      <%= f.label :unit_id, 'Select Unit used when buying' %>
-      <%= f.collection_select(
-        :unit_id,
-        Unit.order(:name),
-        :id,
-        :name,
-        { prompt: 'Select Unit' },
-        { class:"js-dropdown form-control" }
-      ) %>
-    </div>
-    <div class="form-group">
-      <%= f.label :amount_in_grams, 'Amount in Grams for nutrition report' %>
-      <%= f.number_field(:amount_in_grams, class: "form-control") %>
-    </div>
-    <%= f.submit(class: "btn btn-success") %>
-  <% end %>
-  <%= render partial: '/nutrient_report', locals: {
-    meal_plan: nil,
-    consumer: Consumer.find_by(name: 'Adia'),
-    number_of_days: 1,
-    nutrition: @recipe.nutrition,
-  } %>
-</div>
+  </div>
+  <div class="form-group">
+    <%= f.label :quantity, 'Amount to buy' %>
+    <%= f.number_field(:quantity, class: "form-control") %>
+  </div>
+  <div class="form-group">
+    <%= f.label :unit_id, 'Select Unit used when buying' %>
+    <%= f.collection_select(
+      :unit_id,
+      Unit.order(:name),
+      :id,
+      :name,
+      { prompt: 'Select Unit' },
+      { class:"js-dropdown form-control" }
+    ) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :amount_in_grams, 'Amount in Grams for nutrition report' %>
+    <%= f.number_field(:amount_in_grams, class: "form-control") %>
+  </div>
+  <%= f.submit(class: "btn btn-success") %>
+<% end %>
+<%= render partial: '/nutrient_report', locals: {
+  meal_plan: nil,
+  consumer: Consumer.find_by(name: 'Adia'),
+  number_of_days: 1,
+  nutrition: @recipe.nutrition,
+} %>

@@ -1,9 +1,7 @@
-<div class="jumbotron">
-  <ul class="list-group">
-    <% @recipes.each do |recipe| %>
-      <li class="list-group-item">
-        <%= link_to recipe.name, recipe_path(recipe) %>
-      </li>
-    <% end %>
-  </ul>
-</div>
+<ul class="list-group">
+  <% @recipes.each do |recipe| %>
+    <li class="list-group-item">
+      <%= link_to recipe.name, recipe_path(recipe) %>
+    </li>
+  <% end %>
+</ul>

@@ -1,9 +1,7 @@
-<div class="jumbotron">
-  <ul class="list-group">
-    <% @ingredients.each do |ing| %>
-      <li class="list-group-item">
-        <%= link_to ing.name.capitalize!, ingredient_path(ing) %>
-      </li>
-    <% end %>
-  </ul>
-</div>
+<ul class="list-group">
+  <% @ingredients.each do |ing| %>
+    <li class="list-group-item">
+      <%= link_to ing.name.capitalize!, ingredient_path(ing) %>
+    </li>
+  <% end %>
+</ul>
