@@ -1,21 +1,27 @@
 <%= form_for @ingredient do |f| %>
   <div class="form-group">
-    <%= f.label(:name) %>
+    <%= f.label(:name, 'Ingredient Name') %>
     <%= f.text_field(:name, class:"form-control") %>
   </div>
   <div class="form-group">
     <%= f.label(:ndbno, 'Nutrient Database Number (Ndbno)') %>
 <a href="https://ndb.nal.usda.gov/ndb/foods" target="_blank">Look up Ndbno</a>
-    <%= f.text_field(:ndbno, class:"form-control") %>
+    <%= f.text_field(:ndbno, class: "form-control") %>
   </div>
   <div class="form-group">
     <%= f.label(:measuring_amount) %>
     <%= f.text_field(:measuring_amount, class:"form-control") %>
   </div>
   <div class="form-group">
-    <%= f.label(:unit_id) %>
-    <%= f.collection_select(:unit_id, @units, :id, :name, { include_blank: true },
-                            class:"js-dropdown form-control") %>
+    <%= f.label(:unit_id, 'Select Unit used to measure') %>
+    <%= f.collection_select(
+      :unit_id,
+      @units,
+      :id,
+      :name,
+      { prompt: 'Select Unit' },
+      class: "js-dropdown form-control"
+    ) %>
   </div>
   <div class="form-group">
     <%= f.label(:num_of_grams_in_measuring_amount) %>
@@ -26,9 +32,19 @@
     <%= f.text_area(:note, class:"form-control") %>
   </div>
   <div class="form-group">
-    <%= f.label(:location_id) %>
-    <%= f.collection_select(:location_id, @locations, :id, :name, { prompt: true },
-                            class:"form-control js-dropdown") %>
+    <%= f.label(
+      :location_id,
+      'Select Location where ingredient is found in store to organize list'
+    )
+    %>
+  <%= f.collection_select(
+    :location_id,
+    @locations,
+    :id,
+    :name,
+    { prompt: 'Select Location' },
+    class: "form-control js-dropdown"
+  ) %>
   </div>
-  <div><%= f.submit(class:"btn btn-success") %></div>
+  <div><%= f.submit(class: "btn btn-success") %></div>
 <% end %>

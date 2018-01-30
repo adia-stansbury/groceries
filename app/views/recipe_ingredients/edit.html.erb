@@ -12,9 +12,15 @@
       <%= f.text_field(:quantity, class:"form-control") %>
     </div>
     <div class="form-group">
-      <%= f.label(:unit_id) %>
-      <%= f.collection_select(:unit_id, @units, :id, :name, {},
-                              class:"js-dropdown form-control") %></br>
+      <%= f.label(:unit_id, 'Select Unit to measure amount to buy') %>
+      <%= f.collection_select(
+        :unit_id,
+        @units,
+        :id,
+        :name,
+        { prompt: 'Select Unit'},
+        class: "js-dropdown form-control"
+      ) %></br>
     <div class="form-group">
       <%= f.label(:amount_in_grams) %>
       <%= f.text_field(:amount_in_grams, class:"form-control") %>
