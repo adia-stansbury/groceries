@@ -1,31 +1,31 @@
-<div class="jumbotron">
-  <p><strong><%= @recipe.name %></strong></p>
-  <div><%= @recipe.number_of_servings %> Servings</div>
-  <div><%= @recipe.note %></div>
-  <%= link_to 'Edit', edit_recipe_path(@recipe) %>
-  <%= link_to(
-    'Delete',
-    recipe_path(@recipe),
-    method: :delete,
-    data: { confirm: 'Are you sure?' }
-  )%>
-</div>
-<div class="jumbotron">
-  <div>Ingredients</div>
-  <table class="table">
+<div class="container">
+  <h5><%= @recipe.name %></h5>
+  <div class="small"><%= @recipe.number_of_servings %> Servings</div>
+  <div class="small"><%= @recipe.note %></div>
+  <small>
+    <%= link_to 'Edit', edit_recipe_path(@recipe) %>
+    <%= link_to(
+      'Delete',
+      recipe_path(@recipe),
+      method: :delete,
+      data: { confirm: 'Are you sure?' },
+    ) %>
+  </small>
+  <table class="table table-bordered mt-5">
+    <caption>Ingredients in Recipe</caption>
     <tr>
-      <th>Amount</th>
       <th>Name</th>
+      <th>Amount to buy</th>
       <th>Amount in grams</th>
       <th>Ndbno</th>
       <th>Action</th>
     </tr>
   <% @recipe.recipe_ingredients.includes_ingredient_unit.each do |row| %>
     <tr>
-      <td><%= row.quantity %> <%= row.unit.try(:name) %></td>
       <td>
         <%= link_to row.ingredient.name, ingredient_path(row.ingredient.id) %>
       </td>
+      <td><%= row.quantity %> <%= row.unit.try(:name) %></td>
       <td><%= row.amount_in_grams %></td>
       <td><%= row.ingredient.ndbno %></td>
       <td>
@@ -39,48 +39,44 @@
       </td>
     </tr>
   <% end %></table>
-</div>
-<div class="jumbotron">
-  <div>Add ingredients</div>
+  <h5 class="mt-5">Add ingredients</h5>
   <%= form_for([@recipe, @recipe.recipe_ingredients.build]) do |f| %>
-    <form class="form-inline">
-      <div class="form-group">
-        <%= f.label(:ingredient_id)  %>
-        <%= f.collection_select(
-          :ingredient_id,
-          Ingredient.order(:name),
-          :id,
-          :name,
-          { prompt: true },
-          { class:"js-dropdown form-control" }
-        ) %>
-      </div>
-      <div class="form-group">
-        <%= f.label(:quantity) %>
-        <%= f.text_field(:quantity, class:"form-control") %>
-      </div>
-      <div class="form-group">
-        <%= f.label(:unit_id) %>
-        <%= f.collection_select(
-          :unit_id,
-          Unit.order(:name),
-          :id,
-          :name,
-          { prompt: true },
-          { class:"js-dropdown form-control" }
-        ) %>
-      </div>
-      <div class="form-group">
-        <%= f.label(:amount_in_grams) %>
-        <%= f.text_field(:amount_in_grams, class:"form-control") %>
-      </div>
-      <%= f.submit(class:"btn btn-success") %>
-    </form>
+    <div class="form-group">
+      <%= f.label :ingredient_id, 'Select Ingredient to add to recipe' %>
+      <%= f.collection_select(
+        :ingredient_id,
+        Ingredient.order(:name),
+        :id,
+        :name,
+        { prompt: 'Select Ingredient' },
+        { class:"js-dropdown form-control" }
+      ) %>
+    </div>
+    <div class="form-group">
+      <%= f.label :quantity, 'Amount to buy' %>
+      <%= f.number_field(:quantity, class: "form-control") %>
+    </div>
+    <div class="form-group">
+      <%= f.label :unit_id, 'Select Unit used when buying' %>
+      <%= f.collection_select(
+        :unit_id,
+        Unit.order(:name),
+        :id,
+        :name,
+        { prompt: 'Select Unit' },
+        { class:"js-dropdown form-control" }
+      ) %>
+    </div>
+    <div class="form-group">
+      <%= f.label :amount_in_grams, 'Amount in Grams for nutrition report' %>
+      <%= f.number_field(:amount_in_grams, class: "form-control") %>
+    </div>
+    <%= f.submit(class: "btn btn-success") %>
   <% end %>
+  <%= render partial: '/nutrient_report', locals: {
+    meal_plan: nil,
+    consumer: Consumer.find_by(name: 'Adia'),
+    number_of_days: 1,
+    nutrition: @recipe.nutrition,
+  } %>
 </div>
-<%= render partial: '/nutrient_report', locals: {
-  meal_plan: nil,
-  consumer: Consumer.find_by(name: 'Adia'),
-  number_of_days: 1,
-  nutrition: @recipe.nutrition,
-} %>
