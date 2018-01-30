@@ -1,7 +1,8 @@
-<div class="alert alert-success">
-  Your grocery list is now in your Evernote notebook
-  <%= EvernoteApi::NOTE_NOTEBOOK_NAME %>
-</div>
+<!-- <div class="alert alert&#45;success"> -->
+<!--   Your grocery list is now in your Evernote notebook -->
+<!--   <%= EvernoteApi::NOTE_NOTEBOOK_NAME %> -->
+<!-- </div> -->
+<h5>Grocery List</h5>
 <% @list.each do |item| %>
   <div>
     <%= item['total_quantity'] %> <%= item['unit'] %> <%= item['name'] %>
