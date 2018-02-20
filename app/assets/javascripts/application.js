@@ -14,6 +14,7 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require jquery_ujs
+//= require jquery-ui/widgets/autocomplete
 //= require('bootstrap')
 //= require select2
 //= require bootstrap-datepicker/core

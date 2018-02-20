@@ -1,6 +1,11 @@
 class IngredientsController < ApplicationController
   def index
-    @ingredients = Ingredient.order('LOWER(name)')
+    ingredients = Ingredient
+      .select(:id, :name)
+      .where("name LIKE ?", "%#{params[:search_term]}%")
+      .first(20)
+
+    render json: ingredients
   end
 
   def show
