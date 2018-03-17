@@ -12,6 +12,7 @@ gem 'google-api-client'
 gem 'bootstrap'
 gem 'select2-rails'
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'bootstrap-datepicker-rails'
 
 group :test do
