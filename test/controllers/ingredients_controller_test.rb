@@ -24,20 +24,6 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to ingredient_url(Ingredient.last)
   end
 
-  test "creates IngredientNutrients if new ingredient has ndbno" do
-    nutrient = nutrients(:nutrient)
-    nutrition = [{ 'name' => nutrient.name, 'value' => 10, 'unit' => 'mg' }]
-
-    Nutrition.stub :for_ingredient, nutrition do
-      assert_difference('IngredientNutrient.count') do
-        post(
-          ingredients_url,
-          params: { ingredient: @ingredient_params.merge({ ndbno: '123'}) }
-        )
-      end
-    end
-  end
-
   test "does not create invalid ingredient" do
     ingredient_params_invalid = { location_id: nil, name: 'salt' }
 
@@ -61,20 +47,6 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
   test "should update ingredient if valid" do
     patch ingredient_url(@ingredient), params: { ingredient: @ingredient_params }
     assert_redirected_to ingredient_url(@ingredient)
-  end
-
-  test "creates IngredientNutrients if updated ingredient has new ndbno" do
-    nutrient = nutrients(:nutrient)
-    nutrition = [{ 'name' => nutrient.name, 'value' => 10, 'unit' => 'mg' }]
-
-    Nutrition.stub :for_ingredient, nutrition do
-      assert_difference('IngredientNutrient.count') do
-        patch(
-          ingredient_url(@ingredient),
-          params: { ingredient: @ingredient_params.merge({ ndbno: '123'}) }
-        )
-      end
-    end
   end
 
   test "redirects to edit if updating invalid ingredient" do

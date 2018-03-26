@@ -1,3 +1,9 @@
 ingredient:
   name: butter
   location: location
+
+ingredient_with_ndbno:
+  name: ingredient_rand(1..100)
+  location: location
+  ndbno: rand(1..100)
+

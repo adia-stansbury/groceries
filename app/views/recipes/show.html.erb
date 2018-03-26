@@ -65,6 +65,13 @@
   </div>
   <%= f.submit(class: "btn btn-success") %>
 <% end %>
+<h5 class="mt-5">Didn't find ingredient? Fetch it from the NDA database.</h5>
+<%= form_tag("/import_foods", method: "post") do %>
+  <%= hidden_field_tag :recipe_id, @recipe.id %>
+  <%= label_tag :search_term, 'Enter ingredient search term' %>
+  <%= text_field_tag :search_term %>
+  <%= submit_tag('Add', class: "btn btn-success") %>
+<% end %>
 <%= render partial: '/nutrient_report', locals: {
   meal_plan: nil,
   consumer: Consumer.find_by(name: 'Adia'),

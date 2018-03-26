@@ -1,10 +1,6 @@
 class IngredientsController < ApplicationController
   def index
-    ingredients = Ingredient
-      .select(:id, :name)
-      .where("name LIKE ?", "%#{params[:search_term]}%")
-      .first(20)
-
+    ingredients = Ingredient.select(:id, :name).where("name ILIKE ?", "%#{params[:search_term]}%").first(20)
     render json: ingredients
   end
 
@@ -20,11 +16,7 @@ class IngredientsController < ApplicationController
 
   def create
     @ingredient = Ingredient.new(ingredient_params)
-
     if @ingredient.save
-      if @ingredient.ndbno
-        create_ingredient_nutrients
-      end
       redirect_to @ingredient
     else
       redirect_to new_ingredient_path
@@ -39,13 +31,8 @@ class IngredientsController < ApplicationController
 
   def update
     @ingredient = Ingredient.find(params[:id])
-    old_ndbno = @ingredient.ndbno
 
     if @ingredient.update(ingredient_params)
-      new_ndbno = @ingredient.ndbno
-      if new_ndbno && (new_ndbno != old_ndbno)
-        create_ingredient_nutrients
-      end
       redirect_to @ingredient
     else
       redirect_to edit_ingredient_path(@ingredient)
@@ -69,14 +56,7 @@ class IngredientsController < ApplicationController
       :ndbno,
       :note,
       :num_of_grams_in_measuring_amount,
-      :unit_id
+      :unit_id,
     )
-  end
-
-  def create_ingredient_nutrients
-    dictionary = Nutrient.name_id_dictionary
-    nutrition = Nutrition.for_ingredient(@ingredient)
-    new_rows = FormatData.to_ingredient_nutrient_rows(nutrition, dictionary)
-    @ingredient.ingredient_nutrients.create(new_rows)
   end
 end

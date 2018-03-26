@@ -9,6 +9,7 @@ class Ingredient < ActiveRecord::Base
   validates :location_id, presence: true
 
   before_save StripUserInputCallback.new(['name', 'ndbno'])
+  before_save :format_name
 
   def nutrition
     Ingredient.connection.select_all(
@@ -23,5 +24,19 @@ class Ingredient < ActiveRecord::Base
         ORDER BY nutrients.name
       "
     )
+  end
+
+  def missing_nutritional_info?
+    self.ndbno && IngredientNutrient.where(ingredient: self).empty?
+  end
+
+  private
+
+  def format_name
+    chomp_from_name = /, {,1} {,1}(GTIN|UPC): .+/.match(name)
+    if chomp_from_name
+      self.name = name.chomp(chomp_from_name[0])
+    end
+    self.name = name.capitalize
   end
 end
