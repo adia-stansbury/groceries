@@ -2,7 +2,12 @@ class MealPlansController < ApplicationController
   CONSUMERS = ['Adia']
 
   def index
-    @meal_plans = MealPlan.includes(:consumer, :meal_plan_recipes, :recipes).order(created_at: :desc).limit(8)
+    @meal_plans = MealPlan
+      .select(:id, "consumers.name AS consumer_name", "MIN(meal_plan_recipes.date) AS meal_plan_start_date")
+      .joins(:consumer, :meal_plan_recipes)
+      .group('meal_plans.id', 'consumers.name')
+      .order(created_at: :desc)
+      .limit(4)
 
     render 'new' unless @meal_plans
   end

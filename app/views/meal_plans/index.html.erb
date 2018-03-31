@@ -4,21 +4,10 @@
       <%= check_box_tag('meal_plan_ids[]', meal_plan.id, checked = false) %>
       <%= label_tag(
         'meal_plan_id[meal_plan.id]',
-        (link_to meal_plan.dates.first, meal_plan_path(meal_plan))
+        (link_to meal_plan.meal_plan_start_date, meal_plan_path(meal_plan))
       ) %>
-      <%= meal_plan.consumer.name %>
+      <%= meal_plan.consumer_name %>
     </div>
-    <table class="table">
-      <tr>
-        <th>Unique Recipes</th>
-        <th>Servings</th>
-      </tr>
-    <% meal_plan.recipes.distinct.each do |recipe| %>
-      <tr>
-        <td><%= link_to recipe.name, recipe_path(recipe) %></td>
-        <td><%= recipe.number_of_servings %></td>
-      </tr>
-    <% end %></table>
   <% end %>
   <%= submit_tag("Create Grocery List", class:"btn btn-success") %>
 <% end %>
