@@ -12,18 +12,17 @@ class Ingredient < ActiveRecord::Base
   before_save :format_name
 
   def nutrition
-    Ingredient.connection.select_all(
-      "SELECT nutrients.id, nutrients.name, ingredient_nutrients.unit AS amt_consumed_unit, value AS amt_consumed
-        FROM ingredient_nutrients
-        JOIN ingredients
-        ON ingredients.id = ingredient_nutrients.ingredient_id
-        JOIN nutrients
-        ON nutrients.id = ingredient_nutrients.nutrient_id
-        WHERE ingredient_nutrients.ingredient_id IN (#{id})
-        GROUP BY nutrients.id, nutrients.name, amt_consumed_unit, value
-        ORDER BY nutrients.name
-      "
+    Ingredient
+    .select(
+      'nutrients.id',
+      'nutrients.name',
+      'ingredient_nutrients.unit AS amt_consumed_unit',
+      'value AS amt_consumed'
     )
+    .join(ingredient_nutrients: :nutrient)
+    .where(id: id)
+    .group('nutrients.id', 'nutrients.name', 'amt_consumed_unit', value)
+    .order('nutrients.name')
   end
 
   def missing_nutritional_info?
