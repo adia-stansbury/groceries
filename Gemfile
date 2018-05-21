@@ -24,6 +24,6 @@ end
 group :development do
   gem 'web-console', '~> 2.0' # Access an IRB console on exception pages or by using <%= console %> in views
   # gem 'rack-mini-profiler'
-  # gem 'flamegraph'
+  # gem 'flamegraph' # Ex: http://localhost:3000/meal_plans/515?pp=flamegraph
   # gem 'stackprof' # needed for flamegraph
 end

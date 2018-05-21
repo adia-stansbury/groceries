@@ -27,18 +27,13 @@
     </thead>
     <% nutrition.each do |record| %>
       <% if group.nutrients.ids.include?(record['id'].to_i) %>
-        <% nutrient = Nutrient.find_by(name: record['name']) %>
         <tbody>
           <tr>
-            <td><%= nutrient.name %></td>
+            <td><%= record['name'] %></td>
             <td><%= record['amt_consumed_unit'] %></td>
-            <td><%= intake = record['amt_consumed'].to_f.round(2) %></td>
-            <td>
-              <%= consumer.consumer_nutrients.find_by(nutrient_id: nutrient.id)
-                &.percent_rda(intake, number_of_days) || ''
-              %>
-            </td>
-            <td><%= nutrient.upper_limit || '' %></td>
+            <td><%= record['amt_consumed'].to_f.round(2) %></td>
+            <td><%= record['percent_rda'].to_f.round(2) %></td>
+            <td><%= record['upper_limit'] || '' %></td>
           </tr>
         </tbody>
       <% end %>

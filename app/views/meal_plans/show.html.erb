@@ -19,15 +19,7 @@
 </ul>
 <div class="tab-content">
   <div class="tab-pane fade in show active" id="weekly" role="tabpanel">
-    <%= render partial: '/nutrient_report', locals: {
-      consumer: @meal_plan.consumer,
-      meal_plan: @meal_plan,
-      number_of_days: @meal_plan.dates.last - @meal_plan.dates.first,
-      nutrition: @meal_plan.nutrition(
-        @meal_plan.dates.first,
-        @meal_plan.dates.last,
-      ),
-    } %>
+    <%= render partial: '/nutrient_report', locals: { nutrition: @meal_plan.nutrition } %>
   </div>
   <% @meal_plan.dates.each do |date| %>
     <div class="tab-pane fade" id="<%= date %>" role="tabpanel">
@@ -65,12 +57,7 @@
         </li>
         <% end %>
       </ul>
-      <%= render partial: '/nutrient_report', locals: {
-        consumer: @meal_plan.consumer,
-        meal_plan: @meal_plan,
-        number_of_days: 1,
-        nutrition: @meal_plan.nutrition(date, date),
-      } %>
+      <%= render partial: '/nutrient_report', locals: { nutrition: @meal_plan.daily_nutrition(date) } %>
     </div>
   <% end %>
 </div>

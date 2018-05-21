@@ -26,9 +26,4 @@
   method: :delete,
   data: { confirm: 'Are you sure?' }
 ) %>
-<%= render partial: '/nutrient_report', locals: {
-  consumer: Consumer.find_by(name: 'Adia'),
-  meal_plan: nil,
-  number_of_days: 1,
-  nutrition: @ingredient.nutrition,
-} %>
+<%= render partial: '/nutrient_report', locals: { nutrition: @ingredient.nutrition } %>
