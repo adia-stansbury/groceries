@@ -1,7 +1,12 @@
 class IngredientsController < ApplicationController
   def index
-    ingredients = Ingredient.select(:id, :name).where("name ILIKE ?", "%#{params[:search_term]}%").first(20)
-    render json: ingredients
+    ingredients = ActiveRecord::Base.connection.exec_query(
+      "SELECT id, name
+      FROM ingredients
+      WHERE name ILIKE '%" + params[:search] + "%'
+      LIMIT(20)"
+    ).to_hash
+    render json: { items: ingredients }
   end
 
   def show

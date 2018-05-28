@@ -7,7 +7,7 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get ingredients_url
+    get ingredients_url, params: { search: 'kale' }
     assert_response :success
   end
 

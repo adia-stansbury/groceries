@@ -41,8 +41,10 @@
 <h5 class="mt-5">Add ingredients</h5>
 <%= form_for([@recipe, @recipe.recipe_ingredients.build]) do |f| %>
   <div class="form-group">
-    <%= f.label :ingredient_id, 'Search for ingredient used in this recipe' %>
-    <%= f.text_field :ingredient_id, placeholder: "Search for ingredient..." %>
+    <label for="recipe_ingredient_ingredient_id">
+      Search for ingredient used in this recipe.
+      <select class="js-ingredients form-control" id="recipe_ingredient_ingredient_id"></select>
+    </label>
   </div>
   <div class="form-group">
     <%= f.label :quantity, 'Amount to buy' %>
