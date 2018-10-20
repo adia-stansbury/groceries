@@ -46,7 +46,7 @@
   </div>
   <div class="form-group">
     <%= f.label :quantity, 'Amount to buy' %>
-    <%= f.number_field(:quantity, class: "form-control") %>
+    <%= f.number_field(:quantity, step: 0.1, class: "form-control") %>
   </div>
   <div class="form-group">
     <%= f.label :unit_id, 'Select Unit used when buying' %>
