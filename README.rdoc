@@ -3,22 +3,5 @@ CircleCI Build Status:
 {<img
 src="https://circleci.com/gh/adia-stansbury/groceries.svg?style=svg&circle-token=#{ENV["STATUS_BADGE"]} alt="CircleCI" />}[https://circleci.com/gh/adia-stansbury/groceries]
 
-Run tests locally to generate code coverage report.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite: <tt>rake test</tt>
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
