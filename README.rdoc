@@ -5,8 +5,8 @@ This is a locally hosted web application with bespoke code for owner.
 Clone repo if you would like to use this application.
 
 To add data to cloned repo:
-To generate grocery lists, add recipe and ingredient data via UI. Manually create an empty meal plan to use the UI to add recipes to it.
-For nutritional reports feature, manually add your own nutritional requirements. 
+- To generate grocery lists, add recipe and ingredient data via UI. Manually create an empty meal plan to use the UI to add recipes to it.
+- For nutritional reports feature, manually add your own nutritional requirements. 
 
 
 CircleCI Build Status:
